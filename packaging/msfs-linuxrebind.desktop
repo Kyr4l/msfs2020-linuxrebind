@@ -1,7 +1,13 @@
 [Desktop Entry]
 Type=Application
+Version=1.0
 Name=MSFS Linux Rebind
-Comment=Bind HOTAS buttons to MSFS 2020 cockpit events (A32NX) over SimConnect
+GenericName=HOTAS cockpit binder for MSFS 2020
+Comment=Bind HOTAS buttons to MSFS 2020 cockpit controls (A32NX) over SimConnect, with Winwing vibration
 Exec=msfs-linuxrebind
+Icon=msfs-linuxrebind
 Terminal=false
-Categories=Game;Utility;
+Categories=Game;Simulation;Utility;
+Keywords=MSFS;SimConnect;HOTAS;joystick;A32NX;FlyByWire;Winwing;flight simulator;
+StartupWMClass=msfs-linuxrebind
+StartupNotify=false

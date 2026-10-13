@@ -57,6 +57,15 @@ target_compile_definitions(msfs-linuxrebind PRIVATE
 )
 target_compile_options(msfs-linuxrebind PRIVATE -Wall -Wextra -Wno-unused-parameter)
 
+option(LINUXREBIND_STATIC_CXX "Link libstdc++ and libgcc statically (for portable AppImage builds)" OFF)
+if(LINUXREBIND_STATIC_CXX)
+  target_link_options(msfs-linuxrebind PRIVATE -static-libstdc++ -static-libgcc)
+endif()
+
 install(TARGETS msfs-linuxrebind RUNTIME DESTINATION bin)
 install(DIRECTORY data/ DESTINATION share/msfs-linuxrebind/data)
 install(FILES packaging/msfs-linuxrebind.desktop DESTINATION share/applications)
+install(FILES packaging/icons/msfs-linuxrebind.svg DESTINATION share/icons/hicolor/scalable/apps)
+foreach(size 16 32 48 64 128 256 512)
+  install(FILES packaging/icons/msfs-linuxrebind-${size}.png DESTINATION share/icons/hicolor/${size}x${size}/apps RENAME msfs-linuxrebind.png)
+endforeach()

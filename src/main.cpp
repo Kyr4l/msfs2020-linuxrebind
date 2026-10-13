@@ -18,6 +18,7 @@
 #include "haptics/WinwingHid.hpp"
 #include "input/Evdev.hpp"
 #include "sim/SimBridge.hpp"
+#include "ui/AppIcon.hpp"
 #include "ui/Ui.hpp"
 #include "util/Log.hpp"
 
@@ -214,6 +215,11 @@ int main(int argc, char** argv) {
             LOG_ERROR("Window creation failed");
             glfwTerminate();
             return 1;
+        }
+        {
+            // X11 window icon; on Wayland the compositor takes the icon from the .desktop file via the app id.
+            GLFWimage icon{ui::kAppIconSize, ui::kAppIconSize, const_cast<unsigned char*>(ui::kAppIconRgba)};
+            glfwSetWindowIcon(window, 1, &icon);
         }
         const int plat = glfwGetPlatform();
         LOG_INFO("GLFW platform: %s", plat == GLFW_PLATFORM_WAYLAND ? "Wayland" : plat == GLFW_PLATFORM_X11 ? "X11" : "other");

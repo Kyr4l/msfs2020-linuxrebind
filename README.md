@@ -45,7 +45,21 @@ ninja -C build
 ```
 
 Options: `--wayland` / `--x11` (force a platform), `--headless` (no window, run the active profile),
-`--host`, `--port`, `--profile NAME`, `--config FILE`, `--catalog FILE`, `--quiet`.
+`--host`, `--port`, `--profile NAME`, `--config FILE`, `--catalog FILE`, `--quiet`,
+`--probe-winwing`, `--motor-sweep [DEV]`, `--dump-winwing-config`.
+
+### AppImage
+
+```sh
+./packaging/build-appimage.sh      # -> dist/msfs-linuxrebind-<version>-x86_64.AppImage
+```
+
+The script builds with libstdc++/libgcc linked statically, bundles GLFW (3.4+ is often missing on
+older distributions) and downloads `appimagetool` plus the AppImage runtime into `packaging/tools/`
+on first use. libGL, the X11/Wayland client libraries and glibc come from the host. Icons live in
+`packaging/icons/` (`make_icons.py` regenerates the PNG sizes and the embedded window icon from the
+same shapes as the SVG). `sudo ninja -C build install` installs the binary, catalog, `.desktop`
+file and hicolor icons the classic way instead.
 
 Config is stored in `~/.config/msfs-linuxrebind/config.json` and saved automatically.
 

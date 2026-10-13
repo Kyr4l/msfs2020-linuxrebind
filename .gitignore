@@ -13,3 +13,7 @@ compile_commands.json
 imgui.ini
 # Scratch
 /tmp/
+# AppImage build output and downloaded tooling
+build-appimage/
+dist/
+packaging/tools/
