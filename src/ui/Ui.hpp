@@ -78,6 +78,8 @@ private:
     // vibration
     std::vector<haptics::ProbeResult> lastProbe_;
     std::string lastProbeKey_;
+    int ledTestIndex_ = 0;
+    int ledTestValue_ = 128;
 
     // log
     int logMinLevel_ = 1;

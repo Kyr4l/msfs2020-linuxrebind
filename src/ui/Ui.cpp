@@ -674,7 +674,7 @@ void Ui::drawVibrationTab() {
             lastProbe_ = ctx_.winwing.probe(d.key, std::max(0, dc.identity.leftIndex));
             lastProbeKey_ = d.key;
         }
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Sends a harmless 'motor off' frame to each candidate address and lists which ones the firmware echoes back.");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Sends a harmless 'motor off' frame to each candidate address and lists which ones the firmware echoes back.\nURSA MINOR joysticks echo; the throttles seem not to, so use the LED test below for those.");
         ImGui::SetNextItemWidth(90);
         changed |= ImGui::InputInt("device byte", &dc.identity.deviceByte, 1, 16, ImGuiInputTextFlags_CharsHexadecimal);
         ImGui::SameLine();
@@ -688,7 +688,23 @@ void Ui::drawVibrationTab() {
         changed |= ImGui::InputInt("right motor idx", &dc.identity.rightIndex);
         ImGui::SameLine();
         ImGui::TextDisabled("(hex shown as decimal: 0x10=16, 0xb9=185, 0xbf=191, 0x0e=14) %s", d.identityIsDefault ? "default table" : "custom");
+        // Visual oracle: a backlight/LED change proves the address bytes are right even when nothing echoes.
+        ImGui::SetNextItemWidth(90);
+        ImGui::InputInt("LED index", &ledTestIndex_);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(160);
+        ImGui::SliderInt("value", &ledTestValue_, 0, 255);
+        ImGui::SameLine();
+        if (ImGui::Button("Send LED test")) ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, ledTestIndex_, ledTestValue_);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("SET_LEDX with the address bytes above. Index 0 is the backlight on URSA MINOR products,\n2 = overall LED/LCD brightness, 3..6 = ENG FAULT/FIRE lamps on the throttle. If nothing changes, the address bytes are wrong.");
+        ImGui::SameLine();
+        if (ImGui::Button("Motor left test (raw)")) ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.leftIndex, ledTestValue_);
+        ImGui::SameLine();
+        if (ImGui::Button("off")) { ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.leftIndex, 0); ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.rightIndex, 0); }
         if (lastProbeKey_ == d.key && !lastProbe_.empty()) {
+            bool any = false;
+            for (const auto& r : lastProbe_) any |= r.echoed;
+            if (!any) ImGui::TextColored(kYellow, "  No address echoed. This product probably does not echo vendor frames: verify with the LED test / Pulse buttons instead.");
             for (const auto& r : lastProbe_) {
                 ImGui::TextColored(r.echoed ? kGreen : kGrey, "  device 0x%02x family 0x%02x: %s", r.deviceByte, r.familyByte, r.echoed ? "echo - accepted" : "no answer");
                 if (r.echoed) {

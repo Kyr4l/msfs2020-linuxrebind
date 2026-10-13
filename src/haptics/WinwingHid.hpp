@@ -59,6 +59,8 @@ public:
     // Sends a harmless "motor off" frame to each candidate address and reports which ones echo.
     std::vector<ProbeResult> probe(const std::string& key, int motorIndexGuess = 0);
     bool sendRaw(const std::string& key, const std::vector<uint8_t>& frame);
+    // SET_LEDX on an explicit address: visual oracle for the address bytes (index 0 = backlight on most products).
+    bool setLed(const std::string& key, int deviceByte, int familyByte, int index, int value);
 
 private:
     struct Dev {

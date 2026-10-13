@@ -111,8 +111,10 @@ Motor addressing per product comes from community reverse engineering
 | `bc29`, `bc2a` | URSA MINOR Fighter Joystick | `0x09`,`0x0a` / `0xbf` | single `0x00` |
 
 *Probe address* sends a harmless "motor off" frame to each candidate address and shows which one
-the firmware echoes; *Pulse* buttons let you feel the result. If the Combat Throttle answers on a
-different address, pick the echoed one and it is saved in the config.
+the firmware echoes (the URSA MINOR joysticks echo accepted frames; the Combat Throttle Metal.EX
+tested here echoes nothing, it only streams its joystick report). For products that do not echo,
+use *Send LED test* (index 0 = backlight) as a visual check of the address bytes, then the *Pulse*
+buttons to feel the motors. Custom address bytes are saved in the config.
 
 ## Permissions
 

@@ -250,6 +250,16 @@ bool WinwingHidManager::sendRaw(const std::string& key, const std::vector<uint8_
     return writeFrame(*d, frame.data());
 }
 
+bool WinwingHidManager::setLed(const std::string& key, int deviceByte, int familyByte, int index, int value) {
+    std::lock_guard<std::mutex> lock(m_);
+    Dev* d = find(key);
+    if (!d || d->fd < 0) return false;
+    uint8_t f[FRAME_LEN];
+    buildSetLedx(f, deviceByte, familyByte, index, value);
+    LOG_INFO("Winwing %s: SET_LEDX device=0x%02x family=0x%02x index=%d value=%d", d->info.name.c_str(), deviceByte, familyByte, index, value);
+    return writeFrame(*d, f);
+}
+
 std::vector<ProbeResult> WinwingHidManager::probe(const std::string& key, int motorIndexGuess) {
     std::vector<ProbeResult> results;
     std::lock_guard<std::mutex> lock(m_);
