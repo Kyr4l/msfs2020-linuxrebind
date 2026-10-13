@@ -129,8 +129,7 @@ int main(int argc, char** argv) {
     bridge.setAutoConnect(ctx.settings.autoConnect);
     bridge.start();
     ctx.pushProfileToEngine();
-    winwing.rescan();
-    hapticsEngine.setConfig(ctx.settings.haptics);
+    hapticsEngine.setConfig(ctx.settings.haptics);  // Winwing discovery runs on the haptics thread
     hapticsEngine.start();
     input.start([&engine](const input::InputEvent& ev) { engine.onInput(ev); }, [&engine] { engine.tick(); });
 

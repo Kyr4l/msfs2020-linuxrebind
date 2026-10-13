@@ -195,9 +195,12 @@ void InputManager::scanDevices() {
     failedPaths_.erase(std::remove_if(failedPaths_.begin(), failedPaths_.end(),
                                       [&](const std::string& p) { return std::find(paths.begin(), paths.end(), p) == paths.end(); }),
                        failedPaths_.end());
-    std::lock_guard<std::mutex> lock(m_);
-    snapshots_.clear();
-    for (const auto& d : devices_) snapshots_.push_back(d.snap);
+    {
+        std::lock_guard<std::mutex> lock(m_);
+        snapshots_.clear();
+        for (const auto& d : devices_) snapshots_.push_back(d.snap);
+    }
+    scans_++;
 }
 
 void InputManager::readDevice(size_t idx) {

@@ -114,7 +114,8 @@ void WinwingHidManager::setIdentity(const std::string& key, const WinwingIdentit
     }
 }
 
-std::vector<std::vector<uint8_t>> WinwingHidManager::collect(Dev& d, int opcode, int ms) {
+std::vector<std::vector<uint8_t>> WinwingHidManager::collect(Dev& d, int opcode, int ms,
+                                                             const std::function<bool(const std::vector<uint8_t>&)>& done) {
     std::vector<std::vector<uint8_t>> out;
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(ms);
     uint8_t buf[256];
@@ -129,6 +130,7 @@ std::vector<std::vector<uint8_t>> WinwingHidManager::collect(Dev& d, int opcode,
         if (buf[0] != REPORT_ID || n < 7) continue;  // joystick report 1 stream
         if (opcode >= 0 && buf[6] != opcode) continue;
         out.emplace_back(buf, buf + n);
+        if (done && done(out.back())) break;
     }
     return out;
 }
@@ -138,10 +140,13 @@ bool WinwingHidManager::readCfg(Dev& d, int device, int family, uint32_t offset,
     const uint8_t args[3] = {static_cast<uint8_t>(offset), static_cast<uint8_t>(offset >> 8), static_cast<uint8_t>(offset >> 16)};
     buildFrame(f, device, family, OP_READ_CFG_DATA, args, 3);
     if (!writeFrame(d, f)) return false;
-    for (const auto& r : collect(d, OP_READ_CFG_DATA, 250)) {
-        if (r.size() < 14 || r[1] != static_cast<uint8_t>(device)) continue;
+    auto matches = [&](const std::vector<uint8_t>& r) {
+        if (r.size() < 14 || r[1] != static_cast<uint8_t>(device)) return false;
         const uint32_t roff = r[7] | (r[8] << 8) | (r[9] << 16);
-        if (roff != offset) continue;
+        return roff == offset;
+    };
+    for (const auto& r : collect(d, OP_READ_CFG_DATA, 250, matches)) {
+        if (!matches(r)) continue;
         std::memcpy(out, r.data() + 10, 4);
         return true;
     }
@@ -155,7 +160,13 @@ std::vector<ControllerInfo> WinwingHidManager::discoverLocked(Dev& d) {
     uint8_t f[FRAME_LEN];
     buildFrame(f, BROADCAST_DEVICE, BROADCAST_FAMILY, OP_REQUEST_DEVICE_HW, nullptr, 0);
     if (!writeFrame(d, f)) return found;
-    for (const auto& r : collect(d, OP_REQUEST_DEVICE_HW, 400)) {
+    std::vector<std::vector<uint8_t>> replies;
+    for (int quiet = 0; quiet < 3; ++quiet) {  // controllers answer within a few ms of each other; stop after 120 ms of silence
+        auto batch = collect(d, OP_REQUEST_DEVICE_HW, 120);
+        if (batch.empty() && !replies.empty()) break;
+        replies.insert(replies.end(), batch.begin(), batch.end());
+    }
+    for (const auto& r : replies) {
         ControllerInfo c;
         c.device = r[1];
         c.family = (r[2] - ECHO_FAMILY_OFFSET) & 0xff;
@@ -262,6 +273,7 @@ void WinwingHidManager::rescan() {
             ++i;
         }
     }
+    scans_++;
 }
 
 std::vector<WinwingDeviceInfo> WinwingHidManager::devices() const {

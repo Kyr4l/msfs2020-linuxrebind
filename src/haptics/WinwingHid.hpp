@@ -6,7 +6,9 @@
 // index 0 is the motor on a grip and the backlight on a base. Accepted frames are echoed on the
 // vendor input report with 0x10 added to the family byte; a request sent to the broadcast
 // address (device 0x01, family 0x00) makes every controller answer with its own id.
+#include <atomic>
 #include <cstdint>
+#include <functional>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -57,6 +59,7 @@ public:
     ~WinwingHidManager();
 
     void rescan();
+    int scanCount() const { return scans_.load(); }  // 0 until the first rescan() finished
     std::vector<WinwingDeviceInfo> devices() const;
     void setIdentity(const std::string& key, const WinwingIdentity& id);
 
@@ -75,8 +78,10 @@ private:
         WinwingDeviceInfo info;
     };
     bool writeFrame(Dev& d, const uint8_t* frame14);
-    // Collects vendor replies (report 0x02) with the given opcode for up to ms.
-    std::vector<std::vector<uint8_t>> collect(Dev& d, int opcode, int ms);
+    // Collects vendor replies (report 0x02) with the given opcode for up to ms, or until `done`
+    // returns true for a reply (early exit).
+    std::vector<std::vector<uint8_t>> collect(Dev& d, int opcode, int ms,
+                                              const std::function<bool(const std::vector<uint8_t>&)>& done = {});
     bool readCfg(Dev& d, int device, int family, uint32_t offset, uint8_t out[4]);
     std::vector<ControllerInfo> discoverLocked(Dev& d);
     void autoAssign(Dev& d);
@@ -85,6 +90,7 @@ private:
     mutable std::mutex m_;
     std::vector<Dev> devs_;
     std::vector<std::pair<std::string, WinwingIdentity>> overrides_;
+    std::atomic<int> scans_{0};
 };
 
 }  // namespace lr::haptics

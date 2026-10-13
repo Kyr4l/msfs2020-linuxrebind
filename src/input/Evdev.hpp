@@ -54,6 +54,7 @@ public:
     void start(EventCallback onEvent, TickCallback onTick);
     void stop();
     void rescan();
+    int scanCount() const { return scans_.load(); }  // 0 until the first scan finished
 
     std::vector<DeviceSnapshot> devices() const;
     // "Btn 12" / "Hat 1 Up"; falls back to the raw code when the device is unknown.
@@ -74,6 +75,7 @@ private:
     std::thread thread_;
     std::atomic<bool> running_{false};
     std::atomic<bool> rescanRequested_{true};
+    std::atomic<int> scans_{0};
     EventCallback onEvent_;
     TickCallback onTick_;
     int inotifyFd_ = -1;

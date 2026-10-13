@@ -1,6 +1,7 @@
 #include "ui/Ui.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstring>
 #include <ctime>
 #include <filesystem>
@@ -150,6 +151,7 @@ void Ui::draw() {
     }
     ImGui::End();
 
+    if (!splashDone_) drawSplash();
     if (editorOpen_) drawBindingEditor();
 
     // Debounced auto-save.
@@ -229,6 +231,64 @@ void Ui::drawStatusBar() {
     if (ImGui::Checkbox("Bindings active", &enabled)) ctx_.engine.setEnabled(enabled);
     if (ctx_.dirty) { ImGui::SameLine(0, 30); ImGui::TextColored(kYellow, "unsaved"); }
     if (!ctx_.lastSaveError.empty()) { ImGui::SameLine(); ImGui::TextColored(kRed, "save failed: %s", ctx_.lastSaveError.c_str()); }
+}
+
+// ---------------------------------------------------------------- Splash
+
+// Shown over the main window until the background threads finished their first device scans
+// (joysticks via evdev, Winwing controllers via hidraw discovery) so a slow start never looks like a hang.
+void Ui::drawSplash() {
+    const double t = ImGui::GetTime();
+    const bool inputDone = ctx_.input.scanCount() > 0;
+    const bool winwingDone = ctx_.winwing.scanCount() > 0;
+    if ((inputDone && winwingDone && t > 0.8) || t > 15.0) {
+        splashDone_ = true;
+        return;
+    }
+    const ImGuiViewport* vp = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(ImVec2(vp->WorkPos.x + vp->WorkSize.x * 0.5f, vp->WorkPos.y + vp->WorkSize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+    ImGui::SetNextWindowSize(ImVec2(460, 0));
+    ImGui::SetNextWindowBgAlpha(0.96f);
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
+                             ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNav;
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(24, 20));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 1.0f);
+    ImGui::Begin("##splash", nullptr, flags);
+    ImGui::PushFont(nullptr, ImGui::GetStyle().FontSizeBase * 1.6f);
+    ImGui::TextUnformatted("MSFS Linux Rebind");
+    ImGui::PopFont();
+    ImGui::TextDisabled("version %s - starting up", LINUXREBIND_VERSION);
+    ImGui::Spacing();
+    auto line = [&](bool done, const char* what, const char* pending) {
+        dot(done ? kGreen : kYellow);
+        ImGui::TextUnformatted(done ? what : pending);
+    };
+    char joy[96];
+    snprintf(joy, sizeof joy, "Joysticks: %zu found", devices_.size());
+    line(inputDone, joy, "Joysticks: scanning /dev/input ...");
+    const auto ww = ctx_.winwing.devices();
+    char wwText[96];
+    snprintf(wwText, sizeof wwText, "Winwing devices: %zu found", ww.size());
+    line(winwingDone, wwText, "Winwing devices: discovering controllers over hidraw ...");
+    const bool simUp = status_.state == sim::ConnState::Connected;
+    line(simUp, "Simulator: connected", status_.state == sim::ConnState::Disconnected ? "Simulator: not running yet (will keep retrying)" : "Simulator: connecting ...");
+    ImGui::Spacing();
+    // Indeterminate progress bar.
+    const float w = ImGui::GetContentRegionAvail().x;
+    const float phase = static_cast<float>(std::fmod(t * 0.6, 1.0));
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    const ImVec2 p = ImGui::GetCursorScreenPos();
+    const float h = 6.0f;
+    dl->AddRectFilled(p, ImVec2(p.x + w, p.y + h), ImGui::GetColorU32(ImGuiCol_FrameBg), 3.0f);
+    const float segW = w * 0.3f;
+    float x0 = p.x + (w + segW) * phase - segW;
+    float x1 = x0 + segW;
+    x0 = std::max(x0, p.x);
+    x1 = std::min(x1, p.x + w);
+    if (x1 > x0) dl->AddRectFilled(ImVec2(x0, p.y), ImVec2(x1, p.y + h), ImGui::GetColorU32(ImGuiCol_ButtonActive), 3.0f);
+    ImGui::Dummy(ImVec2(w, h));
+    ImGui::End();
+    ImGui::PopStyleVar(2);
 }
 
 // ---------------------------------------------------------------- Bindings

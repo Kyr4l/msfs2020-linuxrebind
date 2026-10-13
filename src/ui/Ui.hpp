@@ -49,6 +49,7 @@ private:
     void drawLogTab();
     void drawSettingsTab();
     void drawVibrationTab();
+    void drawSplash();
     void drawBindingEditor();
     void drawActionList(const char* id, std::vector<Action>& actions, int listIndex);
     void drawCatalogBrowser(const char* id, bool pickMode);
@@ -74,6 +75,8 @@ private:
     // profile management
     std::string newProfileName_;
     bool renamingProfile_ = false;
+
+    bool splashDone_ = false;
 
     // vibration
     int ledTestDevice_ = -1;
