@@ -105,7 +105,7 @@ Motor addressing per product comes from community reverse engineering
 
 | Product id | Device | Controllers (device / family) | Motors (device, SET_LEDX index) |
 |---|---|---|---|
-| `b970` | URSA MINOR Combat Throttle Metal.EX | grip L `0x04`, grip R `0x08`, base `0x40` / `0xb9` | left (`0x04`, 0), right (`0x08`, 0) |
+| `b970` | URSA MINOR Combat Throttle Metal.EX | grip L `0x04`, grip R `0x08`, base `0x40` / `0xb9` | left (`0x04`, `0x0e`), right (`0x08`, `0x10`) |
 | `b920`, `b930` | URSA MINOR 32 Throttle Metal L/R | `0x10` / `0xb9` | left (`0x10`, `0x0e`), right (`0x10`, `0x10`) |
 | `bc27`, `bc28` | URSA MINOR Airline Joystick L/R | grip `0x07`/`0x08` / `0xbf`, lights `0x20` / `0xbb` | single (grip, 0) |
 | `bc29`, `bc2a` | URSA MINOR Fighter Joystick | grip `0x09`/`0x0a` / `0xbf`, lights `0x20` / `0xbb` | single (grip, 0) |
@@ -113,7 +113,7 @@ Motor addressing per product comes from community reverse engineering
 Unknown products are handled by discovery: a request to the broadcast address (device `0x01`,
 family `0x00`) makes every controller behind the USB device answer with its id, and the product
 name is then read from its flash. Controllers named "... L" / "... R" become the left/right
-motors (index 0). *Discover controllers* in the Vibration tab shows the list and lets you pick
+motors (index 0, which may need adjusting: run `--motor-sweep` to find the index that buzzes). *Discover controllers* in the Vibration tab shows the list and lets you pick
 which one is which; the *LED test* (index 0 on the base = backlight) and *Pulse* buttons confirm
 it. `msfs-linuxrebind --probe-winwing` prints the same from the command line.
 

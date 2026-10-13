@@ -61,10 +61,12 @@ bool endsWith(const std::string& s, const char* suffix) {
 WinwingIdentity defaultIdentityForPid(uint16_t pid) {
     WinwingIdentity id;
     switch (pid) {
-        case 0xb970:  // URSA MINOR Combat Throttle Metal.EX: grips L=0x04 R=0x08, base 0x40 (discovered on hardware)
+        case 0xb970:  // URSA MINOR Combat Throttle Metal.EX: grips L=0x04 R=0x08, base 0x40 (verified on hardware).
+                      // Left motor answers on the L controller at index 0x0e (0x0f duplicates it), right motor on the
+                      // R controller at 0x10 (0x11 duplicates it); the other combinations do nothing.
             id.family = 0xb9;
-            id.left = {0x04, 0};
-            id.right = {0x08, 0};
+            id.left = {0x04, 0x0e};
+            id.right = {0x08, 0x10};
             id.lightDevice = 0x40;
             break;
         case 0xb920:  // URSA MINOR 32 Throttle Metal L/R (winctrl-xplane-plugin: one controller, two motor indices)
