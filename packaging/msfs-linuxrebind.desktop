@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MSFS Linux Rebind
+Comment=Bind HOTAS buttons to MSFS 2020 cockpit events (A32NX) over SimConnect
+Exec=msfs-linuxrebind
+Terminal=false
+Categories=Game;Utility;

@@ -1,0 +1,15 @@
+# Local copies of files from the (read-only) MSFS install disc
+_cpr/
+# Build output
+build/
+build-*/
+cmake-build-*/
+compile_commands.json
+# Editor / tooling
+.cache/
+.vscode/
+.idea/
+*.swp
+imgui.ini
+# Scratch
+/tmp/
