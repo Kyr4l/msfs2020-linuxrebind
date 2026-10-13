@@ -305,6 +305,7 @@ bool WinwingHidManager::setMotors(const std::string& key, uint8_t left, uint8_t 
     const WinwingIdentity& id = d->info.identity;
     bool ok = true;
     uint8_t f[FRAME_LEN];
+    if (left || right) d->info.motorsDriven = true;
     const bool single = id.left.device == id.right.device && id.left.index == id.right.index;
     if (single) {
         const uint8_t v = std::max(left, right);
@@ -335,9 +336,33 @@ void WinwingHidManager::allOff() {
     std::vector<std::string> keys;
     {
         std::lock_guard<std::mutex> lock(m_);
-        for (const auto& d : devs_) keys.push_back(d.info.key);
+        // Only devices we actually drove: never write a guessed index on a device that was never used,
+        // index 0 is the backlight on some controllers.
+        for (const auto& d : devs_)
+            if (d.info.motorsDriven) keys.push_back(d.info.key);
     }
     for (const auto& k : keys) setMotors(k, 0, 0, true);
+}
+
+std::vector<std::string> WinwingHidManager::dumpConfig(const std::string& key, uint32_t first, uint32_t last) {
+    std::vector<std::string> lines;
+    std::lock_guard<std::mutex> lock(m_);
+    Dev* d = find(key);
+    if (!d || d->fd < 0) return lines;
+    if (d->info.controllers.empty()) discoverLocked(*d);
+    for (const auto& c : d->info.controllers) {
+        char head[128];
+        snprintf(head, sizeof head, "# controller device 0x%02x family 0x%02x \"%s\"", c.device, c.family, c.name.c_str());
+        lines.emplace_back(head);
+        for (uint32_t off = first; off <= last; off += 4) {
+            uint8_t v[4];
+            char line[64];
+            if (readCfg(*d, c.device, c.family, off, v)) snprintf(line, sizeof line, "%02x:%02x %03x: %02x %02x %02x %02x", c.device, c.family, off, v[0], v[1], v[2], v[3]);
+            else snprintf(line, sizeof line, "%02x:%02x %03x: (no reply)", c.device, c.family, off);
+            lines.emplace_back(line);
+        }
+    }
+    return lines;
 }
 
 bool WinwingHidManager::sendRaw(const std::string& key, const std::vector<uint8_t>& frame) {

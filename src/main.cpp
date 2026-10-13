@@ -38,7 +38,9 @@ void usage() {
         "  --quiet                do not echo the log to stderr\n"
         "  --probe-winwing        list Winwing HID devices and the controllers behind them, then exit\n"
         "  --motor-sweep [DEV]    buzz every SET_LEDX index (0..31) on each controller (or only device byte DEV, e.g. 0x04)\n"
-        "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt\n"
+        "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt.\n"
+        "                         Lights are driven too (volatile): replug the device afterwards to restore its light profile\n"
+        "  --dump-winwing-config  read-only dump of every controller's flash config words to stdout (baseline for diffs)\n"
         "  --version, --help");
 }
 
@@ -51,6 +53,7 @@ int main(int argc, char** argv) {
     bool headless = false;
     bool probeWinwing = false;
     bool motorSweep = false;
+    bool dumpConfig = false;
     int sweepDevice = -1;
     std::string hostOverride, profileOverride, configPath, catalogPath;
     int portOverride = 0;
@@ -61,6 +64,7 @@ int main(int argc, char** argv) {
         else if (a == "--x11") platform = GLFW_PLATFORM_X11;
         else if (a == "--headless") headless = true;
         else if (a == "--probe-winwing") probeWinwing = true;
+        else if (a == "--dump-winwing-config") dumpConfig = true;
         else if (a == "--motor-sweep") {
             motorSweep = true;
             if (i + 1 < argc && argv[i + 1][0] != '-') sweepDevice = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
@@ -78,13 +82,25 @@ int main(int argc, char** argv) {
     std::signal(SIGINT, onSignal);
     std::signal(SIGTERM, onSignal);
 
+    if (dumpConfig) {
+        Log::instance().echoToStderr = false;
+        haptics::WinwingHidManager ww;
+        ww.rescan();
+        for (const auto& d : ww.devices()) {
+            std::printf("# %s pid %04x %s\n", d.name.c_str(), d.pid, d.path.c_str());
+            for (const auto& l : ww.dumpConfig(d.key)) std::printf("%s\n", l.c_str());
+        }
+        return 0;
+    }
+
     if (motorSweep) {
         Log::instance().echoToStderr = false;
         haptics::WinwingHidManager ww;
         ww.rescan();
         const auto devs = ww.devices();
         if (devs.empty()) { std::printf("no Winwing HID device found\n"); return 1; }
-        std::printf("Motor sweep: each step drives one SET_LEDX index at value 150 for 0.4 s. Keep a hand on the grips.\n");
+        std::printf("Motor sweep: each step drives one SET_LEDX index at value 150 for 0.4 s. Keep a hand on the grips.\n"
+                    "Note: LED indices are driven too. That state is volatile; replug the device afterwards to restore its lights.\n");
         for (const auto& d : devs) {
             if (!d.open) { std::printf("%s: not open (%s)\n", d.name.c_str(), d.error.c_str()); continue; }
             for (const auto& c : d.controllers) {

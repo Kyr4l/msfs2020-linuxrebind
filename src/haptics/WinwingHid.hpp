@@ -47,6 +47,7 @@ struct WinwingDeviceInfo {
     bool identityIsDefault = true;  // from the built-in table / auto discovery, not set by the user
     std::vector<ControllerInfo> controllers;  // from the last discovery
     uint8_t lastLeft = 0, lastRight = 0;
+    bool motorsDriven = false;  // a non-zero level was sent at least once
     uint64_t framesWritten = 0;
 };
 
@@ -65,7 +66,9 @@ public:
 
     // Writes motor levels (0..255). Only sends frames when a value changed unless force is set.
     bool setMotors(const std::string& key, uint8_t left, uint8_t right, bool force = false);
-    void allOff();
+    void allOff();  // sends level 0 to the motors of devices that were actually driven
+    // Read-only dump of flash config words [first, last] of every controller (for a baseline / diff).
+    std::vector<std::string> dumpConfig(const std::string& key, uint32_t first = 0, uint32_t last = 0x110);
     // Broadcast identity request; returns every controller behind the USB device with its name.
     std::vector<ControllerInfo> discover(const std::string& key);
     // SET_LEDX on an explicit address (visual oracle / raw motor test).
