@@ -41,6 +41,7 @@ void usage() {
         "  --motor-sweep [DEV]    buzz every SET_LEDX index (0..31) on each controller (or only device byte DEV, e.g. 0x04)\n"
         "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt.\n"
         "                         Lights are driven too (volatile): replug the device afterwards to restore its light profile\n"
+        "  --led-values DEV IDX   cycle values 0..32 (then 64,128,255) on one SET_LEDX index, 1 s each, to learn the colour encoding\n"
         "  --dump-winwing-config  read-only dump of every controller's flash config words to stdout (baseline for diffs)\n"
         "  --fire KIND:NAME[=V]   connect, fire one action and exit. KIND: sim_event, h_event, lvar_set, lvar_toggle, calc_code\n"
         "                         e.g. --fire lvar_toggle:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON   --fire sim_event:A32NX.FCU_AP_1_PUSH\n"
@@ -61,6 +62,8 @@ int main(int argc, char** argv) {
     bool motorSweep = false;
     bool dumpConfig = false;
     bool ledSweep = false;
+    bool ledValues = false;
+    int ledValuesDevice = -1, ledValuesIndex = 0;
     std::vector<std::string> fireSpecs, readNames;
     int ledSweepDevice = -1, ledSweepValue = 255;
     int sweepDevice = -1;
@@ -76,6 +79,12 @@ int main(int argc, char** argv) {
         else if (a == "--dump-winwing-config") dumpConfig = true;
         else if (a == "--fire") { std::string v; next(v); fireSpecs.push_back(v); }
         else if (a == "--read") { std::string v; next(v); readNames.push_back(v); }
+        else if (a == "--led-values") {
+            ledValues = true;
+            std::string dev, idx; next(dev); next(idx);
+            ledValuesDevice = static_cast<int>(std::strtol(dev.c_str(), nullptr, 0));
+            ledValuesIndex = static_cast<int>(std::strtol(idx.c_str(), nullptr, 0));
+        }
         else if (a == "--led-sweep") {
             ledSweep = true;
             std::string dev; next(dev);
@@ -98,6 +107,31 @@ int main(int argc, char** argv) {
     }
     std::signal(SIGINT, onSignal);
     std::signal(SIGTERM, onSignal);
+
+    if (ledValues) {
+        Log::instance().echoToStderr = false;
+        haptics::WinwingHidManager ww;
+        ww.rescan();
+        for (const auto& d : ww.devices()) {
+            if (!d.open) continue;
+            const haptics::ControllerInfo* ctl = nullptr;
+            for (const auto& c : d.controllers) if (c.device == ledValuesDevice) ctl = &c;
+            if (!ctl) { std::printf("%s: no controller with device byte 0x%02x\n", d.name.c_str(), ledValuesDevice); continue; }
+            std::printf("Value cycle on %s controller 0x%02x index %d: note the colour/brightness for each value. Ctrl+C stops.\n", d.name.c_str(), ctl->device, ledValuesIndex);
+            std::vector<int> values;
+            for (int v = 0; v <= 32; ++v) values.push_back(v);
+            for (int v : {64, 128, 255}) values.push_back(v);
+            for (int v : values) {
+                if (g_signalled) break;
+                std::printf("   value %3d (0x%02x)\n", v, v);
+                std::fflush(stdout);
+                ww.setLed(d.key, ctl->device, ctl->family, ledValuesIndex, v);
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            }
+            ww.setLed(d.key, ctl->device, ctl->family, ledValuesIndex, 0);
+        }
+        return 0;
+    }
 
     if (ledSweep) {
         Log::instance().echoToStderr = false;
