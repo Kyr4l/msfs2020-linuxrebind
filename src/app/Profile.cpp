@@ -157,7 +157,6 @@ bool loadSettings(const std::string& path, Settings& out, std::string& err) {
                 dc.identity.left.index = dj.value("left_index", 0);
                 dc.identity.right.device = dj.value("right_device", -1);
                 dc.identity.right.index = dj.value("right_index", 0);
-                dc.identity.lightDevice = dj.value("light_device", -1);
                 s.haptics.devices[key] = dc;
             }
         }
@@ -187,8 +186,7 @@ bool saveSettings(const std::string& path, const Settings& s, std::string& err) 
     for (const auto& [key, dc] : s.haptics.devices)
         devices[key] = json{{"enabled", dc.enabled}, {"family", dc.identity.family},
                             {"left_device", dc.identity.left.device}, {"left_index", dc.identity.left.index},
-                            {"right_device", dc.identity.right.device}, {"right_index", dc.identity.right.index},
-                            {"light_device", dc.identity.lightDevice}};
+                            {"right_device", dc.identity.right.device}, {"right_index", dc.identity.right.index}};
     json j{{"version", 1}, {"host", s.host}, {"port", s.port}, {"auto_connect", s.autoConnect},
            {"active_profile", s.activeProfile}, {"profiles", profiles},
            {"haptics", {{"enabled", s.haptics.enabled}, {"master", s.haptics.master}, {"rules", rules}, {"devices", devices}}}};

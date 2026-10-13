@@ -1,6 +1,5 @@
 // msfs-linuxrebind: bind HOTAS buttons to MSFS 2020 cockpit events from Linux.
 #include <csignal>
-#include <iostream>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -42,13 +41,12 @@ void usage() {
         "  --motor-sweep [DEV]    buzz every SET_LEDX index (0..31) on each controller (or only device byte DEV, e.g. 0x04)\n"
         "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt.\n"
         "                         Lights are driven too (volatile): replug the device afterwards to restore its light profile\n"
-        "  --led-values DEV IDX   interactive: walk values 0..16,32,64,128,255 on one index, one per Enter key (colour encoding)\n"
+
         "  --dump-winwing-config  read-only dump of every controller's flash config words to stdout (baseline for diffs)\n"
         "  --fire KIND:NAME[=V]   connect, fire one action and exit. KIND: sim_event, h_event, lvar_set, lvar_toggle, calc_code\n"
         "                         e.g. --fire lvar_toggle:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON   --fire sim_event:A32NX.FCU_AP_1_PUSH\n"
         "  --read NAME            connect, print the value of L:NAME (needs MobiFlight) and exit\n"
-        "  --led-sweep DEV [VAL]  interactive: set SET_LEDX index 0,1,2.. on controller DEV (e.g. 0x40) to VAL (default 1),\n"
-        "                         one index per Enter key, nothing is reset. Note what lights up. Replug restores the lights\n"
+
         "  --version, --help");
 }
 
@@ -62,11 +60,7 @@ int main(int argc, char** argv) {
     bool probeWinwing = false;
     bool motorSweep = false;
     bool dumpConfig = false;
-    bool ledSweep = false;
-    bool ledValues = false;
-    int ledValuesDevice = -1, ledValuesIndex = 0;
     std::vector<std::string> fireSpecs, readNames;
-    int ledSweepDevice = -1, ledSweepValue = 1;
     int sweepDevice = -1;
     std::string hostOverride, profileOverride, configPath, catalogPath;
     int portOverride = 0;
@@ -80,27 +74,6 @@ int main(int argc, char** argv) {
         else if (a == "--dump-winwing-config") dumpConfig = true;
         else if (a == "--fire") { std::string v; next(v); fireSpecs.push_back(v); }
         else if (a == "--read") { std::string v; next(v); readNames.push_back(v); }
-        else if (a == "--led-values") {
-            ledValues = true;
-            std::string dev, idx; next(dev); next(idx);
-            ledValuesDevice = static_cast<int>(std::strtol(dev.c_str(), nullptr, 0));
-            ledValuesIndex = static_cast<int>(std::strtol(idx.c_str(), nullptr, 0));
-        }
-        else if (a == "--led-sweep") {
-            ledSweep = true;
-            std::string dev; next(dev);
-            ledSweepDevice = static_cast<int>(std::strtol(dev.c_str(), nullptr, 0));
-            if (i + 1 < argc && argv[i + 1][0] != '-') ledSweepValue = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
-        }
-        else if (a == "--motor-sweep") {
-            motorSweep = true;
-            if (i + 1 < argc && argv[i + 1][0] != '-') sweepDevice = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
-        }
-        else if (a == "--host") next(hostOverride);
-        else if (a == "--port") { std::string p; next(p); portOverride = std::atoi(p.c_str()); }
-        else if (a == "--profile") next(profileOverride);
-        else if (a == "--config") next(configPath);
-        else if (a == "--catalog") next(catalogPath);
         else if (a == "--quiet" || a == "-q") Log::instance().echoToStderr = false;
         else if (a == "--version") { std::printf("msfs-linuxrebind %s\n", LINUXREBIND_VERSION); return 0; }
         else if (a == "--help" || a == "-h") { usage(); return 0; }
@@ -108,43 +81,6 @@ int main(int argc, char** argv) {
     }
     std::signal(SIGINT, onSignal);
     std::signal(SIGTERM, onSignal);
-
-    if (ledValues || ledSweep) {
-        // Interactive LED walk: set one index (or one value) at a time and WAIT for Enter, never resetting
-        // anything, so the user only sees what switches on or changes. Replug restores the light profile.
-        Log::instance().echoToStderr = false;
-        haptics::WinwingHidManager ww;
-        ww.rescan();
-        const int devByte = ledValues ? ledValuesDevice : ledSweepDevice;
-        for (const auto& d : ww.devices()) {
-            if (!d.open) continue;
-            const haptics::ControllerInfo* ctl = nullptr;
-            for (const auto& c : d.controllers) if (c.device == devByte) ctl = &c;
-            if (!ctl) { std::printf("%s: no controller with device byte 0x%02x (see --probe-winwing)\n", d.name.c_str(), devByte); continue; }
-            std::vector<std::pair<int, int>> steps;  // (index, value)
-            if (ledValues) {
-                for (int v = 0; v <= 16; ++v) steps.emplace_back(ledValuesIndex, v);
-                for (int v : {32, 64, 128, 255}) steps.emplace_back(ledValuesIndex, v);
-                std::printf("Value walk on controller 0x%02x \"%s\", LED index %d.\n", ctl->device, ctl->name.c_str(), ledValuesIndex);
-            } else {
-                for (int i = 0; i < 48; ++i) steps.emplace_back(i, ledSweepValue);
-                std::printf("Index walk on controller 0x%02x \"%s\", value %d.\n", ctl->device, ctl->name.c_str(), ledSweepValue);
-            }
-            std::printf("Each step sends ONE command and leaves it. Look at the throttle, then press Enter for the next step\n"
-                        "(type a note before Enter if you like, it is echoed back). Ctrl+C or 'q' quits. Replug afterwards to restore the lights.\n\n");
-            std::string note;
-            for (size_t k = 0; k < steps.size() && !g_signalled; ++k) {
-                auto [idx, val] = steps[k];
-                ww.setLed(d.key, ctl->device, ctl->family, idx, val);
-                std::printf("[%zu/%zu] index %2d (0x%02x)  value %3d  -> what changed? ", k + 1, steps.size(), idx, idx, val);
-                std::fflush(stdout);
-                if (!std::getline(std::cin, note) || note == "q") break;
-                if (!note.empty()) std::printf("        noted: index %d value %d: %s\n", idx, val, note.c_str());
-            }
-            std::printf("\nDone. Replug the throttle to restore its light profile.\n");
-        }
-        return 0;
-    }
 
     if (dumpConfig) {
         Log::instance().echoToStderr = false;
@@ -173,9 +109,9 @@ int main(int argc, char** argv) {
                 for (int idx = 0; idx < 32; ++idx) {
                     std::printf("   index %2d (0x%02x) ... ", idx, idx);
                     std::fflush(stdout);
-                    ww.setLed(d.key, c.device, c.family, idx, 150);
+                    ww.setLevel(d.key, c.device, c.family, idx, 150);
                     std::this_thread::sleep_for(std::chrono::milliseconds(400));
-                    ww.setLed(d.key, c.device, c.family, idx, 0);
+                    ww.setLevel(d.key, c.device, c.family, idx, 0);
                     std::printf("done\n");
                     std::this_thread::sleep_for(std::chrono::milliseconds(700));
                     if (g_signalled) return 0;

@@ -78,10 +78,6 @@ private:
 
     bool splashDone_ = false;
 
-    // vibration
-    int ledTestDevice_ = -1;
-    int ledTestIndex_ = 0;
-    int ledTestValue_ = 128;
 
     // log
     int logMinLevel_ = 1;

@@ -618,9 +618,15 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
             std::string panel = e.section.empty() ? e.panel : e.panel + " / " + e.section;
             if (ImGui::Selectable(panel.c_str(), catalogSelected_ == i, ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowDoubleClick)) {
                 catalogSelected_ = i;
-                if (pickMode && ImGui::IsMouseDoubleClicked(0)) {
-                    (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(e.toAction());
-                    ImGui::CloseCurrentPopup();
+                if (ImGui::IsMouseDoubleClicked(0)) {
+                    if (pickMode) {
+                        (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(e.toAction());
+                        ImGui::CloseCurrentPopup();
+                    } else {
+                        openEditor(-1);
+                        draft_.onPress.push_back(e.toAction());
+                        draft_.label = e.function;
+                    }
                 }
             }
             if (!e.description.empty() && ImGui::IsItemHovered()) ImGui::SetTooltip("%s", e.description.c_str());
@@ -670,7 +676,7 @@ void Ui::drawCatalogTab() {
         ImGui::TextColored(kYellow, "No catalog loaded. Expected data/a32nx_catalog.json (see tools/build_catalog.py).");
         return;
     }
-    ImGui::TextDisabled("Generated from the FlyByWire A32NX flight deck API docs. Only writable / triggerable entries are listed.");
+    ImGui::TextDisabled("Generated from the FlyByWire A32NX flight deck API docs. Only writable / triggerable entries are listed. Double-click an entry to create a binding for it.");
     drawCatalogBrowser("tab", false);
 }
 
@@ -744,68 +750,65 @@ void Ui::drawVibrationTab() {
         ImGui::SameLine();
         ImGui::TextDisabled("%s  pid %04x  %s", d.path.c_str(), d.pid, d.open ? "" : ("NOT OPEN: " + d.error).c_str());
         changed |= ImGui::Checkbox("Vibrate this device", &dc.enabled);
+        const bool single = dc.identity.singleMotor();
         ImGui::SameLine();
-        if (ImGui::Button("Pulse left")) ctx_.haptics.pulse(d.key, 0.6f, 0.0f, 500);
+        if (single) {
+            if (ImGui::Button("Pulse")) ctx_.haptics.pulse(d.key, 0.6f, 0.6f, 500);
+        } else {
+            if (ImGui::Button("Pulse left")) ctx_.haptics.pulse(d.key, 0.6f, 0.0f, 500);
+            ImGui::SameLine();
+            if (ImGui::Button("Pulse right")) ctx_.haptics.pulse(d.key, 0.0f, 0.6f, 500);
+            ImGui::SameLine();
+            if (ImGui::Button("Pulse both")) ctx_.haptics.pulse(d.key, 0.6f, 0.6f, 500);
+        }
         ImGui::SameLine();
-        if (ImGui::Button("Pulse right")) ctx_.haptics.pulse(d.key, 0.0f, 0.6f, 500);
-        ImGui::SameLine();
-        if (ImGui::Button("Pulse both")) ctx_.haptics.pulse(d.key, 0.6f, 0.6f, 500);
+        if (ImGui::Button("Motors off")) ctx_.haptics.stopAll();
         ImGui::SameLine();
         if (ImGui::Button("Discover controllers")) ctx_.winwing.discover(d.key);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Broadcast identity request: every controller behind this USB device answers with its address and name.");
 
-        if (d.controllers.empty()) {
-            ImGui::TextColored(kYellow, "  No controller answered yet.");
+        if (ImGui::TreeNode("Motor address")) {
+            ImGui::TextDisabled("%s. Values are decimal. Use --motor-sweep to find the index that buzzes on an unknown product.",
+                                d.identityIsDefault ? "Built-in default / auto-discovered" : "Custom");
+            for (const auto& c : d.controllers) {
+                ImGui::PushID(c.device);
+                ImGui::Text("  controller device %d (0x%02x)  family %d  \"%s\"", c.device, c.device, c.family, c.name.c_str());
+                ImGui::SameLine();
+                if (single) {
+                    if (ImGui::SmallButton("= motor")) { dc.identity.family = c.family; dc.identity.left = dc.identity.right = {c.device, dc.identity.left.index}; changed = true; }
+                } else {
+                    if (ImGui::SmallButton("= left")) { dc.identity.family = c.family; dc.identity.left.device = c.device; changed = true; }
+                    ImGui::SameLine();
+                    if (ImGui::SmallButton("= right")) { dc.identity.family = c.family; dc.identity.right.device = c.device; changed = true; }
+                }
+                ImGui::PopID();
+            }
+            bool two = !single;
+            if (ImGui::Checkbox("Two motors (left / right)", &two)) {
+                if (two) { dc.identity.right = dc.identity.left; dc.identity.right.index++; }
+                else dc.identity.right = dc.identity.left;
+                changed = true;
+            }
+            ImGui::SetNextItemWidth(70);
+            changed |= ImGui::InputInt("family", &dc.identity.family, 0, 0);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(70);
+            changed |= ImGui::InputInt(single ? "device" : "L dev", &dc.identity.left.device, 0, 0);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(60);
+            changed |= ImGui::InputInt(single ? "index" : "L idx", &dc.identity.left.index, 0, 0);
+            if (single) {
+                dc.identity.right = dc.identity.left;
+            } else {
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(70);
+                changed |= ImGui::InputInt("R dev", &dc.identity.right.device, 0, 0);
+                ImGui::SameLine();
+                ImGui::SetNextItemWidth(60);
+                changed |= ImGui::InputInt("R idx", &dc.identity.right.index, 0, 0);
+            }
+            ImGui::TreePop();
         }
-        for (const auto& c : d.controllers) {
-            ImGui::PushID(c.device);
-            ImGui::Text("  device 0x%02x  family 0x%02x  \"%s\"", c.device, c.family, c.name.c_str());
-            ImGui::SameLine();
-            if (ImGui::SmallButton("= left motor")) { dc.identity.family = c.family; dc.identity.left = {c.device, 0}; changed = true; }
-            ImGui::SameLine();
-            if (ImGui::SmallButton("= right motor")) { dc.identity.family = c.family; dc.identity.right = {c.device, 0}; changed = true; }
-            ImGui::SameLine();
-            if (ImGui::SmallButton("= lights")) { dc.identity.lightDevice = c.device; changed = true; }
-            ImGui::PopID();
-        }
-
-        ImGui::TextUnformatted("Motor address:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(70);
-        changed |= ImGui::InputInt("family", &dc.identity.family, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(70);
-        changed |= ImGui::InputInt("L dev", &dc.identity.left.device, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(60);
-        changed |= ImGui::InputInt("L idx", &dc.identity.left.index, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(70);
-        changed |= ImGui::InputInt("R dev", &dc.identity.right.device, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(60);
-        changed |= ImGui::InputInt("R idx", &dc.identity.right.index, 0, 0);
-        ImGui::SameLine();
-        ImGui::TextDisabled("(decimal; %s)", d.identityIsDefault ? "default / auto-discovered" : "custom");
-
-        // Visual oracle: a backlight/LED change proves the address bytes are right.
-        const int lightDev = dc.identity.lightDevice >= 0 ? dc.identity.lightDevice : dc.identity.left.device;
-        if (ledTestDevice_ < 0) ledTestDevice_ = lightDev;
-        ImGui::TextUnformatted("LED test:");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(70);
-        ImGui::InputInt("device", &ledTestDevice_, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(60);
-        ImGui::InputInt("index", &ledTestIndex_, 0, 0);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(140);
-        ImGui::SliderInt("value", &ledTestValue_, 0, 255);
-        ImGui::SameLine();
-        if (ImGui::Button("Send")) ctx_.winwing.setLed(d.key, ledTestDevice_, dc.identity.family, ledTestIndex_, ledTestValue_);
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("SET_LEDX. Index 0 = backlight on a base controller, motor on a grip controller.");
-        ImGui::SameLine();
-        if (ImGui::Button("Motors off")) ctx_.haptics.stopAll();
         ImGui::Separator();
         ImGui::PopID();
     }

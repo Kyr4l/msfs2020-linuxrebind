@@ -26,8 +26,8 @@ struct MotorAddress {
 struct WinwingIdentity {
     int family = -1;
     MotorAddress left, right;  // right == left on single-motor sticks
-    int lightDevice = -1;      // controller carrying the backlight (LED test), optional
     bool known() const { return family >= 0 && left.known() && right.known(); }
+    bool singleMotor() const { return left.device == right.device && left.index == right.index; }
 };
 
 struct ControllerInfo {
@@ -71,8 +71,8 @@ public:
     std::vector<std::string> dumpConfig(const std::string& key, uint32_t first = 0, uint32_t last = 0x110);
     // Broadcast identity request; returns every controller behind the USB device with its name.
     std::vector<ControllerInfo> discover(const std::string& key);
-    // SET_LEDX on an explicit address (visual oracle / raw motor test).
-    bool setLed(const std::string& key, int device, int family, int index, int value);
+    // SET_LEDX level on an explicit address (raw motor test / sweep).
+    bool setLevel(const std::string& key, int device, int family, int index, int value);
     bool sendRaw(const std::string& key, const std::vector<uint8_t>& frame);
 
 private:

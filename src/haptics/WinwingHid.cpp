@@ -67,14 +67,12 @@ WinwingIdentity defaultIdentityForPid(uint16_t pid) {
             id.family = 0xb9;
             id.left = {0x04, 0x0e};
             id.right = {0x08, 0x10};
-            id.lightDevice = 0x40;
             break;
         case 0xb920:  // URSA MINOR 32 Throttle Metal L/R (winctrl-xplane-plugin: one controller, two motor indices)
         case 0xb930:
             id.family = 0xb9;
             id.left = {0x10, 0x0e};
             id.right = {0x10, 0x10};
-            id.lightDevice = 0x10;
             break;
         case 0xbc27:  // URSA MINOR Airline Joystick L/R
         case 0xbc28:
@@ -82,8 +80,7 @@ WinwingIdentity defaultIdentityForPid(uint16_t pid) {
         case 0xbc2a:
             id.family = 0xbf;
             id.left = {(pid & 0xff) - 0x20, 0};
-            id.right = id.left;
-            id.lightDevice = 0x20;  // lighting controller is family 0xbb, handled in the LED test by the user
+            id.right = id.left;  // single motor
             break;
         default:
             break;
@@ -199,7 +196,7 @@ std::vector<ControllerInfo> WinwingHidManager::discoverLocked(Dev& d) {
 
 // Fills a default identity from discovery when the product id is not in the table:
 // controllers named "... L" / "... R" become the left/right motors (index 0), a single
-// grip-family (0xbf) controller becomes both, the remaining one is the light controller.
+// grip-family (0xbf) controller becomes both.
 void WinwingHidManager::autoAssign(Dev& d) {
     if (d.info.identity.known() || d.info.controllers.empty()) return;
     WinwingIdentity id;
@@ -207,7 +204,6 @@ void WinwingHidManager::autoAssign(Dev& d) {
         if (endsWith(c.name, " L")) { id.left = {c.device, 0}; id.family = c.family; }
         else if (endsWith(c.name, " R")) { id.right = {c.device, 0}; id.family = c.family; }
         else if (c.family == 0xbf) { id.left = id.right = {c.device, 0}; id.family = c.family; }
-        else if (id.lightDevice < 0) id.lightDevice = c.device;
     }
     if (id.left.known() && !id.right.known()) id.right = id.left;
     if (id.right.known() && !id.left.known()) id.left = id.right;
@@ -306,8 +302,7 @@ bool WinwingHidManager::setMotors(const std::string& key, uint8_t left, uint8_t 
     bool ok = true;
     uint8_t f[FRAME_LEN];
     if (left || right) d->info.motorsDriven = true;
-    const bool single = id.left.device == id.right.device && id.left.index == id.right.index;
-    if (single) {
+    if (id.singleMotor()) {
         const uint8_t v = std::max(left, right);
         if (force || v != d->info.lastLeft) {
             buildSetLedx(f, id.left.device, id.family, id.left.index, v);
@@ -372,7 +367,7 @@ bool WinwingHidManager::sendRaw(const std::string& key, const std::vector<uint8_
     return writeFrame(*d, frame.data());
 }
 
-bool WinwingHidManager::setLed(const std::string& key, int device, int family, int index, int value) {
+bool WinwingHidManager::setLevel(const std::string& key, int device, int family, int index, int value) {
     std::lock_guard<std::mutex> lock(m_);
     Dev* d = find(key);
     if (!d || d->fd < 0) return false;

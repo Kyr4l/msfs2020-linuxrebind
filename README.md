@@ -47,7 +47,7 @@ ninja -C build
 
 Options: `--wayland` / `--x11` (force a platform), `--headless` (no window, run the active profile),
 `--host`, `--port`, `--profile NAME`, `--config FILE`, `--catalog FILE`, `--quiet`,
-`--probe-winwing`, `--motor-sweep [DEV]`, `--led-sweep DEV`, `--dump-winwing-config`,
+`--probe-winwing`, `--motor-sweep [DEV]`, `--dump-winwing-config`,
 `--fire KIND:NAME[=V]` (one-shot action, e.g. `--fire lvar_toggle:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON`),
 `--read NAME` (print an `L:` var).
 
