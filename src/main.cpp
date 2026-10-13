@@ -42,6 +42,8 @@ void usage() {
         "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt.\n"
         "                         Lights are driven too (volatile): replug the device afterwards to restore its light profile\n"
         "  --dump-winwing-config  read-only dump of every controller's flash config words to stdout (baseline for diffs)\n"
+        "  --led-sweep DEV [VAL]  light SET_LEDX indices 0..63 one at a time (1 s each, value VAL, default 255) on controller\n"
+        "                         DEV (e.g. 0x40); watch which button LED lights and in what colour. Volatile; replug restores\n"
         "  --version, --help");
 }
 
@@ -55,6 +57,8 @@ int main(int argc, char** argv) {
     bool probeWinwing = false;
     bool motorSweep = false;
     bool dumpConfig = false;
+    bool ledSweep = false;
+    int ledSweepDevice = -1, ledSweepValue = 255;
     int sweepDevice = -1;
     std::string hostOverride, profileOverride, configPath, catalogPath;
     int portOverride = 0;
@@ -66,6 +70,12 @@ int main(int argc, char** argv) {
         else if (a == "--headless") headless = true;
         else if (a == "--probe-winwing") probeWinwing = true;
         else if (a == "--dump-winwing-config") dumpConfig = true;
+        else if (a == "--led-sweep") {
+            ledSweep = true;
+            std::string dev; next(dev);
+            ledSweepDevice = static_cast<int>(std::strtol(dev.c_str(), nullptr, 0));
+            if (i + 1 < argc && argv[i + 1][0] != '-') ledSweepValue = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
+        }
         else if (a == "--motor-sweep") {
             motorSweep = true;
             if (i + 1 < argc && argv[i + 1][0] != '-') sweepDevice = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
@@ -82,6 +92,36 @@ int main(int argc, char** argv) {
     }
     std::signal(SIGINT, onSignal);
     std::signal(SIGTERM, onSignal);
+
+    if (ledSweep) {
+        Log::instance().echoToStderr = false;
+        haptics::WinwingHidManager ww;
+        ww.rescan();
+        for (const auto& d : ww.devices()) {
+            if (!d.open) continue;
+            const haptics::ControllerInfo* ctl = nullptr;
+            for (const auto& c : d.controllers) if (c.device == ledSweepDevice) ctl = &c;
+            if (!ctl) { std::printf("%s: no controller with device byte 0x%02x (see --probe-winwing)\n", d.name.c_str(), ledSweepDevice); continue; }
+            std::printf("LED sweep on %s controller 0x%02x \"%s\": each index is set to %d for 1 s, then back to 0.\n"
+                        "Note which index lights which button and in what colour. Ctrl+C stops. Replug restores the light profile.\n",
+                        d.name.c_str(), ctl->device, ctl->name.c_str(), ledSweepValue);
+            for (int idx = 0; idx < 64 && !g_signalled; ++idx) {
+                if ((ctl->device == d.identity.left.device && idx == d.identity.left.index) ||
+                    (ctl->device == d.identity.right.device && idx == d.identity.right.index)) {
+                    std::printf("   index %2d (0x%02x): motor, skipped\n", idx, idx);
+                    continue;
+                }
+                std::printf("   index %2d (0x%02x) ... ", idx, idx);
+                std::fflush(stdout);
+                ww.setLed(d.key, ctl->device, ctl->family, idx, ledSweepValue);
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                ww.setLed(d.key, ctl->device, ctl->family, idx, 0);
+                std::printf("off\n");
+                std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            }
+        }
+        return 0;
+    }
 
     if (dumpConfig) {
         Log::instance().echoToStderr = false;
