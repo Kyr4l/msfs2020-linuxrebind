@@ -204,6 +204,10 @@ void Ui::drawStatusBar() {
     dot(c);
     if (status_.state == sim::ConnState::Connected) {
         ImGui::Text("MSFS: connected (%s %s)%s", status_.simName.c_str(), status_.simVersion.c_str(), status_.paused ? " [paused]" : "");
+        if (status_.detectedPort) {
+            ImGui::SameLine();
+            ImGui::TextDisabled("via auto-detected %s:%u", status_.detectedHost.c_str(), status_.detectedPort);
+        }
     } else {
         ImGui::Text("MSFS: %s (%s:%u)", connStateText(status_.state), status_.host.c_str(), status_.port);
         if (!status_.lastError.empty()) {
@@ -843,7 +847,7 @@ void Ui::drawSettingsTab() {
     changed |= ImGui::InputInt("Port", &s.port);
     changed |= ImGui::Checkbox("Connect automatically", &s.autoConnect);
     if (changed) {
-        s.port = std::clamp(s.port, 1, 65535);
+        s.port = std::clamp(s.port, 0, 65535);
         ctx_.bridge.setAutoConnect(s.autoConnect);
         ctx_.dirty = true;
     }
@@ -854,9 +858,11 @@ void Ui::drawSettingsTab() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Disconnect")) ctx_.bridge.disconnect();
-    ImGui::TextWrapped("MSFS listens where its SimConnect.xml says. Under Proton that file lives in\n"
-                       "steamapps/compatdata/1250410/pfx/drive_c/users/steamuser/AppData/Roaming/Microsoft Flight Simulator/SimConnect.xml\n"
-                       "and needs an IPv4 entry with a fixed <Port> (500 by default) and <Scope>local</Scope>.");
+    ImGui::TextWrapped("MSFS listens where its SimConnect.xml says (default: port 500). Under Proton it cannot bind ports below 1024, so it "
+                       "silently uses a random port instead; when the configured port does not answer, the tool scans wineserver's loopback "
+                       "listeners for the SimConnect handshake and uses what it finds (shown in the status bar). Port 0 = scan only. "
+                       "To avoid the scan, set a <Port> above 1024 in\n"
+                       "steamapps/compatdata/1250410/pfx/drive_c/users/steamuser/AppData/Roaming/Microsoft Flight Simulator/SimConnect.xml");
 
     ImGui::SeparatorText("Files");
     ImGui::Text("Config:  %s", ctx_.configPath.c_str());

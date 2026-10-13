@@ -24,6 +24,8 @@ struct SimStatus {
     ModuleState mobiflight = ModuleState::Unknown;
     std::string host;
     uint16_t port = 0;
+    uint16_t detectedPort = 0;    // port found by scanning when the configured one did not answer
+    std::string detectedHost;
     std::string simName;         // from RECV_OPEN
     std::string simVersion;      // "11.0.282174.999"
     std::string aircraft;        // path of the loaded aircraft .cfg (AircraftLoaded)
@@ -80,6 +82,8 @@ public:
 private:
     void threadMain();
     bool tryConnect();
+    struct Endpoint { std::string host; uint16_t port; };
+    std::vector<Endpoint> scanForSimConnect();  // probes loopback listeners (wineserver's first) with an Open handshake
     void onConnected();
     void handleMessage(const RecvMessage& m);
     void drainQueue();

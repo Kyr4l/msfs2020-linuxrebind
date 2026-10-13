@@ -85,8 +85,13 @@ and must contain an IPv4 block with a fixed port (the default file shipped by MS
 </SimConnect.Comm>
 ```
 
-The tool connects to `127.0.0.1:500` by default and reconnects automatically whenever the sim is
-(re)started.
+**Proton cannot bind port 500**: Linux reserves ports below 1024, so MSFS silently falls back to
+its "Dynamic IP4 port" entry and picks a random port on every launch (it does not record it
+anywhere Linux can read). The tool handles this: when the configured port refuses, it scans the
+loopback listeners owned by `wineserver`, sends the SimConnect Open handshake to each, and uses the
+one that answers (the status bar shows the detected port). Setting a fixed `<Port>` above 1024 in
+`SimConnect.xml` (e.g. 5500) and in the tool's settings skips the scan. The tool reconnects
+automatically whenever the sim is (re)started.
 
 ## Usage
 

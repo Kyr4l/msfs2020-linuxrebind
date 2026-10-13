@@ -1,7 +1,17 @@
 #include "sim/SimBridge.hpp"
 
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <netinet/in.h>
+#include <poll.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
 #include <cmath>
 #include <cstring>
+#include <fstream>
+#include <set>
+#include <sstream>
 
 #include "util/Log.hpp"
 
@@ -224,6 +234,109 @@ void SimBridge::dropConnection(const std::string& why) {
     nextConnectAttempt_ = clock::now() + std::chrono::seconds(3);
 }
 
+namespace {
+// Socket inodes held by wineserver (MSFS under Proton): the SimConnect listener is one of them.
+std::set<unsigned long> wineserverSocketInodes() {
+    std::set<unsigned long> inodes;
+    DIR* proc = opendir("/proc");
+    if (!proc) return inodes;
+    while (dirent* e = readdir(proc)) {
+        if (e->d_name[0] < '0' || e->d_name[0] > '9') continue;
+        std::ifstream comm(std::string("/proc/") + e->d_name + "/comm");
+        std::string name;
+        std::getline(comm, name);
+        if (name != "wineserver") continue;
+        const std::string fdDir = std::string("/proc/") + e->d_name + "/fd";
+        DIR* fds = opendir(fdDir.c_str());
+        if (!fds) continue;
+        while (dirent* f = readdir(fds)) {
+            char link[64];
+            ssize_t n = readlink((fdDir + "/" + f->d_name).c_str(), link, sizeof link - 1);
+            if (n <= 0) continue;
+            link[n] = 0;
+            unsigned long ino = 0;
+            if (sscanf(link, "socket:[%lu]", &ino) == 1) inodes.insert(ino);
+        }
+        closedir(fds);
+    }
+    closedir(proc);
+    return inodes;
+}
+
+// LISTEN sockets on loopback / any address from /proc/net/tcp{,6}: (host, port, inode).
+struct Listener { std::string host; uint16_t port; unsigned long inode; };
+std::vector<Listener> loopbackListeners() {
+    std::vector<Listener> out;
+    for (const char* file : {"/proc/net/tcp", "/proc/net/tcp6"}) {
+        std::ifstream in(file);
+        std::string line;
+        std::getline(in, line);  // header
+        const bool v6 = strstr(file, "tcp6") != nullptr;
+        while (std::getline(in, line)) {
+            std::istringstream ss(line);
+            std::string sl, local, remote, st;
+            ss >> sl >> local >> remote >> st;
+            // remaining columns: tx_queue:rx_queue tr:tm->when retrnsmt uid timeout inode
+            std::string txrx, trtm, retr, uid, timeout, inodeStr;
+            ss >> txrx >> trtm >> retr >> uid >> timeout >> inodeStr;
+            if (st != "0A") continue;  // LISTEN
+            size_t colon = local.find(':');
+            if (colon == std::string::npos) continue;
+            const std::string addr = local.substr(0, colon);
+            const uint16_t port = static_cast<uint16_t>(strtoul(local.substr(colon + 1).c_str(), nullptr, 16));
+            std::string host;
+            if (!v6) {
+                if (addr == "0100007F") host = "127.0.0.1";
+                else if (addr == "00000000") host = "127.0.0.1";
+                else continue;
+            } else {
+                if (addr == "00000000000000000000000001000000") host = "::1";
+                else if (addr == "00000000000000000000000000000000") host = "::1";
+                else continue;
+            }
+            out.push_back({host, port, strtoul(inodeStr.c_str(), nullptr, 10)});
+        }
+    }
+    return out;
+}
+
+// Sends a SimConnect Open to host:port and reports whether a RECV_OPEN comes back within the timeout.
+bool simConnectAnswers(const std::string& host, uint16_t port, int timeoutMs) {
+    SimConnectClient probe;
+    std::string err;
+    if (!probe.connect(host, port, 300, err)) return false;
+    probe.open("msfs-linuxrebind-probe");
+    const auto deadline = clock::now() + std::chrono::milliseconds(timeoutMs);
+    std::vector<RecvMessage> msgs;
+    while (clock::now() < deadline) {
+        msgs.clear();
+        if (!probe.poll(50, msgs, err)) return false;
+        for (const auto& m : msgs)
+            if (static_cast<RecvId>(m.id) == RecvId::Open) return true;
+    }
+    return false;
+}
+}  // namespace
+
+std::vector<SimBridge::Endpoint> SimBridge::scanForSimConnect() {
+    std::vector<Endpoint> found;
+    const auto wine = wineserverSocketInodes();
+    auto listeners = loopbackListeners();
+    // Prefer wineserver's sockets; without any (not Proton, or no permission) probe everything on loopback.
+    std::vector<Listener> candidates;
+    for (const auto& l : listeners)
+        if (wine.empty() || wine.count(l.inode)) candidates.push_back(l);
+    LOG_INFO("SimConnect: configured port did not answer, probing %zu loopback listener(s)%s", candidates.size(), wine.empty() ? "" : " owned by wineserver");
+    for (const auto& l : candidates) {
+        if (simConnectAnswers(l.host, l.port, 700)) {
+            LOG_INFO("SimConnect: found the simulator on %s:%u", l.host.c_str(), l.port);
+            found.push_back({l.host, l.port});
+            break;
+        }
+    }
+    return found;
+}
+
 bool SimBridge::tryConnect() {
     std::string host;
     uint16_t port;
@@ -234,10 +347,25 @@ bool SimBridge::tryConnect() {
         status_.state = ConnState::Connecting;
     }
     std::string err;
-    if (!client_.connect(host, port, 2000, err)) {
+    bool connected = port != 0 && client_.connect(host, port, 2000, err);
+    if (!connected) {
+        // Typical under Proton: MSFS cannot bind a port < 1024 (SimConnect.xml says 500) and silently falls back
+        // to a dynamic port that changes every launch. Find it.
+        auto eps = scanForSimConnect();
+        if (!eps.empty() && client_.connect(eps[0].host, eps[0].port, 2000, err)) {
+            connected = true;
+            std::lock_guard<std::mutex> lock(m_);
+            status_.detectedHost = eps[0].host;
+            status_.detectedPort = eps[0].port;
+            host = eps[0].host;
+            port = eps[0].port;
+        }
+    }
+    if (!connected) {
         std::lock_guard<std::mutex> lock(m_);
         status_.state = ConnState::Disconnected;
-        status_.lastError = err;
+        status_.lastError = port == 0 ? "no SimConnect listener found" : err;
+        status_.detectedPort = 0;
         nextConnectAttempt_ = clock::now() + std::chrono::seconds(3);
         return false;
     }
