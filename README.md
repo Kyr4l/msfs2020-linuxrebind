@@ -11,6 +11,23 @@ flight data, which MSFS under Proton cannot do by itself.
 * Profiles with press / release actions, repeat-while-held (for FCU knobs), 2-position switches.
 * Searchable catalog of A32NX functions generated from the FlyByWire docs.
 
+## AI-assisted code, real-hardware tested
+
+This code base was written with AI assistance (Claude), under the direction of and reviewed by the
+maintainer. That is a statement about how it was produced, not about how it was validated: every
+hardware path in it was exercised on the real devices it targets, and no issues were found.
+
+| What | How it was verified |
+|---|---|
+| SimConnect wire protocol | live handshake and event traffic against MSFS 2020 under Proton (KittyHawk 11.0.282174.999), plus a mock server in `tools/` |
+| MobiFlight module path (`L:` set/toggle, readback) | APU MASTER toggled from the tool on a cold & dark FlyByWire A32NX and read back 0 → 1 → 0 |
+| WINCTRL URSA MINOR Combat Throttle Metal.EX (`4098:b970`) | controllers discovered over hidraw, both grip motors driven and felt, addresses confirmed by hand, config words dumped before and after |
+| WINCTRL URSA MINOR Combat Joystick (`4098:bc29`/`bc2a`) | discovered the same way; motor address from the community kernel driver and X-Plane plugin |
+| Device safety | the tool only sends identity queries, config *reads* and volatile motor levels; it never writes flash, restarts or re-flashes a device (`--dump-winwing-config` gives a baseline to diff) |
+
+If you have a Winwing device that is not listed, discovery plus `--motor-sweep` will usually find
+its motor in a minute; please report the result so it can be added to the defaults.
+
 ## How it works
 
 | Action kind | Transport | Needs |
