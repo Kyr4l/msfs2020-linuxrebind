@@ -37,6 +37,8 @@ void usage() {
         "  --catalog FILE         action catalog JSON (default data/a32nx_catalog.json)\n"
         "  --quiet                do not echo the log to stderr\n"
         "  --probe-winwing        list Winwing HID devices and the controllers behind them, then exit\n"
+        "  --motor-sweep [DEV]    buzz every SET_LEDX index (0..31) on each controller (or only device byte DEV, e.g. 0x04)\n"
+        "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt\n"
         "  --version, --help");
 }
 
@@ -48,6 +50,8 @@ int main(int argc, char** argv) {
     int platform = 0;
     bool headless = false;
     bool probeWinwing = false;
+    bool motorSweep = false;
+    int sweepDevice = -1;
     std::string hostOverride, profileOverride, configPath, catalogPath;
     int portOverride = 0;
     for (int i = 1; i < argc; ++i) {
@@ -57,6 +61,10 @@ int main(int argc, char** argv) {
         else if (a == "--x11") platform = GLFW_PLATFORM_X11;
         else if (a == "--headless") headless = true;
         else if (a == "--probe-winwing") probeWinwing = true;
+        else if (a == "--motor-sweep") {
+            motorSweep = true;
+            if (i + 1 < argc && argv[i + 1][0] != '-') sweepDevice = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
+        }
         else if (a == "--host") next(hostOverride);
         else if (a == "--port") { std::string p; next(p); portOverride = std::atoi(p.c_str()); }
         else if (a == "--profile") next(profileOverride);
@@ -69,6 +77,34 @@ int main(int argc, char** argv) {
     }
     std::signal(SIGINT, onSignal);
     std::signal(SIGTERM, onSignal);
+
+    if (motorSweep) {
+        Log::instance().echoToStderr = false;
+        haptics::WinwingHidManager ww;
+        ww.rescan();
+        const auto devs = ww.devices();
+        if (devs.empty()) { std::printf("no Winwing HID device found\n"); return 1; }
+        std::printf("Motor sweep: each step drives one SET_LEDX index at value 150 for 0.4 s. Keep a hand on the grips.\n");
+        for (const auto& d : devs) {
+            if (!d.open) { std::printf("%s: not open (%s)\n", d.name.c_str(), d.error.c_str()); continue; }
+            for (const auto& c : d.controllers) {
+                if (sweepDevice >= 0 && c.device != sweepDevice) continue;
+                std::printf("\n== %s  controller device 0x%02x family 0x%02x \"%s\"\n", d.name.c_str(), c.device, c.family, c.name.c_str());
+                for (int idx = 0; idx < 32; ++idx) {
+                    std::printf("   index %2d (0x%02x) ... ", idx, idx);
+                    std::fflush(stdout);
+                    ww.setLed(d.key, c.device, c.family, idx, 150);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+                    ww.setLed(d.key, c.device, c.family, idx, 0);
+                    std::printf("done\n");
+                    std::this_thread::sleep_for(std::chrono::milliseconds(700));
+                    if (g_signalled) return 0;
+                }
+            }
+        }
+        std::printf("\nSweep finished. Report the controller/index that vibrated (and any LED that changed).\n");
+        return 0;
+    }
 
     if (probeWinwing) {
         haptics::WinwingHidManager ww;

@@ -324,6 +324,8 @@ bool WinwingHidManager::setMotors(const std::string& key, uint8_t left, uint8_t 
         }
     }
     collect(*d, -1, 0);  // drop echoes
+    LOG_DEBUG("Winwing %s: motors L=%u R=%u (family 0x%02x, L dev 0x%02x idx %d, R dev 0x%02x idx %d) %s", d->info.name.c_str(), left, right,
+              id.family, id.left.device, id.left.index, id.right.device, id.right.index, ok ? "sent" : "WRITE FAILED");
     return ok;
 }
 
