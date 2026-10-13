@@ -10,7 +10,6 @@
 #include <chrono>
 #include <cstdio>
 #include <cstring>
-#include <thread>
 
 #include "util/Log.hpp"
 
@@ -18,20 +17,29 @@ namespace lr::haptics {
 
 namespace {
 constexpr uint8_t REPORT_ID = 0x02;
+constexpr uint8_t OP_REQUEST_DEVICE_HW = 0x01;
+constexpr uint8_t OP_READ_CFG_DATA = 0x05;
 constexpr uint8_t OP_SET_LEDX = 0x49;
+constexpr int ECHO_FAMILY_OFFSET = 0x10;  // echoed family = family + 0x10 (0xb9 -> 0xc9, 0xbf -> 0xcf)
+constexpr int BROADCAST_DEVICE = 0x01;
+constexpr int BROADCAST_FAMILY = 0x00;
+constexpr uint32_t CFG_TYPE_ID = 0x08;
+constexpr uint32_t CFG_NAME_START = 0x5c, CFG_NAME_END = 0x88;
 constexpr size_t FRAME_LEN = 14;
 
-bool isThrottlePid(uint16_t pid) { return (pid & 0xff00) == 0xb900; }
-
-void buildSetLedx(uint8_t* f, int device, int family, int index, int value) {
+void buildFrame(uint8_t* f, int device, int family, uint8_t opcode, const uint8_t* args, size_t nargs) {
     std::memset(f, 0, FRAME_LEN);
     f[0] = REPORT_ID;
     f[1] = static_cast<uint8_t>(device);
     f[2] = static_cast<uint8_t>(family);
-    f[5] = 0x03;  // payload length: opcode + 2 args
-    f[6] = OP_SET_LEDX;
-    f[7] = static_cast<uint8_t>(index);
-    f[8] = static_cast<uint8_t>(value);
+    f[5] = static_cast<uint8_t>(1 + nargs);
+    f[6] = opcode;
+    for (size_t i = 0; i < nargs && 7 + i < FRAME_LEN; ++i) f[7 + i] = args[i];
+}
+
+void buildSetLedx(uint8_t* f, int device, int family, int index, int value) {
+    const uint8_t args[2] = {static_cast<uint8_t>(index), static_cast<uint8_t>(value)};
+    buildFrame(f, device, family, OP_SET_LEDX, args, 2);
 }
 
 std::string readSysfs(const std::string& path) {
@@ -43,53 +51,42 @@ std::string readSysfs(const std::string& path) {
     fclose(f);
     return out;
 }
+
+bool endsWith(const std::string& s, const char* suffix) {
+    const size_t n = strlen(suffix);
+    return s.size() >= n && s.compare(s.size() - n, n, suffix) == 0;
+}
 }  // namespace
 
 WinwingIdentity defaultIdentityForPid(uint16_t pid) {
     WinwingIdentity id;
     switch (pid) {
-        case 0xb920:  // URSA MINOR 32 Throttle Metal L
-        case 0xb930:  // URSA MINOR 32 Throttle Metal R
-        case 0xb970:  // URSA MINOR Combat Throttle Metal.EX (assumed same addressing, confirm with Probe)
-            id.deviceByte = 0x10;
-            id.familyByte = 0xb9;
-            id.leftIndex = 0x0e;
-            id.rightIndex = 0x10;
+        case 0xb970:  // URSA MINOR Combat Throttle Metal.EX: grips L=0x04 R=0x08, base 0x40 (discovered on hardware)
+            id.family = 0xb9;
+            id.left = {0x04, 0};
+            id.right = {0x08, 0};
+            id.lightDevice = 0x40;
             break;
-        case 0xbc27:  // URSA MINOR Airline Joystick L
-        case 0xbc28:  // URSA MINOR Airline Joystick R
-        case 0xbc29:  // URSA MINOR Fighter Joystick (0x09)
-        case 0xbc2a:  // URSA MINOR Fighter Joystick (0x0a)
-            id.deviceByte = (pid & 0xff) - 0x20;
-            id.familyByte = 0xbf;
-            id.leftIndex = 0x00;
-            id.rightIndex = 0x00;
+        case 0xb920:  // URSA MINOR 32 Throttle Metal L/R (winctrl-xplane-plugin: one controller, two motor indices)
+        case 0xb930:
+            id.family = 0xb9;
+            id.left = {0x10, 0x0e};
+            id.right = {0x10, 0x10};
+            id.lightDevice = 0x10;
+            break;
+        case 0xbc27:  // URSA MINOR Airline Joystick L/R
+        case 0xbc28:
+        case 0xbc29:  // URSA MINOR Fighter Joystick
+        case 0xbc2a:
+            id.family = 0xbf;
+            id.left = {(pid & 0xff) - 0x20, 0};
+            id.right = id.left;
+            id.lightDevice = 0x20;  // lighting controller is family 0xbb, handled in the LED test by the user
             break;
         default:
             break;
     }
     return id;
-}
-
-std::vector<std::pair<int, int>> identityCandidates(uint16_t pid) {
-    std::vector<std::pair<int, int>> c;
-    auto add = [&](int d, int f) {
-        if (d < 0 || d > 0xff) return;
-        if (std::find(c.begin(), c.end(), std::make_pair(d, f)) == c.end()) c.emplace_back(d, f);
-    };
-    const int low = (pid & 0xff) - 0x20;
-    if (isThrottlePid(pid)) {
-        add(0x10, 0xb9);
-        add(low, 0xb9);
-        add(0x01, 0xb9);
-        add(low, 0xbf);
-    } else {
-        add(low, 0xbf);
-        add(low, 0xb9);
-        add(0x10, 0xb9);
-    }
-    add(0x20, 0xbb);
-    return c;
 }
 
 WinwingHidManager::WinwingHidManager() = default;
@@ -117,6 +114,96 @@ void WinwingHidManager::setIdentity(const std::string& key, const WinwingIdentit
     }
 }
 
+std::vector<std::vector<uint8_t>> WinwingHidManager::collect(Dev& d, int opcode, int ms) {
+    std::vector<std::vector<uint8_t>> out;
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(ms);
+    uint8_t buf[256];
+    for (;;) {
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= deadline) break;
+        pollfd pfd{d.fd, POLLIN, 0};
+        const int rem = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(deadline - now).count());
+        if (::poll(&pfd, 1, rem > 0 ? rem : 0) <= 0) continue;
+        ssize_t n = ::read(d.fd, buf, sizeof buf);
+        if (n <= 0) continue;
+        if (buf[0] != REPORT_ID || n < 7) continue;  // joystick report 1 stream
+        if (opcode >= 0 && buf[6] != opcode) continue;
+        out.emplace_back(buf, buf + n);
+    }
+    return out;
+}
+
+bool WinwingHidManager::readCfg(Dev& d, int device, int family, uint32_t offset, uint8_t out[4]) {
+    uint8_t f[FRAME_LEN];
+    const uint8_t args[3] = {static_cast<uint8_t>(offset), static_cast<uint8_t>(offset >> 8), static_cast<uint8_t>(offset >> 16)};
+    buildFrame(f, device, family, OP_READ_CFG_DATA, args, 3);
+    if (!writeFrame(d, f)) return false;
+    for (const auto& r : collect(d, OP_READ_CFG_DATA, 250)) {
+        if (r.size() < 14 || r[1] != static_cast<uint8_t>(device)) continue;
+        const uint32_t roff = r[7] | (r[8] << 8) | (r[9] << 16);
+        if (roff != offset) continue;
+        std::memcpy(out, r.data() + 10, 4);
+        return true;
+    }
+    return false;
+}
+
+std::vector<ControllerInfo> WinwingHidManager::discoverLocked(Dev& d) {
+    std::vector<ControllerInfo> found;
+    if (d.fd < 0) return found;
+    collect(d, -1, 30);  // flush stale replies
+    uint8_t f[FRAME_LEN];
+    buildFrame(f, BROADCAST_DEVICE, BROADCAST_FAMILY, OP_REQUEST_DEVICE_HW, nullptr, 0);
+    if (!writeFrame(d, f)) return found;
+    for (const auto& r : collect(d, OP_REQUEST_DEVICE_HW, 400)) {
+        ControllerInfo c;
+        c.device = r[1];
+        c.family = (r[2] - ECHO_FAMILY_OFFSET) & 0xff;
+        bool dup = false;
+        for (const auto& o : found) dup |= o.device == c.device && o.family == c.family;
+        if (!dup) found.push_back(c);
+    }
+    for (auto& c : found) {
+        uint8_t v[4];
+        if (readCfg(d, c.device, c.family, CFG_TYPE_ID, v)) c.typeId = v[0] | (v[1] << 8) | (v[2] << 16) | (v[3] << 24);
+        std::string name;
+        for (uint32_t off = CFG_NAME_START; off < CFG_NAME_END; off += 4) {
+            if (!readCfg(d, c.device, c.family, off, v)) break;
+            bool end = false;
+            for (int i = 0; i < 4; ++i) {
+                if (v[i] == 0 || v[i] == 0xff) { end = true; break; }
+                name.push_back(static_cast<char>(v[i]));
+            }
+            if (end) break;
+        }
+        c.name = name;
+        LOG_INFO("Winwing %s: controller device=0x%02x family=0x%02x type=0x%x \"%s\"", d.info.name.c_str(), c.device, c.family, c.typeId, c.name.c_str());
+    }
+    if (found.empty()) LOG_WARN("Winwing %s: no controller answered the broadcast identity request", d.info.name.c_str());
+    d.info.controllers = found;
+    return found;
+}
+
+// Fills a default identity from discovery when the product id is not in the table:
+// controllers named "... L" / "... R" become the left/right motors (index 0), a single
+// grip-family (0xbf) controller becomes both, the remaining one is the light controller.
+void WinwingHidManager::autoAssign(Dev& d) {
+    if (d.info.identity.known() || d.info.controllers.empty()) return;
+    WinwingIdentity id;
+    for (const auto& c : d.info.controllers) {
+        if (endsWith(c.name, " L")) { id.left = {c.device, 0}; id.family = c.family; }
+        else if (endsWith(c.name, " R")) { id.right = {c.device, 0}; id.family = c.family; }
+        else if (c.family == 0xbf) { id.left = id.right = {c.device, 0}; id.family = c.family; }
+        else if (id.lightDevice < 0) id.lightDevice = c.device;
+    }
+    if (id.left.known() && !id.right.known()) id.right = id.left;
+    if (id.right.known() && !id.left.known()) id.left = id.right;
+    if (id.known()) {
+        d.info.identity = id;
+        LOG_INFO("Winwing %s: motor address auto-assigned from discovery (family 0x%02x, left 0x%02x, right 0x%02x)", d.info.name.c_str(), id.family, id.left.device, id.right.device);
+    }
+}
+
 void WinwingHidManager::rescan() {
     std::lock_guard<std::mutex> lock(m_);
     DIR* dir = opendir("/sys/class/hidraw");
@@ -139,10 +226,9 @@ void WinwingHidManager::rescan() {
         snprintf(key, sizeof key, "%04x:%04x", vid, pid);
         const std::string path = std::string("/dev/") + e->d_name;
         seen.push_back(path);
-        Dev* existing = nullptr;
-        for (auto& d : devs_)
-            if (d.info.path == path) existing = &d;
-        if (existing) continue;
+        bool exists = false;
+        for (auto& d : devs_) exists |= d.info.path == path;
+        if (exists) continue;
 
         Dev d;
         d.info.key = key;
@@ -150,16 +236,19 @@ void WinwingHidManager::rescan() {
         d.info.name = name;
         d.info.pid = static_cast<uint16_t>(pid);
         d.info.identity = defaultIdentityForPid(d.info.pid);
+        bool overridden = false;
         for (const auto& [k, v] : overrides_)
-            if (k == d.info.key) { d.info.identity = v; d.info.identityIsDefault = false; }
+            if (k == d.info.key) { d.info.identity = v; d.info.identityIsDefault = false; overridden = true; }
         d.fd = ::open(path.c_str(), O_RDWR | O_NONBLOCK | O_CLOEXEC);
         if (d.fd < 0) {
             d.info.error = strerror(errno);
             LOG_WARN("Winwing %s (%s): cannot open %s: %s (udev rule needed, see README)", name.c_str(), key, path.c_str(), d.info.error.c_str());
         } else {
             d.info.open = true;
-            LOG_INFO("Winwing HID: %s (%s) at %s, motor address %s", name.c_str(), key, path.c_str(),
-                     d.info.identity.known() ? "known" : "unknown - use Probe in the Vibration tab");
+            LOG_INFO("Winwing HID: %s (%s) at %s", name.c_str(), key, path.c_str());
+            discoverLocked(d);
+            if (!overridden) autoAssign(d);
+            if (!d.info.identity.known()) LOG_WARN("Winwing %s: motor address unknown, set it in the Vibration tab", name.c_str());
         }
         devs_.push_back(std::move(d));
     }
@@ -195,15 +284,6 @@ bool WinwingHidManager::writeFrame(Dev& d, const uint8_t* frame) {
     return true;
 }
 
-void WinwingHidManager::drain(Dev& d, std::vector<std::vector<uint8_t>>* out) {
-    uint8_t buf[256];
-    for (;;) {
-        ssize_t n = ::read(d.fd, buf, sizeof buf);
-        if (n <= 0) break;
-        if (out && n >= 3 && buf[0] == REPORT_ID) out->emplace_back(buf, buf + n);
-    }
-}
-
 bool WinwingHidManager::setMotors(const std::string& key, uint8_t left, uint8_t right, bool force) {
     std::lock_guard<std::mutex> lock(m_);
     Dev* d = find(key);
@@ -211,26 +291,27 @@ bool WinwingHidManager::setMotors(const std::string& key, uint8_t left, uint8_t 
     const WinwingIdentity& id = d->info.identity;
     bool ok = true;
     uint8_t f[FRAME_LEN];
-    if (id.leftIndex == id.rightIndex) {
+    const bool single = id.left.device == id.right.device && id.left.index == id.right.index;
+    if (single) {
         const uint8_t v = std::max(left, right);
         if (force || v != d->info.lastLeft) {
-            buildSetLedx(f, id.deviceByte, id.familyByte, id.leftIndex, v);
+            buildSetLedx(f, id.left.device, id.family, id.left.index, v);
             ok = writeFrame(*d, f);
             d->info.lastLeft = d->info.lastRight = v;
         }
     } else {
         if (force || left != d->info.lastLeft) {
-            buildSetLedx(f, id.deviceByte, id.familyByte, id.leftIndex, left);
+            buildSetLedx(f, id.left.device, id.family, id.left.index, left);
             ok &= writeFrame(*d, f);
             d->info.lastLeft = left;
         }
         if (force || right != d->info.lastRight) {
-            buildSetLedx(f, id.deviceByte, id.familyByte, id.rightIndex, right);
+            buildSetLedx(f, id.right.device, id.family, id.right.index, right);
             ok &= writeFrame(*d, f);
             d->info.lastRight = right;
         }
     }
-    drain(*d, nullptr);
+    collect(*d, -1, 0);  // drop echoes
     return ok;
 }
 
@@ -250,44 +331,27 @@ bool WinwingHidManager::sendRaw(const std::string& key, const std::vector<uint8_
     return writeFrame(*d, frame.data());
 }
 
-bool WinwingHidManager::setLed(const std::string& key, int deviceByte, int familyByte, int index, int value) {
+bool WinwingHidManager::setLed(const std::string& key, int device, int family, int index, int value) {
     std::lock_guard<std::mutex> lock(m_);
     Dev* d = find(key);
     if (!d || d->fd < 0) return false;
     uint8_t f[FRAME_LEN];
-    buildSetLedx(f, deviceByte, familyByte, index, value);
-    LOG_INFO("Winwing %s: SET_LEDX device=0x%02x family=0x%02x index=%d value=%d", d->info.name.c_str(), deviceByte, familyByte, index, value);
-    return writeFrame(*d, f);
+    buildSetLedx(f, device, family, index, value);
+    const bool ok = writeFrame(*d, f);
+    bool echoed = false;
+    for (const auto& r : collect(*d, OP_SET_LEDX, 150)) echoed |= r[1] == static_cast<uint8_t>(device);
+    LOG_INFO("Winwing %s: SET_LEDX device=0x%02x family=0x%02x index=%d value=%d -> %s", d->info.name.c_str(), device, family, index, value,
+             echoed ? "accepted (echo)" : "no echo");
+    return ok;
 }
 
-std::vector<ProbeResult> WinwingHidManager::probe(const std::string& key, int motorIndexGuess) {
-    std::vector<ProbeResult> results;
+std::vector<ControllerInfo> WinwingHidManager::discover(const std::string& key) {
     std::lock_guard<std::mutex> lock(m_);
     Dev* d = find(key);
-    if (!d || d->fd < 0) return results;
-    drain(*d, nullptr);
-    for (const auto& [dev, fam] : identityCandidates(d->info.pid)) {
-        uint8_t f[FRAME_LEN];
-        buildSetLedx(f, dev, fam, motorIndexGuess, 0);  // motor off: harmless whatever it addresses
-        if (!writeFrame(*d, f)) break;
-        bool echoed = false;
-        const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(150);
-        while (std::chrono::steady_clock::now() < deadline && !echoed) {
-            pollfd pfd{d->fd, POLLIN, 0};
-            if (::poll(&pfd, 1, 20) <= 0) continue;
-            std::vector<std::vector<uint8_t>> reports;
-            drain(*d, &reports);
-            for (const auto& r : reports) {
-                char hex[64] = {0};
-                for (size_t i = 0; i < r.size() && i < 14; ++i) snprintf(hex + i * 3, 4, "%02x ", r[i]);
-                LOG_DEBUG("Winwing %s echo: %s", d->info.name.c_str(), hex);
-                if (r.size() >= 3 && r[1] == static_cast<uint8_t>(dev) && (r[2] & 0xef) == static_cast<uint8_t>(fam)) echoed = true;
-            }
-        }
-        LOG_INFO("Winwing %s probe device=0x%02x family=0x%02x: %s", d->info.name.c_str(), dev, fam, echoed ? "ECHO (accepted)" : "no answer");
-        results.push_back({dev, fam, echoed});
-    }
-    return results;
+    if (!d) return {};
+    auto r = discoverLocked(*d);
+    if (d->info.identityIsDefault) autoAssign(*d);
+    return r;
 }
 
 }  // namespace lr::haptics

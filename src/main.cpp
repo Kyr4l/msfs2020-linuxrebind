@@ -36,7 +36,7 @@ void usage() {
         "  --config FILE          config file (default $XDG_CONFIG_HOME/msfs-linuxrebind/config.json)\n"
         "  --catalog FILE         action catalog JSON (default data/a32nx_catalog.json)\n"
         "  --quiet                do not echo the log to stderr\n"
-        "  --probe-winwing        list Winwing HID devices, probe their motor address and exit\n"
+        "  --probe-winwing        list Winwing HID devices and the controllers behind them, then exit\n"
         "  --version, --help");
 }
 
@@ -78,8 +78,14 @@ int main(int argc, char** argv) {
         for (const auto& d : devs) {
             std::printf("%s  pid %04x  %s  %s\n", d.name.c_str(), d.pid, d.path.c_str(), d.open ? "open" : ("not open: " + d.error).c_str());
             if (!d.open) continue;
-            for (const auto& r : ww.probe(d.key, std::max(0, d.identity.leftIndex)))
-                std::printf("  device 0x%02x family 0x%02x: %s\n", r.deviceByte, r.familyByte, r.echoed ? "ECHO (accepted)" : "no answer");
+            for (const auto& c : d.controllers)
+                std::printf("  controller device 0x%02x family 0x%02x type 0x%x  \"%s\"\n", c.device, c.family, c.typeId, c.name.c_str());
+            if (d.identity.known())
+                std::printf("  motors: family 0x%02x  left device 0x%02x index %d  right device 0x%02x index %d  (%s)\n", d.identity.family,
+                            d.identity.left.device, d.identity.left.index, d.identity.right.device, d.identity.right.index,
+                            d.identityIsDefault ? "built-in default / auto" : "from config");
+            else
+                std::printf("  motors: address unknown\n");
         }
         return 0;
     }

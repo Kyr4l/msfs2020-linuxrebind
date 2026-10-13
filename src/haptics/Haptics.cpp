@@ -49,7 +49,7 @@ void HapticsEngine::setConfig(const HapticsConfig& cfg) {
     }
     bridge_.setTelemetryEnabled(cfg.enabled);
     for (const auto& [key, dc] : cfg.devices) {
-        if (dc.identity.deviceByte >= 0) hid_.setIdentity(key, dc.identity);
+        if (dc.identity.known()) hid_.setIdentity(key, dc.identity);
     }
 }
 

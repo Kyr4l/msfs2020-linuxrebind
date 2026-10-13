@@ -76,8 +76,7 @@ private:
     bool renamingProfile_ = false;
 
     // vibration
-    std::vector<haptics::ProbeResult> lastProbe_;
-    std::string lastProbeKey_;
+    int ledTestDevice_ = -1;
     int ledTestIndex_ = 0;
     int ledTestValue_ = 128;
 

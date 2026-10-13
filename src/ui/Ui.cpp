@@ -658,7 +658,7 @@ void Ui::drawVibrationTab() {
     for (const auto& d : devices) {
         ImGui::PushID(d.key.c_str());
         haptics::DeviceConfig& dc = cfg.devices[d.key];
-        if (dc.identity.deviceByte < 0) dc.identity = d.identity;
+        if (!dc.identity.known()) dc.identity = d.identity;
         ImGui::Text("%s", d.name.c_str());
         ImGui::SameLine();
         ImGui::TextDisabled("%s  pid %04x  %s", d.path.c_str(), d.pid, d.open ? "" : ("NOT OPEN: " + d.error).c_str());
@@ -670,49 +670,61 @@ void Ui::drawVibrationTab() {
         ImGui::SameLine();
         if (ImGui::Button("Pulse both")) ctx_.haptics.pulse(d.key, 0.6f, 0.6f, 500);
         ImGui::SameLine();
-        if (ImGui::Button("Probe address")) {
-            lastProbe_ = ctx_.winwing.probe(d.key, std::max(0, dc.identity.leftIndex));
-            lastProbeKey_ = d.key;
+        if (ImGui::Button("Discover controllers")) ctx_.winwing.discover(d.key);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Broadcast identity request: every controller behind this USB device answers with its address and name.");
+
+        if (d.controllers.empty()) {
+            ImGui::TextColored(kYellow, "  No controller answered yet.");
         }
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Sends a harmless 'motor off' frame to each candidate address and lists which ones the firmware echoes back.\nURSA MINOR joysticks echo; the throttles seem not to, so use the LED test below for those.");
-        ImGui::SetNextItemWidth(90);
-        changed |= ImGui::InputInt("device byte", &dc.identity.deviceByte, 1, 16, ImGuiInputTextFlags_CharsHexadecimal);
+        for (const auto& c : d.controllers) {
+            ImGui::PushID(c.device);
+            ImGui::Text("  device 0x%02x  family 0x%02x  \"%s\"", c.device, c.family, c.name.c_str());
+            ImGui::SameLine();
+            if (ImGui::SmallButton("= left motor")) { dc.identity.family = c.family; dc.identity.left = {c.device, 0}; changed = true; }
+            ImGui::SameLine();
+            if (ImGui::SmallButton("= right motor")) { dc.identity.family = c.family; dc.identity.right = {c.device, 0}; changed = true; }
+            ImGui::SameLine();
+            if (ImGui::SmallButton("= lights")) { dc.identity.lightDevice = c.device; changed = true; }
+            ImGui::PopID();
+        }
+
+        ImGui::TextUnformatted("Motor address:");
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(90);
-        changed |= ImGui::InputInt("family byte", &dc.identity.familyByte, 1, 16, ImGuiInputTextFlags_CharsHexadecimal);
+        ImGui::SetNextItemWidth(70);
+        changed |= ImGui::InputInt("family", &dc.identity.family, 0, 0);
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(90);
-        changed |= ImGui::InputInt("left motor idx", &dc.identity.leftIndex);
+        ImGui::SetNextItemWidth(70);
+        changed |= ImGui::InputInt("L dev", &dc.identity.left.device, 0, 0);
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(90);
-        changed |= ImGui::InputInt("right motor idx", &dc.identity.rightIndex);
+        ImGui::SetNextItemWidth(60);
+        changed |= ImGui::InputInt("L idx", &dc.identity.left.index, 0, 0);
         ImGui::SameLine();
-        ImGui::TextDisabled("(hex shown as decimal: 0x10=16, 0xb9=185, 0xbf=191, 0x0e=14) %s", d.identityIsDefault ? "default table" : "custom");
-        // Visual oracle: a backlight/LED change proves the address bytes are right even when nothing echoes.
-        ImGui::SetNextItemWidth(90);
-        ImGui::InputInt("LED index", &ledTestIndex_);
+        ImGui::SetNextItemWidth(70);
+        changed |= ImGui::InputInt("R dev", &dc.identity.right.device, 0, 0);
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(160);
+        ImGui::SetNextItemWidth(60);
+        changed |= ImGui::InputInt("R idx", &dc.identity.right.index, 0, 0);
+        ImGui::SameLine();
+        ImGui::TextDisabled("(decimal; %s)", d.identityIsDefault ? "default / auto-discovered" : "custom");
+
+        // Visual oracle: a backlight/LED change proves the address bytes are right.
+        const int lightDev = dc.identity.lightDevice >= 0 ? dc.identity.lightDevice : dc.identity.left.device;
+        if (ledTestDevice_ < 0) ledTestDevice_ = lightDev;
+        ImGui::TextUnformatted("LED test:");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(70);
+        ImGui::InputInt("device", &ledTestDevice_, 0, 0);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(60);
+        ImGui::InputInt("index", &ledTestIndex_, 0, 0);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(140);
         ImGui::SliderInt("value", &ledTestValue_, 0, 255);
         ImGui::SameLine();
-        if (ImGui::Button("Send LED test")) ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, ledTestIndex_, ledTestValue_);
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("SET_LEDX with the address bytes above. Index 0 is the backlight on URSA MINOR products,\n2 = overall LED/LCD brightness, 3..6 = ENG FAULT/FIRE lamps on the throttle. If nothing changes, the address bytes are wrong.");
+        if (ImGui::Button("Send")) ctx_.winwing.setLed(d.key, ledTestDevice_, dc.identity.family, ledTestIndex_, ledTestValue_);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("SET_LEDX. Index 0 = backlight on a base controller, motor on a grip controller.");
         ImGui::SameLine();
-        if (ImGui::Button("Motor left test (raw)")) ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.leftIndex, ledTestValue_);
-        ImGui::SameLine();
-        if (ImGui::Button("off")) { ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.leftIndex, 0); ctx_.winwing.setLed(d.key, dc.identity.deviceByte, dc.identity.familyByte, dc.identity.rightIndex, 0); }
-        if (lastProbeKey_ == d.key && !lastProbe_.empty()) {
-            bool any = false;
-            for (const auto& r : lastProbe_) any |= r.echoed;
-            if (!any) ImGui::TextColored(kYellow, "  No address echoed. This product probably does not echo vendor frames: verify with the LED test / Pulse buttons instead.");
-            for (const auto& r : lastProbe_) {
-                ImGui::TextColored(r.echoed ? kGreen : kGrey, "  device 0x%02x family 0x%02x: %s", r.deviceByte, r.familyByte, r.echoed ? "echo - accepted" : "no answer");
-                if (r.echoed) {
-                    ImGui::SameLine();
-                    if (ImGui::SmallButton("use")) { dc.identity.deviceByte = r.deviceByte; dc.identity.familyByte = r.familyByte; changed = true; }
-                }
-            }
-        }
+        if (ImGui::Button("Motors off")) ctx_.haptics.stopAll();
         ImGui::Separator();
         ImGui::PopID();
     }

@@ -1,12 +1,13 @@
 #pragma once
 // Direct hidraw access to Winwing (vendor 0x4098) devices for the vibration motors.
 // Frame format (14 bytes, report ID 0x02): [0x02, device, family, 0, 0, len, opcode, args...].
-// Motor/LED level: opcode 0x49 (SET_LEDX) with args [index, value]. The firmware echoes accepted
-// frames on the IN endpoint with bit 0x10 set on the family byte, which lets us probe which
-// (device, family) address a given product answers to.
+// One USB device carries several logical controllers (e.g. left grip, right grip, base), each
+// addressed by a (device, family) pair. Motor/LED level: opcode 0x49 (SET_LEDX) with [index, value];
+// index 0 is the motor on a grip and the backlight on a base. Accepted frames are echoed on the
+// vendor input report with 0x10 added to the family byte; a request sent to the broadcast
+// address (device 0x01, family 0x00) makes every controller answer with its own id.
 #include <cstdint>
 #include <mutex>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -14,12 +15,23 @@ namespace lr::haptics {
 
 constexpr uint16_t WINWING_VID = 0x4098;
 
+struct MotorAddress {
+    int device = -1;  // -1 = unknown
+    int index = 0;    // SET_LEDX index
+    bool known() const { return device >= 0 && index >= 0; }
+};
+
 struct WinwingIdentity {
-    int deviceByte = -1;   // -1 = unknown
-    int familyByte = -1;
-    int leftIndex = -1;    // SET_LEDX index of the left (or only) motor
-    int rightIndex = -1;   // right motor, equal to leftIndex on single-motor grips
-    bool known() const { return deviceByte >= 0 && familyByte >= 0 && leftIndex >= 0 && rightIndex >= 0; }
+    int family = -1;
+    MotorAddress left, right;  // right == left on single-motor sticks
+    int lightDevice = -1;      // controller carrying the backlight (LED test), optional
+    bool known() const { return family >= 0 && left.known() && right.known(); }
+};
+
+struct ControllerInfo {
+    int device = 0, family = 0;
+    std::string name;      // product name read from flash (offset 0x5c), may be empty
+    uint32_t typeId = 0;   // flash 0x08
 };
 
 struct WinwingDeviceInfo {
@@ -30,19 +42,14 @@ struct WinwingDeviceInfo {
     bool open = false;
     std::string error;
     WinwingIdentity identity;
-    bool identityIsDefault = true;  // true when it comes from the built-in table, not confirmed by a probe
+    bool identityIsDefault = true;  // from the built-in table / auto discovery, not set by the user
+    std::vector<ControllerInfo> controllers;  // from the last discovery
     uint8_t lastLeft = 0, lastRight = 0;
     uint64_t framesWritten = 0;
 };
 
-struct ProbeResult {
-    int deviceByte, familyByte;
-    bool echoed;
-};
-
-// Built-in defaults by product id (from community reverse engineering, see README).
+// Built-in defaults by product id (community reverse engineering + discovery on real hardware).
 WinwingIdentity defaultIdentityForPid(uint16_t pid);
-std::vector<std::pair<int, int>> identityCandidates(uint16_t pid);
 
 class WinwingHidManager {
 public:
@@ -56,11 +63,11 @@ public:
     // Writes motor levels (0..255). Only sends frames when a value changed unless force is set.
     bool setMotors(const std::string& key, uint8_t left, uint8_t right, bool force = false);
     void allOff();
-    // Sends a harmless "motor off" frame to each candidate address and reports which ones echo.
-    std::vector<ProbeResult> probe(const std::string& key, int motorIndexGuess = 0);
+    // Broadcast identity request; returns every controller behind the USB device with its name.
+    std::vector<ControllerInfo> discover(const std::string& key);
+    // SET_LEDX on an explicit address (visual oracle / raw motor test).
+    bool setLed(const std::string& key, int device, int family, int index, int value);
     bool sendRaw(const std::string& key, const std::vector<uint8_t>& frame);
-    // SET_LEDX on an explicit address: visual oracle for the address bytes (index 0 = backlight on most products).
-    bool setLed(const std::string& key, int deviceByte, int familyByte, int index, int value);
 
 private:
     struct Dev {
@@ -68,7 +75,11 @@ private:
         WinwingDeviceInfo info;
     };
     bool writeFrame(Dev& d, const uint8_t* frame14);
-    void drain(Dev& d, std::vector<std::vector<uint8_t>>* out);
+    // Collects vendor replies (report 0x02) with the given opcode for up to ms.
+    std::vector<std::vector<uint8_t>> collect(Dev& d, int opcode, int ms);
+    bool readCfg(Dev& d, int device, int family, uint32_t offset, uint8_t out[4]);
+    std::vector<ControllerInfo> discoverLocked(Dev& d);
+    void autoAssign(Dev& d);
     Dev* find(const std::string& key);
 
     mutable std::mutex m_;
