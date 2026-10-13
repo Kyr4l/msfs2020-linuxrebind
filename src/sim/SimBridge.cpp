@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <fstream>
@@ -58,6 +59,16 @@ constexpr uint32_t CD_MF_RESPONSE = 101;
 constexpr uint32_t DEF_MF_STRING = 100;
 constexpr uint32_t REQ_MF_RESPONSE = 100;
 constexpr uint32_t MF_MESSAGE_SIZE = 1024;
+// Our private MobiFlight client (registered with "MF.Clients.Add.<name>"): own command/response areas and an
+// LVars area the module fills with the variables we ask for, so other MobiFlight clients cannot shift our indices.
+constexpr const char* MF_CLIENT_NAME = "msfs-linuxrebind";
+constexpr uint32_t CD_OUR_COMMAND = 110;
+constexpr uint32_t CD_OUR_RESPONSE = 111;
+constexpr uint32_t CD_OUR_LVARS = 112;
+constexpr uint32_t REQ_OUR_RESPONSE = 111;
+constexpr uint32_t REQ_OUR_LVARS = 112;
+constexpr uint32_t DEF_OUR_LVARS = 112;
+constexpr size_t MF_MAX_LVARS = 1000;  // 4096-byte area / 4-byte floats
 
 std::string formatNumber(double v) {
     char buf[64];
@@ -152,6 +163,34 @@ void SimBridge::setLVar(const std::string& name, double value, const std::string
 void SimBridge::execCalculatorCode(const std::string& code, const std::string& origin) {
     enqueue({SimCommand::Type::CalcCode, code, 0, origin});
 }
+void SimBridge::toggleLVar(const std::string& name, const std::string& origin) {
+    enqueue({SimCommand::Type::LVarToggle, name, 0, origin});
+}
+
+void SimBridge::watchLVars(std::vector<std::string> names) {
+    std::vector<std::string> clean;
+    for (auto& n : names) {
+        std::string v = stripPrefix(n, "L:");
+        if (!v.empty() && std::find(clean.begin(), clean.end(), v) == clean.end()) clean.push_back(v);
+    }
+    std::lock_guard<std::mutex> lock(m_);
+    if (clean == lvarWatch_) return;
+    lvarWatch_ = std::move(clean);
+    lvarWatchDirty_ = true;
+    cv_.notify_all();
+}
+
+std::optional<double> SimBridge::lvarValue(const std::string& name) const {
+    std::lock_guard<std::mutex> lock(m_);
+    auto it = lvarValues_.find(stripPrefix(name, "L:"));
+    if (it == lvarValues_.end()) return std::nullopt;
+    return it->second;
+}
+
+std::vector<std::pair<std::string, double>> SimBridge::lvarValues() const {
+    std::lock_guard<std::mutex> lock(m_);
+    return {lvarValues_.begin(), lvarValues_.end()};
+}
 
 SimStatus SimBridge::status() const {
     std::lock_guard<std::mutex> lock(m_);
@@ -231,6 +270,11 @@ void SimBridge::dropConnection(const std::string& why) {
     eventIds_.clear();
     sentLog_.clear();
     mfSetupDone_ = false;
+    mfClientReady_ = false;
+    mfClientRequested_ = false;
+    lvarRegistered_.clear();
+    lvarValues_.clear();
+    lvarWatchDirty_ = true;
     nextConnectAttempt_ = clock::now() + std::chrono::seconds(3);
 }
 
@@ -407,13 +451,92 @@ void SimBridge::setupMobiFlight() {
 
 void SimBridge::sendMobiFlightCommand(const std::string& text, const std::string& desc) {
     if (!mfSetupDone_) return;
+    // Commands that execute code go through our own area once it exists (keeps the shared one quiet);
+    // registration/ping always use the shared "MobiFlight.Command".
+    const bool own = mfClientReady_ && text.rfind("MF.Clients.Add.", 0) != 0 && text != "MF.Ping";
+    const uint32_t area = own ? CD_OUR_COMMAND : CD_MF_COMMAND;
     std::string payload = text;
     if (payload.size() >= MF_MESSAGE_SIZE) payload.resize(MF_MESSAGE_SIZE - 1);
-    rememberSend(client_.setClientData(CD_MF_COMMAND, DEF_MF_STRING, MF_MESSAGE_SIZE, payload.data(), payload.size() + 1), desc);
+    rememberSend(client_.setClientData(area, DEF_MF_STRING, MF_MESSAGE_SIZE, payload.data(), payload.size() + 1), desc);
     // The module only receives the area when its content changes, so follow every command with
     // a dummy one. Otherwise sending the same command twice in a row would be ignored.
     static const char dummy[] = "MF.DummyCmd";
-    rememberSend(client_.setClientData(CD_MF_COMMAND, DEF_MF_STRING, MF_MESSAGE_SIZE, dummy, sizeof dummy), "MobiFlight dummy");
+    rememberSend(client_.setClientData(area, DEF_MF_STRING, MF_MESSAGE_SIZE, dummy, sizeof dummy), "MobiFlight dummy");
+}
+
+void SimBridge::registerMobiFlightClient() {
+    if (mfClientRequested_) return;
+    mfClientRequested_ = true;
+    sendMobiFlightCommand(std::string("MF.Clients.Add.") + MF_CLIENT_NAME, "MobiFlight client registration");
+}
+
+void SimBridge::onMobiFlightClientReady() {
+    const std::string n = MF_CLIENT_NAME;
+    rememberSend(client_.mapClientDataNameToID(n + ".Command", CD_OUR_COMMAND), "map own MobiFlight command area");
+    rememberSend(client_.mapClientDataNameToID(n + ".Response", CD_OUR_RESPONSE), "map own MobiFlight response area");
+    rememberSend(client_.mapClientDataNameToID(n + ".LVars", CD_OUR_LVARS), "map own MobiFlight LVars area");
+    rememberSend(client_.requestClientData(CD_OUR_RESPONSE, REQ_OUR_RESPONSE, DEF_MF_STRING, CD_PERIOD_ON_SET, CD_REQUEST_FLAG_CHANGED),
+                 "request own MobiFlight response");
+    mfClientReady_ = true;
+    LOG_INFO("MobiFlight: private client \"%s\" registered", MF_CLIENT_NAME);
+    lvarWatchDirty_ = true;
+}
+
+// (Re)registers the watched L: vars with the module and (re)defines the tagged LVars read.
+void SimBridge::applyLVarWatch() {
+    std::vector<std::string> wanted;
+    {
+        std::lock_guard<std::mutex> lock(m_);
+        lvarWatchDirty_ = false;
+        wanted = lvarWatch_;
+    }
+    if (!mfClientReady_) return;
+    if (wanted.size() > MF_MAX_LVARS) wanted.resize(MF_MAX_LVARS);
+    if (wanted == lvarRegistered_) return;
+    if (!lvarRegistered_.empty()) {
+        // Stop the previous request before changing the definition.
+        rememberSend(client_.requestClientData(CD_OUR_LVARS, REQ_OUR_LVARS, DEF_OUR_LVARS, CD_PERIOD_NEVER, 0), "stop LVars request");
+        rememberSend(client_.clearClientDataDefinition(DEF_OUR_LVARS), "clear LVars definition");
+    }
+    sendMobiFlightCommand("MF.SimVars.Clear", "MobiFlight clear vars");
+    lvarRegistered_.clear();
+    {
+        std::lock_guard<std::mutex> lock(m_);
+        lvarValues_.clear();
+    }
+    for (size_t i = 0; i < wanted.size(); ++i) {
+        sendMobiFlightCommand("MF.SimVars.Add.(L:" + wanted[i] + ")", "watch L:" + wanted[i]);
+        rememberSend(client_.addToClientDataDefinition(DEF_OUR_LVARS, static_cast<uint32_t>(i * 4), 4, 0, static_cast<uint32_t>(i)),
+                     "define L:" + wanted[i]);
+        lvarRegistered_.push_back(wanted[i]);
+    }
+    if (!wanted.empty()) {
+        rememberSend(client_.requestClientData(CD_OUR_LVARS, REQ_OUR_LVARS, DEF_OUR_LVARS, CD_PERIOD_ON_SET,
+                                               CD_REQUEST_FLAG_CHANGED | CD_REQUEST_FLAG_TAGGED),
+                     "request LVars");
+    }
+    LOG_INFO("MobiFlight: watching %zu L: var(s)", wanted.size());
+}
+
+void SimBridge::handleLVarData(const RecvClientData& d) {
+    const uint8_t* p = d.data.data();
+    const size_t n = d.data.size();
+    size_t off = 0;
+    std::lock_guard<std::mutex> lock(m_);
+    static bool first = true;
+    if (first) { LOG_INFO("MobiFlight: L: var values flowing (%u datum(s) in first update)", d.defineCount); first = false; }
+    for (uint32_t i = 0; i < d.defineCount && off + 8 <= n; ++i) {
+        uint32_t id;
+        float v;
+        std::memcpy(&id, p + off, 4);
+        std::memcpy(&v, p + off + 4, 4);
+        off += 8;
+        if (id < lvarRegistered_.size()) {
+            auto& slot = lvarValues_[lvarRegistered_[id]];
+            if (slot != v) LOG_DEBUG("L:%s = %g", lvarRegistered_[id].c_str(), v);
+            slot = v;
+        }
+    }
 }
 
 void SimBridge::execute(const SimCommand& cmd) {
@@ -447,6 +570,13 @@ void SimBridge::execute(const SimCommand& cmd) {
             const std::string v = formatNumber(cmd.value);
             sendMobiFlightCommand("MF.SimVars.Set." + v + " (>L:" + name + ")", "set L:" + name);
             LOG_INFO("-> L:%s = %s%s", name.c_str(), v.c_str(), where.c_str());
+            break;
+        }
+        case SimCommand::Type::LVarToggle: {
+            std::string name = stripPrefix(cmd.name, "L:");
+            // Evaluated inside the sim, so it is correct whatever changed the switch in the meantime.
+            sendMobiFlightCommand("MF.SimVars.Set.(L:" + name + ") ! (>L:" + name + ")", "toggle L:" + name);
+            LOG_INFO("-> L:%s toggle%s", name.c_str(), where.c_str());
             break;
         }
         case SimCommand::Type::CalcCode: {
@@ -558,15 +688,22 @@ void SimBridge::handleMessage(const RecvMessage& m) {
         }
         case RecvId::ClientData: {
             RecvClientData c = SimConnectClient::parseClientData(m);
-            if (c.requestId == REQ_MF_RESPONSE) {
+            if (c.requestId == REQ_MF_RESPONSE || c.requestId == REQ_OUR_RESPONSE) {
                 std::string text(reinterpret_cast<const char*>(c.data.data()), strnlen(reinterpret_cast<const char*>(c.data.data()), c.data.size()));
                 if (text == "MF.Pong") {
-                    std::lock_guard<std::mutex> lock(m_);
-                    if (status_.mobiflight != ModuleState::Detected) LOG_INFO("MobiFlight WASM module detected");
-                    status_.mobiflight = ModuleState::Detected;
+                    {
+                        std::lock_guard<std::mutex> lock(m_);
+                        if (status_.mobiflight != ModuleState::Detected) LOG_INFO("MobiFlight WASM module detected");
+                        status_.mobiflight = ModuleState::Detected;
+                    }
+                    registerMobiFlightClient();
+                } else if (text == std::string("MF.Clients.Add.") + MF_CLIENT_NAME + ".Finished") {
+                    if (!mfClientReady_) onMobiFlightClientReady();
                 } else {
                     LOG_DEBUG("MobiFlight response: %s", text.c_str());
                 }
+            } else if (c.requestId == REQ_OUR_LVARS) {
+                handleLVarData(c);
             }
             break;
         }
@@ -624,6 +761,12 @@ void SimBridge::threadMain() {
         if (st == ConnState::Connected) {
             drainQueue();
             if (telemetryWanted_ && !telemetryRequested_) setupTelemetry();
+            bool dirty;
+            {
+                std::lock_guard<std::mutex> lock(m_);
+                dirty = lvarWatchDirty_;
+            }
+            if (dirty && mfClientReady_) applyLVarWatch();
             const auto now = clock::now();
             if (mf == ModuleState::Probing && now - mfPingSentAt_ > std::chrono::seconds(4)) {
                 std::lock_guard<std::mutex> lock(m_);

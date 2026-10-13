@@ -15,6 +15,7 @@ const char* actionKindName(ActionKind k) {
         case ActionKind::SimEvent: return "sim_event";
         case ActionKind::HEvent: return "h_event";
         case ActionKind::LVarSet: return "lvar_set";
+        case ActionKind::LVarToggle: return "lvar_toggle";
         case ActionKind::CalcCode: return "calc_code";
     }
     return "sim_event";
@@ -25,13 +26,14 @@ const char* actionKindLabel(ActionKind k) {
         case ActionKind::SimEvent: return "K: event (SimConnect / custom)";
         case ActionKind::HEvent: return "H: event (needs MobiFlight)";
         case ActionKind::LVarSet: return "L: var set (needs MobiFlight)";
+        case ActionKind::LVarToggle: return "L: var toggle 0/1 (needs MobiFlight)";
         case ActionKind::CalcCode: return "RPN calculator code (needs MobiFlight)";
     }
     return "?";
 }
 
 bool actionKindFromName(const std::string& s, ActionKind& out) {
-    for (ActionKind k : {ActionKind::SimEvent, ActionKind::HEvent, ActionKind::LVarSet, ActionKind::CalcCode}) {
+    for (ActionKind k : {ActionKind::SimEvent, ActionKind::HEvent, ActionKind::LVarSet, ActionKind::LVarToggle, ActionKind::CalcCode}) {
         if (s == actionKindName(k)) { out = k; return true; }
     }
     return false;
@@ -51,6 +53,7 @@ std::string Action::describe() const {
         case ActionKind::SimEvent: return "K:" + name + (value != 0 ? " " + num(value) : "");
         case ActionKind::HEvent: return "H:" + name;
         case ActionKind::LVarSet: return "L:" + name + " = " + num(value);
+        case ActionKind::LVarToggle: return "L:" + name + " toggle";
         case ActionKind::CalcCode: return "calc: " + name;
     }
     return name;

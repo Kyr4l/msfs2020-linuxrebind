@@ -65,6 +65,7 @@ void Engine::fire(const std::vector<Action>& actions, const std::string& origin)
             case ActionKind::SimEvent: bridge_.sendEvent(a.name, a.value, origin); break;
             case ActionKind::HEvent: bridge_.sendHEvent(a.name, origin); break;
             case ActionKind::LVarSet: bridge_.setLVar(a.name, a.value, origin); break;
+            case ActionKind::LVarToggle: bridge_.toggleLVar(a.name, origin); break;
             case ActionKind::CalcCode: bridge_.execCalculatorCode(a.name, origin); break;
         }
     }

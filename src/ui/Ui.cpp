@@ -54,13 +54,14 @@ std::string formatTime(std::chrono::system_clock::time_point tp) {
 }
 
 bool actionKindCombo(const char* label, ActionKind& kind) {
-    static const ActionKind kinds[] = {ActionKind::SimEvent, ActionKind::HEvent, ActionKind::LVarSet, ActionKind::CalcCode};
+    static const ActionKind kinds[] = {ActionKind::SimEvent, ActionKind::HEvent, ActionKind::LVarSet, ActionKind::LVarToggle, ActionKind::CalcCode};
+    constexpr int n = 5;
     int idx = 0;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < n; ++i)
         if (kinds[i] == kind) idx = i;
     bool changed = false;
     if (ImGui::BeginCombo(label, actionKindLabel(kind))) {
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < n; ++i) {
             if (ImGui::Selectable(actionKindLabel(kinds[i]), i == idx)) { kind = kinds[i]; changed = true; }
         }
         ImGui::EndCombo();
@@ -74,6 +75,12 @@ bool actionKindCombo(const char* label, ActionKind& kind) {
 void AppContext::pushProfileToEngine() {
     const Profile& p = settings.ensureActive();
     engine.setProfile(std::make_shared<Profile>(p));
+    std::vector<std::string> vars;
+    for (const auto& b : p.bindings)
+        for (const auto* list : {&b.onPress, &b.onRelease})
+            for (const auto& a : *list)
+                if ((a.kind == ActionKind::LVarSet || a.kind == ActionKind::LVarToggle) && !a.name.empty()) vars.push_back(a.name);
+    bridge.watchLVars(vars);
 }
 
 void AppContext::pushHapticsConfig() {
@@ -391,10 +398,19 @@ void Ui::drawBindingsTab() {
             ImGui::TextDisabled("%s", deviceDisplayName(b.input.device).c_str());
             ImGui::TableSetColumnIndex(2);
             ImGui::TextUnformatted(b.label.c_str());
+            auto actionLine = [&](const Action& a) {
+                ImGui::TextUnformatted(a.describe().c_str());
+                if (a.kind == ActionKind::LVarSet || a.kind == ActionKind::LVarToggle) {
+                    if (auto v = ctx_.bridge.lvarValue(a.name)) {
+                        ImGui::SameLine();
+                        ImGui::TextColored(*v != 0 ? kGreen : kGrey, "[now %g]", *v);
+                    }
+                }
+            };
             ImGui::TableSetColumnIndex(3);
-            for (const auto& a : b.onPress) ImGui::TextUnformatted(a.describe().c_str());
+            for (const auto& a : b.onPress) actionLine(a);
             ImGui::TableSetColumnIndex(4);
-            for (const auto& a : b.onRelease) ImGui::TextUnformatted(a.describe().c_str());
+            for (const auto& a : b.onRelease) actionLine(a);
             ImGui::TableSetColumnIndex(5);
             if (b.repeat) ImGui::Text("%d ms", b.repeatIntervalMs);
             ImGui::TableSetColumnIndex(6);
@@ -428,7 +444,8 @@ void Ui::drawActionList(const char* id, std::vector<Action>& actions, int listIn
         ImGui::SetNextItemWidth(330);
         const char* hint = a.kind == ActionKind::SimEvent ? "A32NX.FCU_AP_1_PUSH or GEAR_UP" :
                            a.kind == ActionKind::HEvent ? "A32NX_EFIS_L_CHRONO_PUSHED" :
-                           a.kind == ActionKind::LVarSet ? "A32NX_AUTOBRAKES_ARMED_MODE_SET" : "1 (>L:A32NX_SOME_VAR)";
+                           a.kind == ActionKind::LVarSet ? "A32NX_AUTOBRAKES_ARMED_MODE_SET" :
+                           a.kind == ActionKind::LVarToggle ? "A32NX_OVHD_APU_MASTER_SW_PB_IS_ON" : "1 (>L:A32NX_SOME_VAR)";
         ImGui::InputTextWithHint("##name", hint, &a.name);
         if (a.kind == ActionKind::SimEvent || a.kind == ActionKind::LVarSet) {
             ImGui::SameLine();

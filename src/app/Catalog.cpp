@@ -19,9 +19,13 @@ Action CatalogEntry::toAction() const {
         a.kind = ActionKind::HEvent;
         a.name = name;
     } else if (kind == "lvar") {
-        a.kind = ActionKind::LVarSet;
         a.name = name;
-        a.value = hasValue ? value : 1;
+        if (values == "0|1" && !hasValue) {
+            a.kind = ActionKind::LVarToggle;  // push buttons: flip the state each press
+        } else {
+            a.kind = ActionKind::LVarSet;
+            a.value = hasValue ? value : 1;
+        }
     } else if (kind == "avar") {
         a.kind = ActionKind::CalcCode;
         a.name = "1 (>A:" + name + ", Bool)";

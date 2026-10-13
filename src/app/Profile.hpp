@@ -8,7 +8,7 @@
 
 namespace lr::app {
 
-enum class ActionKind { SimEvent, HEvent, LVarSet, CalcCode };
+enum class ActionKind { SimEvent, HEvent, LVarSet, LVarToggle, CalcCode };
 
 const char* actionKindName(ActionKind k);   // "sim_event" ... (stable, used in JSON)
 const char* actionKindLabel(ActionKind k);  // "K: event" ... (UI)

@@ -42,6 +42,9 @@ void usage() {
         "                         for 0.4 s each, printing which one is being driven; tell the tool which step you felt.\n"
         "                         Lights are driven too (volatile): replug the device afterwards to restore its light profile\n"
         "  --dump-winwing-config  read-only dump of every controller's flash config words to stdout (baseline for diffs)\n"
+        "  --fire KIND:NAME[=V]   connect, fire one action and exit. KIND: sim_event, h_event, lvar_set, lvar_toggle, calc_code\n"
+        "                         e.g. --fire lvar_toggle:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON   --fire sim_event:A32NX.FCU_AP_1_PUSH\n"
+        "  --read NAME            connect, print the value of L:NAME (needs MobiFlight) and exit\n"
         "  --led-sweep DEV [VAL]  light SET_LEDX indices 0..63 one at a time (1 s each, value VAL, default 255) on controller\n"
         "                         DEV (e.g. 0x40); watch which button LED lights and in what colour. Volatile; replug restores\n"
         "  --version, --help");
@@ -58,6 +61,7 @@ int main(int argc, char** argv) {
     bool motorSweep = false;
     bool dumpConfig = false;
     bool ledSweep = false;
+    std::vector<std::string> fireSpecs, readNames;
     int ledSweepDevice = -1, ledSweepValue = 255;
     int sweepDevice = -1;
     std::string hostOverride, profileOverride, configPath, catalogPath;
@@ -70,6 +74,8 @@ int main(int argc, char** argv) {
         else if (a == "--headless") headless = true;
         else if (a == "--probe-winwing") probeWinwing = true;
         else if (a == "--dump-winwing-config") dumpConfig = true;
+        else if (a == "--fire") { std::string v; next(v); fireSpecs.push_back(v); }
+        else if (a == "--read") { std::string v; next(v); readNames.push_back(v); }
         else if (a == "--led-sweep") {
             ledSweep = true;
             std::string dev; next(dev);
@@ -225,6 +231,56 @@ int main(int argc, char** argv) {
     hapticsEngine.setConfig(ctx.settings.haptics);  // Winwing discovery runs on the haptics thread
     hapticsEngine.start();
     input.start([&engine](const input::InputEvent& ev) { engine.onInput(ev); }, [&engine] { engine.tick(); });
+
+    if (!fireSpecs.empty() || !readNames.empty()) {
+        // One-shot scripting mode: wait for the sim (and the MobiFlight module when needed), act, exit.
+        std::vector<std::string> watch;
+        for (const auto& r : readNames) watch.push_back(r);
+        bridge.watchLVars(watch);
+        bool needModule = !readNames.empty();
+        std::vector<app::Action> actions;
+        for (const auto& spec : fireSpecs) {
+            app::Action act;
+            size_t colon = spec.find(':');
+            std::string kind = colon == std::string::npos ? "sim_event" : spec.substr(0, colon);
+            std::string rest = colon == std::string::npos ? spec : spec.substr(colon + 1);
+            if (!app::actionKindFromName(kind, act.kind)) { std::fprintf(stderr, "unknown action kind %s\n", kind.c_str()); return 2; }
+            size_t eq = rest.rfind('=');
+            if (eq != std::string::npos && act.kind != app::ActionKind::CalcCode) { act.name = rest.substr(0, eq); act.value = std::atof(rest.c_str() + eq + 1); }
+            else act.name = rest;
+            needModule |= app::actionNeedsMobiFlight(act.kind);
+            actions.push_back(act);
+        }
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+        for (;;) {
+            auto st = bridge.status();
+            if (st.state == sim::ConnState::Connected && (!needModule || st.mobiflight == sim::ModuleState::Detected)) break;
+            if (std::chrono::steady_clock::now() > deadline || g_signalled) { std::fprintf(stderr, "simulator%s not available\n", needModule ? " / MobiFlight module" : ""); return 1; }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (!actions.empty()) {
+            engine.fire(actions, "cli");
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        }
+        if (!readNames.empty()) {
+            // give the module a moment to register and publish the values
+            for (int i = 0; i < 40; ++i) {
+                bool all = true;
+                for (const auto& r : readNames) all &= bridge.lvarValue(r).has_value();
+                if (all) break;
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            for (const auto& r : readNames) {
+                auto v = bridge.lvarValue(r);
+                if (v) std::printf("L:%s = %g\n", r.c_str(), *v);
+                else std::printf("L:%s = (no value received)\n", r.c_str());
+            }
+        }
+        input.stop();
+        hapticsEngine.stop();
+        bridge.stop();
+        return 0;
+    }
 
     if (headless) {
         LOG_INFO("Headless mode: press Ctrl+C to quit");

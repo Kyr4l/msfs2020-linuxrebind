@@ -9,6 +9,7 @@
 #include <mutex>
 #include <string>
 #include <thread>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
@@ -48,7 +49,7 @@ struct Telemetry {
 };
 
 struct SimCommand {
-    enum class Type { SimEvent, HEvent, LVarSet, CalcCode, MobiFlightPing, MobiFlightRaw };
+    enum class Type { SimEvent, HEvent, LVarSet, LVarToggle, CalcCode, MobiFlightPing, MobiFlightRaw };
     Type type = Type::SimEvent;
     std::string name;    // event name / L var / H event / calculator code / raw MF command
     double value = 0;    // event parameter or L var value
@@ -72,6 +73,11 @@ public:
     void sendEvent(const std::string& name, double value, const std::string& origin = {});
     void sendHEvent(const std::string& name, const std::string& origin = {});
     void setLVar(const std::string& name, double value, const std::string& origin = {});
+    void toggleLVar(const std::string& name, const std::string& origin = {});
+    // L: vars to read continuously through the MobiFlight module (replaces the previous list).
+    void watchLVars(std::vector<std::string> names);
+    std::optional<double> lvarValue(const std::string& name) const;
+    std::vector<std::pair<std::string, double>> lvarValues() const;
     void execCalculatorCode(const std::string& code, const std::string& origin = {});
     void probeMobiFlight();
 
@@ -90,6 +96,10 @@ private:
     void execute(const SimCommand& cmd);
     void sendMobiFlightCommand(const std::string& text, const std::string& desc);
     void setupMobiFlight();
+    void registerMobiFlightClient();
+    void onMobiFlightClientReady();
+    void applyLVarWatch();
+    void handleLVarData(const RecvClientData& d);
     void rememberSend(uint32_t sendId, std::string desc);
     std::string describeSend(uint32_t sendId);
     void dropConnection(const std::string& why);
@@ -122,6 +132,12 @@ private:
     std::chrono::steady_clock::time_point lastPing_{};
     std::chrono::steady_clock::time_point mfPingSentAt_{};
     bool mfSetupDone_ = false;
+    bool mfClientReady_ = false;      // our own "<name>.Command/.Response/.LVars" areas exist
+    bool mfClientRequested_ = false;
+    std::vector<std::string> lvarWatch_;         // wanted
+    std::vector<std::string> lvarRegistered_;    // what the module currently has, index = datum id
+    std::unordered_map<std::string, double> lvarValues_;
+    bool lvarWatchDirty_ = false;
 };
 
 }  // namespace lr::sim

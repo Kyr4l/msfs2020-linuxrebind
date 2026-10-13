@@ -18,6 +18,7 @@ flight data, which MSFS under Proton cannot do by itself.
 | `K:` event (`GEAR_UP`, `A32NX.FCU_AP_1_PUSH`, ...) | SimConnect `MapClientEventToSimEvent` + `TransmitClientEvent` | nothing |
 | `H:` event (`A32NX_EFIS_L_CHRONO_PUSHED`) | calculator code through the MobiFlight WASM module client-data area | MobiFlight WASM module |
 | `L:` var set (`A32NX_AUTOBRAKES_ARMED_MODE_SET = 2`) | same | MobiFlight WASM module |
+| `L:` var toggle (`A32NX_OVHD_APU_MASTER_SW_PB_IS_ON`) | RPN `(L:X) ! (>L:X)`, evaluated in the sim | MobiFlight WASM module |
 | RPN calculator code (`1 (>L:FOO)`) | same | MobiFlight WASM module |
 
 The A32NX `A32NX.*` custom events cover the FCU, EFIS and autobrake and need **no** extra module.
@@ -46,7 +47,9 @@ ninja -C build
 
 Options: `--wayland` / `--x11` (force a platform), `--headless` (no window, run the active profile),
 `--host`, `--port`, `--profile NAME`, `--config FILE`, `--catalog FILE`, `--quiet`,
-`--probe-winwing`, `--motor-sweep [DEV]`, `--dump-winwing-config`.
+`--probe-winwing`, `--motor-sweep [DEV]`, `--led-sweep DEV`, `--dump-winwing-config`,
+`--fire KIND:NAME[=V]` (one-shot action, e.g. `--fire lvar_toggle:A32NX_OVHD_APU_MASTER_SW_PB_IS_ON`),
+`--read NAME` (print an `L:` var).
 
 ### AppImage
 
@@ -104,6 +107,9 @@ automatically whenever the sim is (re)started.
 Tips:
 
 * Momentary cockpit push buttons: one `K:` event on press (e.g. `A32NX.FCU_AP_1_PUSH`).
+* Overhead push buttons that are `L:` vars (APU MASTER, APU START, most of the overhead): use
+  *L: var toggle*, which flips the switch each press whatever changed it in between. The catalog
+  picks toggle automatically for `0|1` vars. The Bindings table shows the live value next to the action.
 * FCU knobs on a rotary/hat: `A32NX.FCU_HDG_INC` with *Repeat while held*.
 * Two-position switches (e.g. an autobrake toggle): `A32NX.AUTOBRAKE_SET 2` on press and
   `A32NX.AUTOBRAKE_SET 0` on release.
