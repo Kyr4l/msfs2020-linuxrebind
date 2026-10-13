@@ -256,12 +256,12 @@ int main(int argc, char** argv) {
             glfwTerminate();
             return 1;
         }
-        {
-            // X11 window icon; on Wayland the compositor takes the icon from the .desktop file via the app id.
+        const int plat = glfwGetPlatform();
+        if (plat == GLFW_PLATFORM_X11) {
+            // Wayland has no per-window icon API (GLFW reports an error); compositors use the .desktop icon via the app id.
             GLFWimage icon{ui::kAppIconSize, ui::kAppIconSize, const_cast<unsigned char*>(ui::kAppIconRgba)};
             glfwSetWindowIcon(window, 1, &icon);
         }
-        const int plat = glfwGetPlatform();
         LOG_INFO("GLFW platform: %s", plat == GLFW_PLATFORM_WAYLAND ? "Wayland" : plat == GLFW_PLATFORM_X11 ? "X11" : "other");
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
