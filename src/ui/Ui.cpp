@@ -575,7 +575,7 @@ void Ui::drawDevicesTab() {
 // One or two actions for a catalog entry: the entry itself, plus its first-officer twin when
 // "both sides" is ticked and the catalog has that twin.
 std::vector<Action> Ui::catalogActions(const CatalogEntry& e) const {
-    std::vector<Action> out{e.toAction()};
+    std::vector<Action> out = e.toActions();
     if (catalogBothSides_ && e.isCaptainSide()) {
         const std::string twin = e.firstOfficerApi();
         for (const auto& o : ctx_.catalog.entries)

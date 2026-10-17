@@ -152,16 +152,19 @@ def main():
         # Airbus convention: push = QNH, pull = STD.
         return (f"(L:A32NX_FCU_EFIS_{side}_DISPLAY_BARO_MODE) 0 == "
                 f"if{{ (>K:A32NX.FCU_EFIS_{side}_BARO_PUSH) }} els{{ (>K:A32NX.FCU_EFIS_{side}_BARO_PULL) }}")
+    # Each recipe is a list of RPN snippets; several snippets become several actions in the binding so
+    # the sim sees one event per frame per side (one combined string occasionally dropped a side).
     recipes = [
-        ("Baro STD / QNH toggle (captain)", baro_toggle("L"), "Switches the captain's baro reference between STD and QNH depending on its current state"),
-        ("Baro STD / QNH toggle (first officer)", baro_toggle("R"), "Switches the first officer's baro reference between STD and QNH"),
-        ("Baro STD / QNH toggle (both sides)", baro_toggle("L") + " " + baro_toggle("R"), "Toggles both baro references, each according to its own state"),
-        ("Baro QNH + (both sides)", "(>K:A32NX.FCU_EFIS_L_BARO_INC) (>K:A32NX.FCU_EFIS_R_BARO_INC)", "One click up on both baro knobs; bind with repeat-while-held"),
-        ("Baro QNH - (both sides)", "(>K:A32NX.FCU_EFIS_L_BARO_DEC) (>K:A32NX.FCU_EFIS_R_BARO_DEC)", "One click down on both baro knobs; bind with repeat-while-held"),
+        ("Baro STD / QNH toggle (captain)", [baro_toggle("L")], "Switches the captain's baro reference between STD and QNH depending on its current state"),
+        ("Baro STD / QNH toggle (first officer)", [baro_toggle("R")], "Switches the first officer's baro reference between STD and QNH"),
+        ("Baro STD / QNH toggle (both sides)", [baro_toggle("L"), baro_toggle("R")], "Toggles both baro references, each according to its own state"),
+        ("Baro QNH + (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_INC)", "(>K:A32NX.FCU_EFIS_R_BARO_INC)"], "One click up on both baro knobs; bind with repeat-while-held"),
+        ("Baro QNH - (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_DEC)", "(>K:A32NX.FCU_EFIS_R_BARO_DEC)"], "One click down on both baro knobs; bind with repeat-while-held"),
     ]
-    for function, code, desc in recipes:
-        entries.append({"panel": "Recipes", "section": "EFIS baro", "function": function, "api": code, "name": code,
-                        "kind": "calc_code", "values": "", "rw": "", "type": "RPN (needs MobiFlight)", "remark": "", "description": desc})
+    for function, codes, desc in recipes:
+        entries.append({"panel": "Recipes", "section": "EFIS baro", "function": function, "api": " + ".join(codes), "name": codes[0],
+                        "codes": codes, "kind": "calc_code", "values": "", "rw": "", "type": "RPN (needs MobiFlight)", "remark": "",
+                        "description": desc})
 
     doc = {"aircraft": "A32NX", "sources": [FLIGHTDECK_URL, EVENTS_URL], "entries": entries}
     with open(args.output, "w", encoding="utf-8") as f:

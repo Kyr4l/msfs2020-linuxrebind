@@ -13,6 +13,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <thread>
 
 #include "util/Log.hpp"
 
@@ -451,6 +452,14 @@ void SimBridge::setupMobiFlight() {
 
 void SimBridge::sendMobiFlightCommand(const std::string& text, const std::string& desc) {
     if (!mfSetupDone_) return;
+    // Give the module a frame between commands that execute code: the aircraft systems poll their
+    // events once per update, and two events for the same system in one frame can lose one.
+    static clock::time_point lastExec{};
+    if (text.rfind("MF.SimVars.Set.", 0) == 0) {
+        const auto now = clock::now();
+        if (now - lastExec < std::chrono::milliseconds(30)) std::this_thread::sleep_for(std::chrono::milliseconds(30) - (now - lastExec));
+        lastExec = clock::now();
+    }
     // Commands that execute code go through our own area once it exists (keeps the shared one quiet);
     // registration/ping always use the shared "MobiFlight.Command".
     const bool own = mfClientReady_ && text.rfind("MF.Clients.Add.", 0) != 0 && text != "MF.Ping";

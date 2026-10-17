@@ -41,6 +41,18 @@ Action CatalogEntry::toAction() const {
     return a;
 }
 
+std::vector<Action> CatalogEntry::toActions() const {
+    if (codes.size() <= 1) return {toAction()};
+    std::vector<Action> out;
+    for (const auto& c : codes) {
+        Action a;
+        a.kind = ActionKind::CalcCode;
+        a.name = c;
+        out.push_back(a);
+    }
+    return out;
+}
+
 bool CatalogEntry::isCaptainSide() const {
     return api.find("_L_") != std::string::npos || api.find("EFIS_L_") != std::string::npos;
 }
@@ -82,6 +94,7 @@ bool Catalog::load(const std::string& path, std::string& err) {
             c.remark = e.value("remark", "");
             c.description = e.value("description", "");
             if (e.contains("value") && e["value"].is_number()) { c.hasValue = true; c.value = e["value"].get<double>(); }
+            for (const auto& code : e.value("codes", nlohmann::json::array())) c.codes.push_back(code.get<std::string>());
             c.searchKey = lower(c.panel + " " + c.section + " " + c.function + " " + c.api + " " + c.type + " " + c.remark + " " + c.description);
             entries.push_back(std::move(c));
         }

@@ -3952,6 +3952,9 @@
    "function": "Baro STD / QNH toggle (captain)",
    "api": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
    "name": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
+   "codes": [
+    "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }"
+   ],
    "kind": "calc_code",
    "values": "",
    "rw": "",
@@ -3965,6 +3968,9 @@
    "function": "Baro STD / QNH toggle (first officer)",
    "api": "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
    "name": "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
+   "codes": [
+    "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }"
+   ],
    "kind": "calc_code",
    "values": "",
    "rw": "",
@@ -3976,8 +3982,12 @@
    "panel": "Recipes",
    "section": "EFIS baro",
    "function": "Baro STD / QNH toggle (both sides)",
-   "api": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) } (L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
-   "name": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) } (L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
+   "api": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) } + (L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
+   "name": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
+   "codes": [
+    "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
+    "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }"
+   ],
    "kind": "calc_code",
    "values": "",
    "rw": "",
@@ -3989,8 +3999,12 @@
    "panel": "Recipes",
    "section": "EFIS baro",
    "function": "Baro QNH + (both sides)",
-   "api": "(>K:A32NX.FCU_EFIS_L_BARO_INC) (>K:A32NX.FCU_EFIS_R_BARO_INC)",
-   "name": "(>K:A32NX.FCU_EFIS_L_BARO_INC) (>K:A32NX.FCU_EFIS_R_BARO_INC)",
+   "api": "(>K:A32NX.FCU_EFIS_L_BARO_INC) + (>K:A32NX.FCU_EFIS_R_BARO_INC)",
+   "name": "(>K:A32NX.FCU_EFIS_L_BARO_INC)",
+   "codes": [
+    "(>K:A32NX.FCU_EFIS_L_BARO_INC)",
+    "(>K:A32NX.FCU_EFIS_R_BARO_INC)"
+   ],
    "kind": "calc_code",
    "values": "",
    "rw": "",
@@ -4002,8 +4016,12 @@
    "panel": "Recipes",
    "section": "EFIS baro",
    "function": "Baro QNH - (both sides)",
-   "api": "(>K:A32NX.FCU_EFIS_L_BARO_DEC) (>K:A32NX.FCU_EFIS_R_BARO_DEC)",
-   "name": "(>K:A32NX.FCU_EFIS_L_BARO_DEC) (>K:A32NX.FCU_EFIS_R_BARO_DEC)",
+   "api": "(>K:A32NX.FCU_EFIS_L_BARO_DEC) + (>K:A32NX.FCU_EFIS_R_BARO_DEC)",
+   "name": "(>K:A32NX.FCU_EFIS_L_BARO_DEC)",
+   "codes": [
+    "(>K:A32NX.FCU_EFIS_L_BARO_DEC)",
+    "(>K:A32NX.FCU_EFIS_R_BARO_DEC)"
+   ],
    "kind": "calc_code",
    "values": "",
    "rw": "",
