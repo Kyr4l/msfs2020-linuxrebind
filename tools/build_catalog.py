@@ -54,8 +54,8 @@ def parse_flightdeck(md):
         cells = [clean(c) for c in line.strip().strip("|").split("|")]
         if len(cells) < 5:
             continue
-        if cells[0].lower() == "function" or set(cells[0]) <= set(":-"):
-            continue
+        if cells[0].lower() == "function" or (cells[0] and set(cells[0]) <= set(":-")):
+            continue  # header / separator rows (an empty Function cell is a continuation row, keep it)
         func, api, values, rw, typ = cells[:5]
         remark = cells[5] if len(cells) > 5 else ""
         if func:
@@ -79,6 +79,8 @@ def parse_flightdeck(md):
         variants = [(name, api)]
         if "{index}" in name:
             variants = [(name.replace("{index}", str(i)), api.replace("{index}", str(i))) for i in (1, 2)]
+        elif "{side}" in name:
+            variants = [(name.replace("{side}", sd), api.replace("{side}", sd)) for sd in ("L", "R")]
         for vname, vapi in variants:
             entries.append({
                 "panel": panel, "section": section, "function": function,
@@ -107,10 +109,13 @@ def parse_events(md):
             current = None
     expanded = {}
     for name, lines in out.items():
-        desc = " ".join(lines)
+        desc = " ".join(l for l in lines if not l.startswith("side = ") and not l.startswith("index = "))
         if "{index}" in name:
             for i in (1, 2):
                 expanded[name.replace("{index}", str(i))] = desc.replace("{index}", str(i))
+        elif "{side}" in name:
+            for sd in ("L", "R"):
+                expanded[name.replace("{side}", sd)] = desc + (" (captain side)" if sd == "L" else " (first officer side)")
         else:
             expanded[name] = desc
     return expanded
@@ -141,6 +146,22 @@ def main():
                         "function": name.split(".", 1)[1].replace("_", " ").title(),
                         "api": name, "name": name, "kind": "sim_event", "values": "",
                         "rw": "", "type": "Custom EVENT", "remark": "", "description": desc})
+
+    def baro_toggle(side):
+        # A32NX_FCU_EFIS_<side>_DISPLAY_BARO_MODE: 0 = STD, 1 = QNH, 2 = QFE (verified on the aircraft).
+        # Airbus convention: push = QNH, pull = STD.
+        return (f"(L:A32NX_FCU_EFIS_{side}_DISPLAY_BARO_MODE) 0 == "
+                f"if{{ (>K:A32NX.FCU_EFIS_{side}_BARO_PUSH) }} els{{ (>K:A32NX.FCU_EFIS_{side}_BARO_PULL) }}")
+    recipes = [
+        ("Baro STD / QNH toggle (captain)", baro_toggle("L"), "Switches the captain's baro reference between STD and QNH depending on its current state"),
+        ("Baro STD / QNH toggle (first officer)", baro_toggle("R"), "Switches the first officer's baro reference between STD and QNH"),
+        ("Baro STD / QNH toggle (both sides)", baro_toggle("L") + " " + baro_toggle("R"), "Toggles both baro references, each according to its own state"),
+        ("Baro QNH + (both sides)", "(>K:A32NX.FCU_EFIS_L_BARO_INC) (>K:A32NX.FCU_EFIS_R_BARO_INC)", "One click up on both baro knobs; bind with repeat-while-held"),
+        ("Baro QNH - (both sides)", "(>K:A32NX.FCU_EFIS_L_BARO_DEC) (>K:A32NX.FCU_EFIS_R_BARO_DEC)", "One click down on both baro knobs; bind with repeat-while-held"),
+    ]
+    for function, code, desc in recipes:
+        entries.append({"panel": "Recipes", "section": "EFIS baro", "function": function, "api": code, "name": code,
+                        "kind": "calc_code", "values": "", "rw": "", "type": "RPN (needs MobiFlight)", "remark": "", "description": desc})
 
     doc = {"aircraft": "A32NX", "sources": [FLIGHTDECK_URL, EVENTS_URL], "entries": entries}
     with open(args.output, "w", encoding="utf-8") as f:

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 #include <fstream>
 
 #include <nlohmann/json.hpp>
@@ -29,12 +30,34 @@ Action CatalogEntry::toAction() const {
     } else if (kind == "avar") {
         a.kind = ActionKind::CalcCode;
         a.name = "1 (>A:" + name + ", Bool)";
+    } else if (kind == "calc_code") {
+        a.kind = ActionKind::CalcCode;
+        a.name = name;
     } else {
         a.kind = ActionKind::SimEvent;
         a.name = name;
         a.value = hasValue ? value : 0;
     }
     return a;
+}
+
+bool CatalogEntry::isCaptainSide() const {
+    return api.find("_L_") != std::string::npos || api.find("EFIS_L_") != std::string::npos;
+}
+
+std::string CatalogEntry::firstOfficerApi() const {
+    std::string r = api;
+    size_t pos = r.find("EFIS_L_");
+    if (pos != std::string::npos) { r[pos + 5] = 'R'; return r; }
+    pos = r.find("_L_");
+    if (pos != std::string::npos) { r[pos + 1] = 'R'; return r; }
+    return {};
+}
+
+bool CatalogEntry::isIncDec() const {
+    for (const char* suffix : {"_INC", "_DEC", "_INCREMENT", "_DECREMENT"})
+        if (api.size() >= strlen(suffix) && api.compare(api.size() - strlen(suffix), strlen(suffix), suffix) == 0) return true;
+    return api.find("BARO_INC") != std::string::npos || api.find("BARO_DEC") != std::string::npos;
 }
 
 bool Catalog::load(const std::string& path, std::string& err) {

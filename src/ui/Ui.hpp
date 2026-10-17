@@ -71,6 +71,9 @@ private:
     // catalog state
     std::string catalogFilter_;
     int catalogSelected_ = -1;
+    bool catalogBothSides_ = false;  // add the first-officer twin of captain-side EFIS entries too
+    std::vector<Action> catalogActions(const CatalogEntry& e) const;
+    void newBindingFrom(const CatalogEntry& e);
 
     // profile management
     std::string newProfileName_;

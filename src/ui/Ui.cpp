@@ -572,6 +572,25 @@ void Ui::drawDevicesTab() {
 
 // ---------------------------------------------------------------- Catalog
 
+// One or two actions for a catalog entry: the entry itself, plus its first-officer twin when
+// "both sides" is ticked and the catalog has that twin.
+std::vector<Action> Ui::catalogActions(const CatalogEntry& e) const {
+    std::vector<Action> out{e.toAction()};
+    if (catalogBothSides_ && e.isCaptainSide()) {
+        const std::string twin = e.firstOfficerApi();
+        for (const auto& o : ctx_.catalog.entries)
+            if (o.api == twin) { out.push_back(o.toAction()); break; }
+    }
+    return out;
+}
+
+void Ui::newBindingFrom(const CatalogEntry& e) {
+    openEditor(-1);
+    for (const auto& a : catalogActions(e)) draft_.onPress.push_back(a);
+    draft_.label = e.function;
+    if (e.isIncDec()) draft_.repeat = true;  // knobs on buttons: keep clicking while held
+}
+
 void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
     ImGui::PushID(id);
     ImGui::SetNextItemWidth(400);
@@ -620,12 +639,10 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
                 catalogSelected_ = i;
                 if (ImGui::IsMouseDoubleClicked(0)) {
                     if (pickMode) {
-                        (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(e.toAction());
+                        for (const auto& a : catalogActions(e)) (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(a);
                         ImGui::CloseCurrentPopup();
                     } else {
-                        openEditor(-1);
-                        draft_.onPress.push_back(e.toAction());
-                        draft_.label = e.function;
+                        newBindingFrom(e);
                     }
                 }
             }
@@ -643,24 +660,26 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
 
     const CatalogEntry* sel = (catalogSelected_ >= 0 && catalogSelected_ < static_cast<int>(ctx_.catalog.entries.size())) ? &ctx_.catalog.entries[static_cast<size_t>(catalogSelected_)] : nullptr;
     if (sel) {
-        Action a = sel->toAction();
-        ImGui::Text("Selected: %s", a.describe().c_str());
-        if (actionNeedsMobiFlight(a.kind)) { ImGui::SameLine(); ImGui::TextColored(kYellow, "(needs MobiFlight WASM module)"); }
+        const std::vector<Action> acts = catalogActions(*sel);
+        std::string desc;
+        for (size_t i = 0; i < acts.size(); ++i) desc += (i ? "  +  " : "") + acts[i].describe();
+        ImGui::Text("Selected: %s", desc.c_str());
+        if (actionNeedsMobiFlight(acts[0].kind)) { ImGui::SameLine(); ImGui::TextColored(kYellow, "(needs MobiFlight WASM module)"); }
         if (!sel->description.empty()) ImGui::TextWrapped("%s", sel->description.c_str());
+        if (sel->isCaptainSide() && !sel->firstOfficerApi().empty()) {
+            ImGui::Checkbox("Both sides: also add the first officer (R) twin", &catalogBothSides_);
+        }
+        if (sel->isIncDec()) ImGui::TextDisabled("+/- entry: a new binding from it gets 'repeat while held' so a button acts like turning the knob.");
         if (pickMode) {
-            if (ImGui::Button("Add to press")) { draft_.onPress.push_back(a); ImGui::CloseCurrentPopup(); }
+            if (ImGui::Button("Add to press")) { for (const auto& a : acts) draft_.onPress.push_back(a); ImGui::CloseCurrentPopup(); }
             ImGui::SameLine();
-            if (ImGui::Button("Add to release")) { draft_.onRelease.push_back(a); ImGui::CloseCurrentPopup(); }
+            if (ImGui::Button("Add to release")) { for (const auto& a : acts) draft_.onRelease.push_back(a); ImGui::CloseCurrentPopup(); }
             ImGui::SameLine();
         }
-        if (ImGui::Button("Fire now (test)")) ctx_.engine.fire({a}, "catalog test");
+        if (ImGui::Button("Fire now (test)")) ctx_.engine.fire(acts, "catalog test");
         if (!pickMode) {
             ImGui::SameLine();
-            if (ImGui::Button("New binding with this action")) {
-                openEditor(-1);
-                draft_.onPress.push_back(a);
-                draft_.label = sel->function;
-            }
+            if (ImGui::Button("New binding with this action")) newBindingFrom(*sel);
         }
     } else {
         ImGui::TextDisabled("Select an entry.");
@@ -676,7 +695,7 @@ void Ui::drawCatalogTab() {
         ImGui::TextColored(kYellow, "No catalog loaded. Expected data/a32nx_catalog.json (see tools/build_catalog.py).");
         return;
     }
-    ImGui::TextDisabled("Generated from the FlyByWire A32NX flight deck API docs. Only writable / triggerable entries are listed. Double-click an entry to create a binding for it.");
+    ImGui::TextDisabled("Generated from the FlyByWire A32NX flight deck API docs plus ready-made recipes. Double-click an entry to create a binding for it; filter 'recipes' or 'baro' for the QNH helpers.");
     drawCatalogBrowser("tab", false);
 }
 

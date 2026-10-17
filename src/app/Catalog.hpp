@@ -13,6 +13,9 @@ struct CatalogEntry {
     double value = 0;
     std::string searchKey;  // lower-cased concatenation for filtering
     Action toAction() const;
+    bool isCaptainSide() const;            // api names the L (captain) side, e.g. A32NX.FCU_EFIS_L_BARO_INC
+    std::string firstOfficerApi() const;   // same api with the side swapped to R
+    bool isIncDec() const;                 // +/- style entry, best bound with repeat-while-held
 };
 
 struct Catalog {

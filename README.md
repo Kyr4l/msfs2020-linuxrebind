@@ -131,6 +131,11 @@ Tips:
 * Two-position switches (e.g. an autobrake toggle): `A32NX.AUTOBRAKE_SET 2` on press and
   `A32NX.AUTOBRAKE_SET 0` on release.
 * `A32NX.FCU_ALT_INCREMENT_SET 1000` / `100` to pick the ALT knob step.
+* Baro / QNH on three buttons: filter the catalog for `baro`. *Baro STD / QNH toggle* (captain,
+  first officer, or both) is an RPN recipe that reads the current mode and pushes or pulls the knob
+  accordingly; `A32NX.FCU_EFIS_L_BARO_INC` / `_DEC` with *repeat while held* make two buttons act
+  as the knob. Tick *Both sides* before adding a captain-side (`_L_`) entry to get the first
+  officer twin in the same binding, or use the *(both sides)* recipes.
 
 ## Vibration (Winwing URSA MINOR and friends)
 
