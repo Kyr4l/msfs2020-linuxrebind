@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(msfs-linuxrebind VERSION 0.1.1 LANGUAGES CXX)
+project(msfs-linuxrebind VERSION 0.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -69,3 +69,17 @@ install(FILES packaging/icons/msfs-linuxrebind.svg DESTINATION share/icons/hicol
 foreach(size 16 32 48 64 128 256 512)
   install(FILES packaging/icons/msfs-linuxrebind-${size}.png DESTINATION share/icons/hicolor/${size}x${size}/apps RENAME msfs-linuxrebind.png)
 endforeach()
+
+option(LINUXREBIND_BUILD_TESTS "Build the config compatibility test (ctest)" ON)
+if(LINUXREBIND_BUILD_TESTS)
+  enable_testing()
+  add_executable(config_roundtrip tests/config_roundtrip.cpp src/app/Profile.cpp src/input/Evdev.cpp)
+  target_include_directories(config_roundtrip PRIVATE src third_party)
+  target_link_libraries(config_roundtrip PRIVATE Threads::Threads)
+  target_compile_definitions(config_roundtrip PRIVATE LINUXREBIND_TEST_FIXTURES="${CMAKE_SOURCE_DIR}/tests/fixtures")
+  add_test(NAME config_roundtrip COMMAND config_roundtrip)
+  # Every documented command-line option must be accepted (exit code 2 = "unknown option"). Regression test for
+  # a refactor that once silently dropped --config/--host/--port/--profile/--catalog/--motor-sweep.
+  add_test(NAME cli_options COMMAND bash ${CMAKE_SOURCE_DIR}/tests/cli_options.sh $<TARGET_FILE:msfs-linuxrebind>
+           ${CMAKE_SOURCE_DIR}/tests/fixtures/config_v1.json)
+endif()

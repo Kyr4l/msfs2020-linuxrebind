@@ -72,7 +72,7 @@ const Profile* Settings::active() const {
 }
 
 Profile& Settings::ensureActive() {
-    if (profiles.empty()) profiles.push_back(Profile{"A32NX", {}});
+    if (profiles.empty()) { Profile first; first.name = "A32NX"; profiles.push_back(first); }
     Profile* p = active();
     if (!p) p = &profiles.front();
     activeProfile = p->name;
@@ -133,6 +133,7 @@ bool loadSettings(const std::string& path, Settings& out, std::string& err) {
     try {
         in >> j;
         Settings s;
+        s.loadedVersion = j.value("version", 1);
         s.host = j.value("host", s.host);
         s.port = j.value("port", s.port);
         s.autoConnect = j.value("auto_connect", s.autoConnect);
@@ -163,6 +164,8 @@ bool loadSettings(const std::string& path, Settings& out, std::string& err) {
         for (const auto& pj : j.value("profiles", json::array())) {
             Profile p;
             p.name = pj.value("name", "Profile");
+            p.aircraft = pj.value("aircraft", std::string(kDefaultAircraft));
+            if (p.aircraft.empty()) p.aircraft = kDefaultAircraft;
             for (const auto& bj : pj.value("bindings", json::array())) p.bindings.push_back(bindingFromJson(bj));
             s.profiles.push_back(std::move(p));
         }
@@ -179,7 +182,7 @@ bool saveSettings(const std::string& path, const Settings& s, std::string& err) 
     for (const auto& p : s.profiles) {
         json bindings = json::array();
         for (const auto& b : p.bindings) bindings.push_back(toJson(b));
-        profiles.push_back(json{{"name", p.name}, {"bindings", bindings}});
+        profiles.push_back(json{{"name", p.name}, {"aircraft", p.aircraft}, {"bindings", bindings}});
     }
     json rules = json::object(), devices = json::object();
     for (const auto& [id, rc] : s.haptics.rules) rules[id] = json{{"enabled", rc.enabled}, {"gain", rc.gain}};
@@ -187,11 +190,25 @@ bool saveSettings(const std::string& path, const Settings& s, std::string& err) 
         devices[key] = json{{"enabled", dc.enabled}, {"family", dc.identity.family},
                             {"left_device", dc.identity.left.device}, {"left_index", dc.identity.left.index},
                             {"right_device", dc.identity.right.device}, {"right_index", dc.identity.right.index}};
-    json j{{"version", 1}, {"host", s.host}, {"port", s.port}, {"auto_connect", s.autoConnect},
+    json j{{"version", kConfigVersion}, {"host", s.host}, {"port", s.port}, {"auto_connect", s.autoConnect},
            {"active_profile", s.activeProfile}, {"profiles", profiles},
            {"haptics", {{"enabled", s.haptics.enabled}, {"master", s.haptics.master}, {"rules", rules}, {"devices", devices}}}};
     try {
         std::filesystem::create_directories(std::filesystem::path(path).parent_path());
+        // First save over a file written by an older schema: keep a copy of it once, untouched, so an
+        // upgrade can always be rolled back (config.json.v1.bak).
+        if (std::filesystem::exists(path)) {
+            int onDisk = 1;
+            try {
+                std::ifstream old(path);
+                json oj;
+                old >> oj;
+                onDisk = oj.value("version", 1);
+            } catch (...) {
+            }
+            const std::string bak = path + ".v" + std::to_string(onDisk) + ".bak";
+            if (onDisk < kConfigVersion && !std::filesystem::exists(bak)) std::filesystem::copy_file(path, bak);
+        }
         const std::string tmp = path + ".tmp";
         {
             std::ofstream outFile(tmp);

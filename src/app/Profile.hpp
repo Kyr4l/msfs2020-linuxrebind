@@ -33,12 +33,21 @@ struct Binding {
     bool enabled = true;
 };
 
+// Aircraft ids match the "aircraft" field of the catalogs in data/ (a32nx_catalog.json -> "A32NX").
+constexpr const char* kDefaultAircraft = "A32NX";
+
 struct Profile {
     std::string name = "Default";
+    std::string aircraft = kDefaultAircraft;  // which catalog the editor offers; old configs without it are A32NX
     std::vector<Binding> bindings;
 };
 
+// Config schema: 1 = original, 2 = profiles carry an "aircraft". Newer files stay readable by older
+// builds (unknown fields are ignored); loading a file older than kConfigVersion never loses data.
+constexpr int kConfigVersion = 2;
+
 struct Settings {
+    int loadedVersion = kConfigVersion;  // schema version of the file this was read from
     std::string host = "127.0.0.1";
     int port = 500;
     bool autoConnect = true;

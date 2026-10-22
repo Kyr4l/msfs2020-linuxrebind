@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <filesystem>
 
@@ -29,22 +30,44 @@ static fs::path exeDir() {
     return fs::path(buf).parent_path();
 }
 
-std::string findDataFile(const std::string& name) {
+static std::vector<fs::path> dataDirs() {
     const fs::path exe = exeDir();
-    const fs::path candidates[] = {
-        fs::path(configDir()) / name,                               // user override
-        exe / "data" / name,                                        // run from build dir with data copied
-        exe / ".." / "share" / "msfs-linuxrebind" / "data" / name,  // installed
+    return {
+        fs::path(configDir()),                               // user override
+        exe / "data",                                        // run from build dir with data copied
+        exe / ".." / "share" / "msfs-linuxrebind" / "data",  // installed
 #ifdef LINUXREBIND_SOURCE_DATA_DIR
-        fs::path(LINUXREBIND_SOURCE_DATA_DIR) / name,               // dev build
+        fs::path(LINUXREBIND_SOURCE_DATA_DIR),               // dev build
 #endif
-        fs::current_path() / "data" / name,
+        fs::current_path() / "data",
     };
-    for (const auto& c : candidates) {
+}
+
+std::string findDataFile(const std::string& name) {
+    for (const auto& dir : dataDirs()) {
+        const fs::path c = dir / name;
         std::error_code ec;
         if (fs::exists(c, ec)) return fs::weakly_canonical(c, ec).string();
     }
     return {};
+}
+
+std::vector<std::string> listDataFiles(const std::string& suffix) {
+    std::vector<std::string> out;
+    std::vector<std::string> names;
+    for (const auto& dir : dataDirs()) {
+        std::error_code ec;
+        if (!fs::is_directory(dir, ec)) continue;
+        for (const auto& e : fs::directory_iterator(dir, ec)) {
+            const std::string n = e.path().filename().string();
+            if (n.size() < suffix.size() || n.compare(n.size() - suffix.size(), suffix.size(), suffix) != 0) continue;
+            if (std::find(names.begin(), names.end(), n) != names.end()) continue;  // earlier dir already provided it
+            names.push_back(n);
+            out.push_back(fs::weakly_canonical(e.path(), ec).string());
+        }
+    }
+    std::sort(out.begin(), out.end());
+    return out;
 }
 
 }  // namespace lr::app

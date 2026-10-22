@@ -35,7 +35,8 @@ void usage() {
         "  --port PORT            SimConnect TCP port (default from config, 500)\n"
         "  --profile NAME         activate this profile for the session\n"
         "  --config FILE          config file (default $XDG_CONFIG_HOME/msfs-linuxrebind/config.json)\n"
-        "  --catalog FILE         action catalog JSON (default data/a32nx_catalog.json)\n"
+        "  --catalog FILE         extra action catalog JSON (all data/*_catalog.json are loaded automatically)\n"
+        "  --tab NAME             start on a tab: Bindings, Devices, Catalog, Vibration, Log, Settings\n"
         "  --quiet                do not echo the log to stderr\n"
         "  --probe-winwing        list Winwing HID devices and the controllers behind them, then exit\n"
         "  --motor-sweep [DEV]    buzz every SET_LEDX index (0..31) on each controller (or only device byte DEV, e.g. 0x04)\n"
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
     bool dumpConfig = false;
     std::vector<std::string> fireSpecs, readNames;
     int sweepDevice = -1;
-    std::string hostOverride, profileOverride, configPath, catalogPath;
+    std::string hostOverride, profileOverride, configPath, catalogPath, startTab;
     int portOverride = 0;
     for (int i = 1; i < argc; ++i) {
         std::string a = argv[i];
@@ -74,6 +75,16 @@ int main(int argc, char** argv) {
         else if (a == "--dump-winwing-config") dumpConfig = true;
         else if (a == "--fire") { std::string v; next(v); fireSpecs.push_back(v); }
         else if (a == "--read") { std::string v; next(v); readNames.push_back(v); }
+        else if (a == "--motor-sweep") {
+            motorSweep = true;
+            if (i + 1 < argc && argv[i + 1][0] != '-') sweepDevice = static_cast<int>(std::strtol(argv[++i], nullptr, 0));
+        }
+        else if (a == "--host") next(hostOverride);
+        else if (a == "--port") { std::string p; next(p); portOverride = std::atoi(p.c_str()); }
+        else if (a == "--profile") next(profileOverride);
+        else if (a == "--config") next(configPath);
+        else if (a == "--catalog") next(catalogPath);
+        else if (a == "--tab") next(startTab);
         else if (a == "--quiet" || a == "-q") Log::instance().echoToStderr = false;
         else if (a == "--version") { std::printf("msfs-linuxrebind %s\n", LINUXREBIND_VERSION); return 0; }
         else if (a == "--help" || a == "-h") { usage(); return 0; }
@@ -149,13 +160,14 @@ int main(int argc, char** argv) {
     haptics::HapticsEngine hapticsEngine(bridge, winwing);
     app::AppContext ctx(bridge, engine, input, hapticsEngine, winwing);
     ctx.configPath = configPath.empty() ? app::configFile() : configPath;
+    ctx.startTab = startTab;
 
     {
         std::string err;
         if (!app::loadSettings(ctx.configPath, ctx.settings, err)) {
             LOG_INFO("No config loaded (%s); starting with defaults", err.c_str());
             ctx.settings = app::Settings{};
-            ctx.settings.profiles.push_back(app::Profile{"A32NX", {}});
+            { app::Profile first; first.name = "A32NX"; first.aircraft = "A32NX"; ctx.settings.profiles.push_back(first); }
             ctx.settings.activeProfile = "A32NX";
             ctx.dirty = true;
         }
@@ -171,10 +183,19 @@ int main(int argc, char** argv) {
         LOG_INFO("Config: %s (profile \"%s\", %zu bindings)", ctx.configPath.c_str(), ctx.settings.activeProfile.c_str(), ctx.settings.ensureActive().bindings.size());
     }
     {
-        std::string path = catalogPath.empty() ? app::findDataFile("a32nx_catalog.json") : catalogPath;
-        std::string err;
-        if (path.empty() || !ctx.catalog.load(path, err)) LOG_WARN("Catalog not loaded: %s", path.empty() ? "data/a32nx_catalog.json not found" : err.c_str());
-        else LOG_INFO("Catalog: %zu entries from %s", ctx.catalog.entries.size(), path.c_str());
+        std::vector<std::string> paths = app::listDataFiles("_catalog.json");
+        if (!catalogPath.empty()) paths.push_back(catalogPath);  // --catalog adds (or replaces, same aircraft) one more
+        for (const auto& path : paths) {
+            app::Catalog cat;
+            std::string err;
+            if (!cat.load(path, err)) { LOG_WARN("Catalog %s not loaded: %s", path.c_str(), err.c_str()); continue; }
+            bool replaced = false;
+            for (auto& existing : ctx.catalogs)
+                if (existing.aircraft == cat.aircraft) { existing = cat; replaced = true; }
+            if (!replaced) ctx.catalogs.push_back(std::move(cat));
+            LOG_INFO("Catalog %s: %zu entries from %s", ctx.catalogs.back().aircraft.c_str(), ctx.catalogs.back().entries.size(), path.c_str());
+        }
+        if (ctx.catalogs.empty()) LOG_WARN("No action catalog found (expected data/*_catalog.json)");
     }
 
     bridge.setEndpoint(ctx.settings.host, static_cast<uint16_t>(ctx.settings.port));

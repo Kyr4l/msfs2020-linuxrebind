@@ -9,7 +9,7 @@ flight data, which MSFS under Proton cannot do by itself.
 * Reads joysticks straight from **evdev** (`/dev/input/event*`), Winwing devices through **hidraw**.
 * **Dear ImGui** UI on **Wayland or X11** (GLFW 3.4+, runtime platform selection), or `--headless`.
 * Profiles with press / release actions, repeat-while-held (for FCU knobs), 2-position switches.
-* Searchable catalog of A32NX functions generated from the FlyByWire docs.
+* Searchable catalogs of cockpit functions for the FlyByWire **A32NX** and **A380X**, generated from the FlyByWire docs, with a per-profile aircraft selector.
 
 ## AI-assisted code, real-hardware tested
 
@@ -23,6 +23,7 @@ hardware path in it was exercised on the real devices it targets, and no issues 
 | MobiFlight module path (`L:` set/toggle, readback) | APU MASTER toggled from the tool on a cold & dark FlyByWire A32NX and read back 0 → 1 → 0 |
 | WINCTRL URSA MINOR Combat Throttle Metal.EX (`4098:b970`) | controllers discovered over hidraw, both grip motors driven and felt, addresses confirmed by hand, config words dumped before and after |
 | WINCTRL URSA MINOR Combat Joystick (`4098:bc29`/`bc2a`) | discovered the same way; motor address from the community kernel driver and X-Plane plugin |
+| FlyByWire A380X | catalog generated from the FlyByWire A380X docs (same names for the APU, FCU and most overhead controls as the A32NX, which were checked as present in an installed A380X package). **Not yet exercised on the A380X in flight with this tool**: verify an A380X binding with its *Test* button before relying on it |
 | Device safety | the tool only sends identity queries, config *reads* and volatile motor levels; it never writes flash, restarts or re-flashes a device (`--dump-winwing-config` gives a baseline to diff) |
 
 If you have a Winwing device that is not listed, discovery plus `--motor-sweep` will usually find
@@ -137,6 +138,32 @@ Tips:
   as the knob. Tick *Both sides* before adding a captain-side (`_L_`) entry to get the first
   officer twin in the same binding, or use the *(both sides)* recipes.
 
+## Aircraft profiles
+
+Each profile belongs to an aircraft (A32NX or A380X). The aircraft decides which catalog the editor and
+the *Catalog* tab offer; it never changes existing bindings, so you can re-assign a profile at any time.
+
+* **New profile** asks for the aircraft; the default is the aircraft currently loaded in the sim.
+* When the loaded aircraft does not match the active profile, the Bindings tab says so and offers a
+  one-click *Switch to "<profile>"* (or *Create a profile for it*). Nothing is switched automatically.
+* *Catalog* has an aircraft selector for browsing the other aircraft's list ("browsing only" is shown).
+* Numbered controls such as `ENG {NUM} BLEED` are expanded into one entry per unit (1 to 4, as the
+  FlyByWire docs define the placeholder; the ADIRS and the air-conditioning packs stop at 3). A number
+  the aircraft does not have simply does nothing.
+* Catalog files are `data/<aircraft>_catalog.json`; any `*_catalog.json` placed in
+  `~/.config/msfs-linuxrebind/` overrides the shipped one with the same name, and `--catalog FILE`
+  adds one for a single run. `tools/build_catalog.py --all` regenerates the shipped ones.
+
+### Upgrading does not break your configuration
+
+The config is versioned (`version` in `config.json`; 2 since 0.2.0). Profiles written by older builds
+have no aircraft and load as A32NX profiles with every binding, haptics setting and device address
+intact. The first time a newer build saves over an older file it keeps the original once as
+`config.json.v1.bak` (never overwritten afterwards), so rolling back is a file copy. Unknown or newer
+fields are ignored rather than rejected. `ctest` runs a round-trip test of exactly this (a schema-1
+fixture, optionally your own config: `build/config_roundtrip ~/.config/msfs-linuxrebind/config.json`,
+which only ever works on a copy), plus a test that every documented command-line option is accepted.
+
 ## Vibration (Winwing URSA MINOR and friends)
 
 MSFS only vibrates XInput gamepads and DirectInput force-feedback devices; the Winwing kernel
@@ -181,7 +208,8 @@ then `sudo udevadm control --reload && sudo udevadm trigger` and re-plug the dev
 
 * `tools/mock_simconnect.py --port 5500` is a fake SimConnect server (answers Open, logs events,
   emulates the MobiFlight areas); run the app with `--port 5500` to test without MSFS.
-* `tools/build_catalog.py` regenerates `data/a32nx_catalog.json` from the FlyByWire docs.
+* `tools/build_catalog.py --all` regenerates `data/a32nx_catalog.json` and `data/a380x_catalog.json` from the FlyByWire docs.
+* `ctest --test-dir build` runs the config compatibility and command-line option tests.
 * `_cpr/` is git-ignored: put copies of files from the (read-only) MSFS install there if you need
   to edit them.
 

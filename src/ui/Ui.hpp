@@ -17,18 +17,20 @@ namespace lr::app {
 struct AppContext {
     Settings settings;
     std::string configPath;
-    Catalog catalog;
+    std::vector<Catalog> catalogs;  // one per aircraft, from data/*_catalog.json
     sim::SimBridge& bridge;
     Engine& engine;
     input::InputManager& input;
     haptics::HapticsEngine& haptics;
     haptics::WinwingHidManager& winwing;
     bool dirty = false;
+    std::string startTab;  // --tab NAME: tab selected on the first frame
     bool quitRequested = false;
     std::string lastSaveError;
 
     AppContext(sim::SimBridge& b, Engine& e, input::InputManager& i, haptics::HapticsEngine& h, haptics::WinwingHidManager& w)
         : bridge(b), engine(e), input(i), haptics(h), winwing(w) {}
+    const Catalog* catalogFor(const std::string& aircraft) const;  // exact match, else the default aircraft, else the first
     void pushProfileToEngine();
     void pushHapticsConfig();
     void markDirty();
@@ -69,6 +71,12 @@ private:
     bool catalogPopupOpen_ = false;
 
     // catalog state
+    std::string viewAircraft_;  // catalog tab: aircraft being browsed; empty = follow the active profile
+    const Catalog& currentCatalog() const;
+    const Catalog& pickerCatalog() const;  // the active profile's aircraft
+    std::string detectAircraft(const std::string& cfgPath) const;  // "A32NX"/"A380X" from the loaded .cfg path, or empty
+    std::string uniqueProfileName(const std::string& wanted) const;
+    std::string newProfileAircraft_ = kDefaultAircraft;
     std::string catalogFilter_;
     int catalogSelected_ = -1;
     bool catalogBothSides_ = false;  // add the first-officer twin of captain-side EFIS entries too
@@ -80,6 +88,7 @@ private:
     bool renamingProfile_ = false;
 
     bool splashDone_ = false;
+    std::string startTab_;
 
 
     // log

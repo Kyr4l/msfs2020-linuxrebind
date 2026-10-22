@@ -21,7 +21,9 @@ struct CatalogEntry {
 };
 
 struct Catalog {
-    std::string aircraft;
+    std::string aircraft;   // id, e.g. "A32NX"
+    std::string title;      // display name
+    std::string label() const { return title.empty() ? aircraft : title; }
     std::string sourcePath;
     std::vector<CatalogEntry> entries;
     bool load(const std::string& path, std::string& err);

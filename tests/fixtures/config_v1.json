@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "host": "127.0.0.1",
+  "port": 500,
+  "auto_connect": true,
+  "active_profile": "A32NX",
+  "profiles": [
+    {
+      "name": "A32NX",
+      "bindings": [
+        {
+          "label": "APU master",
+          "input": {"device": "4098:b970:WINCTRL WINCTRL URSA MINOR Combat Throttle Metal.EX", "kind": "button", "code": 288, "dir": 0},
+          "on_press": [{"kind": "lvar_toggle", "name": "A32NX_OVHD_APU_MASTER_SW_PB_IS_ON", "value": 0}],
+          "on_release": [],
+          "repeat": false, "repeat_delay_ms": 400, "repeat_interval_ms": 100, "enabled": true
+        },
+        {
+          "label": "HDG +",
+          "input": {"device": "4098:bc2a:Winwing WINCTRL URSA MINOR Combat Joystick R", "kind": "hat", "code": 0, "dir": 1},
+          "on_press": [{"kind": "sim_event", "name": "A32NX.FCU_HDG_INC", "value": 0}],
+          "on_release": [{"kind": "calc_code", "name": "1 (>L:TEST)", "value": 0}],
+          "repeat": true, "repeat_delay_ms": 300, "repeat_interval_ms": 80, "enabled": false
+        }
+      ]
+    }
+  ],
+  "haptics": {
+    "enabled": true,
+    "master": 0.8,
+    "rules": {"stall": {"enabled": false, "gain": 1.5}},
+    "devices": {
+      "4098:b970": {"enabled": true, "family": 185, "left_device": 4, "left_index": 14, "right_device": 8, "right_index": 16}
+    }
+  }
+}

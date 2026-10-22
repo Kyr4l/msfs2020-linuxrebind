@@ -83,6 +83,14 @@ void AppContext::pushProfileToEngine() {
     bridge.watchLVars(vars);
 }
 
+const Catalog* AppContext::catalogFor(const std::string& aircraft) const {
+    for (const auto& c : catalogs)
+        if (c.aircraft == aircraft) return &c;
+    for (const auto& c : catalogs)
+        if (c.aircraft == kDefaultAircraft) return &c;
+    return catalogs.empty() ? nullptr : &catalogs.front();
+}
+
 void AppContext::pushHapticsConfig() {
     haptics.setConfig(settings.haptics);
 }
@@ -106,7 +114,7 @@ bool AppContext::save() {
 
 // ---------------------------------------------------------------- Ui
 
-Ui::Ui(AppContext& ctx) : ctx_(ctx) {}
+Ui::Ui(AppContext& ctx) : ctx_(ctx), startTab_(ctx.startTab) {}
 
 std::string Ui::deviceDisplayName(const std::string& key) const {
     for (const auto& d : devices_)
@@ -148,12 +156,17 @@ void Ui::draw() {
     drawStatusBar();
     ImGui::Separator();
     if (ImGui::BeginTabBar("tabs")) {
-        if (ImGui::BeginTabItem("Bindings")) { drawBindingsTab(); ImGui::EndTabItem(); }
-        if (ImGui::BeginTabItem("Devices")) { drawDevicesTab(); ImGui::EndTabItem(); }
-        if (ImGui::BeginTabItem("Catalog")) { drawCatalogTab(); ImGui::EndTabItem(); }
-        if (ImGui::BeginTabItem("Vibration")) { drawVibrationTab(); ImGui::EndTabItem(); }
-        if (ImGui::BeginTabItem("Log")) { drawLogTab(); ImGui::EndTabItem(); }
-        if (ImGui::BeginTabItem("Settings")) { drawSettingsTab(); ImGui::EndTabItem(); }
+        auto tab = [&](const char* name, void (Ui::*draw)()) {
+            ImGuiTabItemFlags flags = 0;
+            if (!startTab_.empty() && startTab_ == name) { flags = ImGuiTabItemFlags_SetSelected; startTab_.clear(); }
+            if (ImGui::BeginTabItem(name, nullptr, flags)) { (this->*draw)(); ImGui::EndTabItem(); }
+        };
+        tab("Bindings", &Ui::drawBindingsTab);
+        tab("Devices", &Ui::drawDevicesTab);
+        tab("Catalog", &Ui::drawCatalogTab);
+        tab("Vibration", &Ui::drawVibrationTab);
+        tab("Log", &Ui::drawLogTab);
+        tab("Settings", &Ui::drawSettingsTab);
         ImGui::EndTabBar();
     }
     ImGui::End();
@@ -317,24 +330,55 @@ void Ui::drawBindingsTab() {
     Settings& s = ctx_.settings;
     Profile& p = s.ensureActive();
 
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Profile");
+    ImGui::SameLine();
     ImGui::SetNextItemWidth(220);
-    if (ImGui::BeginCombo("Profile", p.name.c_str())) {
+    if (ImGui::BeginCombo("##profile", p.name.c_str())) {
         for (const auto& prof : s.profiles) {
-            if (ImGui::Selectable(prof.name.c_str(), prof.name == p.name)) {
+            const std::string label = prof.name + "   [" + prof.aircraft + "]";
+            if (ImGui::Selectable(label.c_str(), prof.name == p.name)) {
                 s.activeProfile = prof.name;
+                viewAircraft_.clear();
                 ctx_.markDirty();
             }
         }
         ImGui::EndCombo();
     }
     ImGui::SameLine();
-    if (ImGui::Button("New profile")) { newProfileName_ = "New profile"; renamingProfile_ = false; ImGui::OpenPopup("profile_name"); }
+    ImGui::AlignTextToFramePadding();
+    ImGui::TextUnformatted("Aircraft");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(260);
+    if (ImGui::BeginCombo("##profile_aircraft", [&] {
+            const Catalog* c = ctx_.catalogFor(p.aircraft);
+            return (c && c->aircraft == p.aircraft) ? c->label() : p.aircraft;
+        }().c_str())) {
+        for (const auto& c : ctx_.catalogs) {
+            if (ImGui::Selectable(c.label().c_str(), c.aircraft == p.aircraft)) {
+                p.aircraft = c.aircraft;
+                viewAircraft_.clear();
+                ctx_.markDirty();
+            }
+        }
+        ImGui::EndCombo();
+    }
+    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Which aircraft this profile is for. It decides which catalog the editor offers; existing bindings are never changed.");
+    ImGui::SameLine();
+    if (ImGui::Button("New profile")) {
+        newProfileName_ = "New profile";
+        newProfileAircraft_ = p.aircraft;
+        const std::string det = detectAircraft(status_.aircraft);
+        if (!det.empty()) newProfileAircraft_ = det;
+        renamingProfile_ = false;
+        ImGui::OpenPopup("profile_name");
+    }
     ImGui::SameLine();
     if (ImGui::Button("Rename")) { newProfileName_ = p.name; renamingProfile_ = true; ImGui::OpenPopup("profile_name"); }
     ImGui::SameLine();
     if (ImGui::Button("Duplicate")) {
         Profile copy = p;
-        copy.name = p.name + " copy";
+        copy.name = uniqueProfileName(p.name + " copy");
         s.profiles.push_back(copy);
         s.activeProfile = copy.name;
         ctx_.markDirty();
@@ -343,9 +387,24 @@ void Ui::drawBindingsTab() {
     if (ImGui::Button("Delete") && s.profiles.size() > 1) ImGui::OpenPopup("confirm_delete_profile");
     if (ImGui::BeginPopup("profile_name")) {
         ImGui::InputText("Name", &newProfileName_);
+        if (!renamingProfile_) {
+            if (ImGui::BeginCombo("Aircraft##new", newProfileAircraft_.c_str())) {
+                for (const auto& c : ctx_.catalogs)
+                    if (ImGui::Selectable(c.label().c_str(), c.aircraft == newProfileAircraft_)) newProfileAircraft_ = c.aircraft;
+                ImGui::EndCombo();
+            }
+        }
         if (ImGui::Button("OK") && !newProfileName_.empty()) {
-            if (renamingProfile_) { p.name = newProfileName_; s.activeProfile = p.name; }
-            else { s.profiles.push_back(Profile{newProfileName_, {}}); s.activeProfile = newProfileName_; }
+            if (renamingProfile_) {
+                if (newProfileName_ != p.name) { p.name = uniqueProfileName(newProfileName_); s.activeProfile = p.name; }
+            } else {
+                Profile created;
+                created.name = uniqueProfileName(newProfileName_);
+                created.aircraft = newProfileAircraft_;
+                s.profiles.push_back(created);
+                s.activeProfile = created.name;
+                viewAircraft_.clear();
+            }
             ctx_.markDirty();
             ImGui::CloseCurrentPopup();
         }
@@ -367,6 +426,28 @@ void Ui::drawBindingsTab() {
         ImGui::EndPopup();
     }
 
+    {
+        const std::string det = detectAircraft(status_.aircraft);
+        if (!det.empty() && det != p.aircraft) {
+            ImGui::TextColored(kYellow, "The loaded aircraft looks like the %s, this profile is for the %s.", det.c_str(), p.aircraft.c_str());
+            ImGui::SameLine();
+            const Profile* match = nullptr;
+            for (const auto& prof : s.profiles)
+                if (prof.aircraft == det) { match = &prof; break; }
+            if (match) {
+                if (ImGui::SmallButton((std::string("Switch to \"") + match->name + "\"").c_str())) {
+                    s.activeProfile = match->name;
+                    viewAircraft_.clear();
+                    ctx_.markDirty();
+                }
+            } else if (ImGui::SmallButton("Create a profile for it")) {
+                newProfileName_ = det;
+                newProfileAircraft_ = det;
+                renamingProfile_ = false;
+                ImGui::OpenPopup("profile_name");
+            }
+        }
+    }
     ImGui::Separator();
     if (ImGui::Button("+ Add binding")) openEditor(-1);
     ImGui::SameLine();
@@ -574,11 +655,49 @@ void Ui::drawDevicesTab() {
 
 // One or two actions for a catalog entry: the entry itself, plus its first-officer twin when
 // "both sides" is ticked and the catalog has that twin.
+const Catalog& Ui::pickerCatalog() const {
+    static const Catalog empty;
+    const Profile* p = ctx_.settings.active();
+    const Catalog* c = ctx_.catalogFor(p ? p->aircraft : kDefaultAircraft);
+    return c ? *c : empty;
+}
+
+const Catalog& Ui::currentCatalog() const {
+    static const Catalog empty;
+    if (viewAircraft_.empty()) return pickerCatalog();
+    const Catalog* c = ctx_.catalogFor(viewAircraft_);
+    return c ? *c : empty;
+}
+
+std::string Ui::detectAircraft(const std::string& cfgPath) const {
+    std::string low = cfgPath;
+    std::transform(low.begin(), low.end(), low.begin(), [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+    const std::pair<const char*, const char*> rules[] = {{"a380", "A380X"}, {"a320", "A32NX"}, {"a32nx", "A32NX"}};
+    for (const auto& [needle, id] : rules)
+        if (low.find(needle) != std::string::npos)
+            for (const auto& c : ctx_.catalogs)
+                if (c.aircraft == id) return id;
+    return {};
+}
+
+std::string Ui::uniqueProfileName(const std::string& wanted) const {
+    auto taken = [&](const std::string& n) {
+        for (const auto& p : ctx_.settings.profiles)
+            if (p.name == n) return true;
+        return false;
+    };
+    if (!taken(wanted)) return wanted;
+    for (int i = 2;; ++i) {
+        std::string c = wanted + " " + std::to_string(i);
+        if (!taken(c)) return c;
+    }
+}
+
 std::vector<Action> Ui::catalogActions(const CatalogEntry& e) const {
     std::vector<Action> out = e.toActions();
     if (catalogBothSides_ && e.isCaptainSide()) {
         const std::string twin = e.firstOfficerApi();
-        for (const auto& o : ctx_.catalog.entries)
+        for (const auto& o : currentCatalog().entries)
             if (o.api == twin) { out.push_back(o.toAction()); break; }
     }
     return out;
@@ -596,7 +715,7 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
     ImGui::SetNextItemWidth(400);
     ImGui::InputTextWithHint("##filter", "filter: fcu ap, autobrake, chrono, efis ...", &catalogFilter_);
     ImGui::SameLine();
-    ImGui::TextDisabled("%zu entries from %s", ctx_.catalog.entries.size(), ctx_.catalog.aircraft.c_str());
+    ImGui::TextDisabled("%zu entries", currentCatalog().entries.size());
     if (pickMode) {
         ImGui::SameLine();
         ImGui::Text("-> adding to the %s list", catalogTarget_ == 0 ? "PRESS" : "RELEASE");
@@ -625,8 +744,9 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
         ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthStretch, 0.8f);
         ImGui::TableSetupColumn("Values / remark", ImGuiTableColumnFlags_WidthStretch, 1.5f);
         ImGui::TableHeadersRow();
-        for (int i = 0; i < static_cast<int>(ctx_.catalog.entries.size()); ++i) {
-            const CatalogEntry& e = ctx_.catalog.entries[static_cast<size_t>(i)];
+        const Catalog& cat = pickMode ? pickerCatalog() : currentCatalog();
+        for (int i = 0; i < static_cast<int>(cat.entries.size()); ++i) {
+            const CatalogEntry& e = cat.entries[static_cast<size_t>(i)];
             bool match = true;
             for (const auto& w : words)
                 if (e.searchKey.find(w) == std::string::npos) { match = false; break; }
@@ -658,7 +778,8 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
         ImGui::EndTable();
     }
 
-    const CatalogEntry* sel = (catalogSelected_ >= 0 && catalogSelected_ < static_cast<int>(ctx_.catalog.entries.size())) ? &ctx_.catalog.entries[static_cast<size_t>(catalogSelected_)] : nullptr;
+    const Catalog& selCat = pickMode ? pickerCatalog() : currentCatalog();
+    const CatalogEntry* sel = (catalogSelected_ >= 0 && catalogSelected_ < static_cast<int>(selCat.entries.size())) ? &selCat.entries[static_cast<size_t>(catalogSelected_)] : nullptr;
     if (sel) {
         const std::vector<Action> acts = catalogActions(*sel);
         std::string desc;
@@ -691,11 +812,35 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
 }
 
 void Ui::drawCatalogTab() {
-    if (ctx_.catalog.entries.empty()) {
-        ImGui::TextColored(kYellow, "No catalog loaded. Expected data/a32nx_catalog.json (see tools/build_catalog.py).");
+    if (ctx_.catalogs.empty()) {
+        ImGui::TextColored(kYellow, "No catalog loaded. Expected data/*_catalog.json (see tools/build_catalog.py).");
         return;
     }
-    ImGui::TextDisabled("Generated from the FlyByWire A32NX flight deck API docs plus ready-made recipes. Double-click an entry to create a binding for it; filter 'recipes' or 'baro' for the QNH helpers.");
+    {
+        const Profile* active = ctx_.settings.active();
+        const std::string shown = currentCatalog().aircraft;
+        ImGui::AlignTextToFramePadding();
+        ImGui::TextUnformatted("Aircraft");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(300);
+        if (ImGui::BeginCombo("##catalog_aircraft", currentCatalog().label().c_str())) {
+            for (const auto& c : ctx_.catalogs) {
+                const bool sel = c.aircraft == shown;
+                if (ImGui::Selectable(c.label().c_str(), sel)) {
+                    viewAircraft_ = (active && c.aircraft == active->aircraft) ? std::string() : c.aircraft;
+                    catalogSelected_ = -1;
+                }
+            }
+            ImGui::EndCombo();
+        }
+        if (active && shown != active->aircraft) {
+            ImGui::SameLine();
+            ImGui::TextColored(kYellow, "browsing only: the active profile is for %s", active->aircraft.c_str());
+            ImGui::SameLine();
+            if (ImGui::SmallButton("show the profile's aircraft")) { viewAircraft_.clear(); catalogSelected_ = -1; }
+        }
+    }
+    ImGui::TextDisabled("Generated from the FlyByWire flight deck API docs plus ready-made recipes. Double-click an entry to create a binding for it; filter 'recipes' or 'baro' for the QNH helpers.");
     drawCatalogBrowser("tab", false);
 }
 
@@ -905,7 +1050,8 @@ void Ui::drawSettingsTab() {
 
     ImGui::SeparatorText("Files");
     ImGui::Text("Config:  %s", ctx_.configPath.c_str());
-    ImGui::Text("Catalog: %s", ctx_.catalog.sourcePath.empty() ? "(none)" : ctx_.catalog.sourcePath.c_str());
+    for (const auto& c : ctx_.catalogs) ImGui::Text("Catalog (%s): %s", c.aircraft.c_str(), c.sourcePath.c_str());
+    if (ctx_.catalogs.empty()) ImGui::TextUnformatted("Catalog: (none)");
     if (ImGui::Button("Save now")) ctx_.save();
 
     ImGui::SeparatorText("About");

@@ -79,6 +79,7 @@ bool Catalog::load(const std::string& path, std::string& err) {
         nlohmann::json j;
         in >> j;
         aircraft = j.value("aircraft", "");
+        title = j.value("title", "");
         entries.clear();
         for (const auto& e : j.value("entries", nlohmann::json::array())) {
             CatalogEntry c;

@@ -17,3 +17,5 @@ imgui.ini
 build-appimage/
 dist/
 packaging/tools/
+__pycache__/
+*.pyc
