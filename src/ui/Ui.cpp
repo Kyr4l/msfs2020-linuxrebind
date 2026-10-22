@@ -541,11 +541,14 @@ void Ui::drawActionList(const char* id, std::vector<Action>& actions, int listIn
     if (toDelete >= 0) actions.erase(actions.begin() + toDelete);
     if (ImGui::SmallButton("+ action")) actions.push_back(Action{});
     ImGui::SameLine();
-    if (ImGui::SmallButton("+ from catalog")) { catalogTarget_ = listIndex; catalogPopupOpen_ = true; ImGui::OpenPopup("catalog_pick"); }
+    // One open-flag per list: BeginPopupModal() writes false into its p_open whenever its popup is not open, so a
+    // flag shared by the press and release lists was cleared every frame by the list that was not open.
+    bool& popupOpen = catalogPopupOpen_[listIndex == 0 ? 0 : 1];
+    if (ImGui::SmallButton("+ from catalog")) { catalogTarget_ = listIndex; popupOpen = true; ImGui::OpenPopup("catalog_pick"); }
     ImGui::SameLine();
     if (ImGui::SmallButton("test")) ctx_.engine.fire(actions, "test");
-    if (ImGui::BeginPopupModal("catalog_pick", &catalogPopupOpen_, ImGuiWindowFlags_NoSavedSettings)) {
-        ImGui::SetWindowSize(ImVec2(ImGui::GetMainViewport()->WorkSize.x * 0.85f, ImGui::GetMainViewport()->WorkSize.y * 0.8f), ImGuiCond_Appearing);
+    ImGui::SetNextWindowSize(ImVec2(ImGui::GetMainViewport()->WorkSize.x * 0.85f, ImGui::GetMainViewport()->WorkSize.y * 0.8f), ImGuiCond_Appearing);
+    if (ImGui::BeginPopupModal("catalog_pick", &popupOpen, ImGuiWindowFlags_NoSavedSettings)) {
         drawCatalogBrowser("picker", true);
         ImGui::EndPopup();
     }

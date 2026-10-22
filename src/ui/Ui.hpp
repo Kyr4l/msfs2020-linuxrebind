@@ -68,7 +68,7 @@ private:
     int editIndex_ = -1;
     Binding draft_;
     int catalogTarget_ = 0;  // 0 = press list, 1 = release list
-    bool catalogPopupOpen_ = false;
+    bool catalogPopupOpen_[2] = {false, false};  // [0] press list, [1] release list
 
     // catalog state
     std::string viewAircraft_;  // catalog tab: aircraft being browsed; empty = follow the active profile
