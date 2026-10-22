@@ -58,6 +58,8 @@ private:
     void openEditor(int bindingIndex);
     std::string deviceDisplayName(const std::string& key) const;
     bool inputIsPressed(const input::InputId& id) const;
+    float axisNow(const input::InputId& id) const;  // live position 0..1 of an axis input, or -1 when the device is absent
+    void drawAxisOptions();
 
     AppContext& ctx_;
     std::vector<input::DeviceSnapshot> devices_;

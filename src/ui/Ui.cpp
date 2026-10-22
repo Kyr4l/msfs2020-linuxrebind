@@ -123,7 +123,18 @@ std::string Ui::deviceDisplayName(const std::string& key) const {
     return p == std::string::npos ? key : key.substr(p + 1) + " (not connected)";
 }
 
+float Ui::axisNow(const input::InputId& id) const {
+    if (id.kind != input::InputKind::Axis) return -1.0f;
+    for (const auto& d : devices_) {
+        if (d.key != id.device) continue;
+        auto it = std::find(d.axisCodes.begin(), d.axisCodes.end(), id.code);
+        if (it != d.axisCodes.end()) return d.axisValue[static_cast<size_t>(it - d.axisCodes.begin())];
+    }
+    return -1.0f;
+}
+
 bool Ui::inputIsPressed(const input::InputId& id) const {
+    if (id.kind == input::InputKind::Axis) return false;
     for (const auto& d : devices_) {
         if (d.key != id.device) continue;
         if (id.kind == input::InputKind::Button) {
@@ -317,6 +328,52 @@ void Ui::drawSplash() {
 
 // ---------------------------------------------------------------- Bindings
 
+void Ui::drawAxisOptions() {
+    AxisConfig& c = draft_.axis;
+    ImGui::SeparatorText("Axis");
+    const float now = axisNow(draft_.input);
+    ImGui::TextUnformatted("Position now");
+    ImGui::SameLine();
+    const double t = Engine::axisPosition(c, now >= 0 ? now : 0.0f);
+    char overlay[96];
+    if (now < 0) snprintf(overlay, sizeof overlay, "device not connected");
+    else if (c.mode == AxisMode::Value) snprintf(overlay, sizeof overlay, "%d%% of travel  ->  %s", static_cast<int>(now * 100 + 0.5f), Engine::formatValue(Engine::axisOutput(c, t), c.integer).c_str());
+    else snprintf(overlay, sizeof overlay, "%d%% of travel", static_cast<int>(now * 100 + 0.5f));
+    ImGui::ProgressBar(now < 0 ? 0.0f : now, ImVec2(360, 0), overlay);
+
+    int mode = c.mode == AxisMode::Steps ? 1 : 0;
+    ImGui::SetNextItemWidth(420);
+    if (ImGui::Combo("Mode", &mode, "Value: the position is sent as the parameter\0Steps: up runs the + actions, down the - actions\0")) c.mode = mode == 1 ? AxisMode::Steps : AxisMode::Value;
+    ImGui::Checkbox("Invert", &c.invert);
+
+    float from = static_cast<float>(c.inMin * 100.0), to = static_cast<float>(c.inMax * 100.0);
+    ImGui::SetNextItemWidth(160);
+    if (ImGui::SliderFloat("Use travel from (%)", &from, 0.0f, 98.0f, "%.0f")) c.inMin = std::min<double>(from / 100.0, c.inMax - 0.02);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(160);
+    if (ImGui::SliderFloat("to (%)", &to, 2.0f, 100.0f, "%.0f")) c.inMax = std::max<double>(to / 100.0, c.inMin + 0.02);
+    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Everything outside this part of the physical travel is dead zone: it reads as the minimum or the maximum.");
+
+    if (c.mode == AxisMode::Value) {
+        ImGui::SetNextItemWidth(110);
+        ImGui::InputDouble("Output at start", &c.outMin, 0, 0, "%g");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(110);
+        ImGui::InputDouble("at end", &c.outMax, 0, 0, "%g");
+        ImGui::SameLine();
+        ImGui::Checkbox("Whole numbers", &c.integer);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(90);
+        ImGui::InputInt("min ms between updates", &c.minIntervalMs, 0, 0);
+        c.minIntervalMs = std::clamp(c.minIntervalMs, 5, 1000);
+    } else {
+        float step = static_cast<float>(c.stepPercent);
+        ImGui::SetNextItemWidth(220);
+        if (ImGui::SliderFloat("One step per (% of travel)", &step, 1.0f, 50.0f, "%.0f")) c.stepPercent = step;
+        ImGui::TextDisabled("Example: 5%% = 20 steps over the full travel. Sweeping fast sends at most 10 steps per movement.");
+    }
+}
+
 void Ui::openEditor(int bindingIndex) {
     Profile& p = ctx_.settings.ensureActive();
     editIndex_ = bindingIndex;
@@ -476,7 +533,13 @@ void Ui::drawBindingsTab() {
             if (ImGui::Checkbox("##on", &b.enabled)) ctx_.markDirty();
             ImGui::TableSetColumnIndex(1);
             ImGui::TextUnformatted(ctx_.input.describe(b.input).c_str());
-            ImGui::TextDisabled("%s", deviceDisplayName(b.input.device).c_str());
+            if (b.input.kind == input::InputKind::Axis) {
+                const float now = axisNow(b.input);
+                ImGui::TextDisabled("%s  %s%s%s", deviceDisplayName(b.input.device).c_str(), b.axis.mode == AxisMode::Steps ? "steps" : "value",
+                                    now >= 0 ? "  now " : "", now >= 0 ? (std::to_string(static_cast<int>(now * 100 + 0.5f)) + "%").c_str() : "");
+            } else {
+                ImGui::TextDisabled("%s", deviceDisplayName(b.input.device).c_str());
+            }
             ImGui::TableSetColumnIndex(2);
             ImGui::TextUnformatted(b.label.c_str());
             auto actionLine = [&](const Action& a) {
@@ -493,11 +556,20 @@ void Ui::drawBindingsTab() {
             ImGui::TableSetColumnIndex(4);
             for (const auto& a : b.onRelease) actionLine(a);
             ImGui::TableSetColumnIndex(5);
-            if (b.repeat) ImGui::Text("%d ms", b.repeatIntervalMs);
+            if (b.input.kind == input::InputKind::Axis) ImGui::TextDisabled("%s", b.axis.mode == AxisMode::Steps ? (std::to_string(static_cast<int>(b.axis.stepPercent + 0.5)) + "% step").c_str() : "axis");
+            else if (b.repeat) ImGui::Text("%d ms", b.repeatIntervalMs);
             ImGui::TableSetColumnIndex(6);
             if (ImGui::SmallButton("Edit")) openEditor(i);
             ImGui::SameLine();
-            if (ImGui::SmallButton("Test")) ctx_.engine.fire(b.onPress, "test " + b.label);
+            if (ImGui::SmallButton("Test")) {
+                if (b.input.kind == input::InputKind::Axis && b.axis.mode == AxisMode::Value) {
+                    const float now = axisNow(b.input);
+                    const double out = Engine::axisOutput(b.axis, Engine::axisPosition(b.axis, now >= 0 ? now : 0.5f));
+                    ctx_.engine.fire(Engine::withValue(b.onPress, out, b.axis.integer), "test " + b.label);
+                } else {
+                    ctx_.engine.fire(b.onPress, "test " + b.label);
+                }
+            }
             if (ImGui::IsItemHovered()) ImGui::SetTooltip("Fire the press actions now");
             ImGui::SameLine();
             if (ImGui::SmallButton("Up") && i > 0) { moveFrom = i; moveTo = i - 1; }
@@ -546,7 +618,15 @@ void Ui::drawActionList(const char* id, std::vector<Action>& actions, int listIn
     bool& popupOpen = catalogPopupOpen_[listIndex == 0 ? 0 : 1];
     if (ImGui::SmallButton("+ from catalog")) { catalogTarget_ = listIndex; popupOpen = true; ImGui::OpenPopup("catalog_pick"); }
     ImGui::SameLine();
-    if (ImGui::SmallButton("test")) ctx_.engine.fire(actions, "test");
+    if (ImGui::SmallButton("test")) {
+        if (draft_.input.kind == input::InputKind::Axis && draft_.axis.mode == AxisMode::Value && listIndex == 0) {
+            const float now = axisNow(draft_.input);
+            const double out = Engine::axisOutput(draft_.axis, Engine::axisPosition(draft_.axis, now >= 0 ? now : 0.5f));
+            ctx_.engine.fire(Engine::withValue(actions, out, draft_.axis.integer), "test (axis at its current position)");
+        } else {
+            ctx_.engine.fire(actions, "test");
+        }
+    }
     ImGui::SetNextWindowSize(ImVec2(ImGui::GetMainViewport()->WorkSize.x * 0.85f, ImGui::GetMainViewport()->WorkSize.y * 0.8f), ImGuiCond_Appearing);
     if (ImGui::BeginPopupModal("catalog_pick", &popupOpen, ImGuiWindowFlags_NoSavedSettings)) {
         drawCatalogBrowser("picker", true);
@@ -571,21 +651,28 @@ void Ui::drawBindingEditor() {
     if (!capturing) {
         if (ImGui::Button("Listen for input")) ctx_.engine.beginCapture();
     } else {
-        ImGui::TextColored(kYellow, "Press a button or hat on your HOTAS...");
+        ImGui::TextColored(kYellow, "Press a button, move a hat, or move an axis about a quarter of its travel...");
         ImGui::SameLine();
         if (ImGui::Button("Cancel")) ctx_.engine.cancelCapture();
     }
     ImGui::InputTextWithHint("Label", "e.g. AP1 push", &draft_.label);
 
-    ImGui::SeparatorText("On press");
+    const bool isAxis = draft_.input.kind == input::InputKind::Axis;
+    const bool axisValue = isAxis && draft_.axis.mode == AxisMode::Value;
+    if (isAxis) drawAxisOptions();
+
+    ImGui::SeparatorText(!isAxis ? "On press" : axisValue ? "Actions (the axis value is the parameter)" : "Axis moves up (+)");
+    if (axisValue) ImGui::TextDisabled("K: events get the value as their parameter, L: var set uses it as the value to write, and RPN code can contain {v}.");
     drawActionList("press", draft_.onPress, 0);
-    ImGui::SeparatorText("On release");
-    ImGui::TextDisabled("Useful for 2-position switches: set a value on press, another on release.");
-    drawActionList("release", draft_.onRelease, 1);
+    if (!axisValue) {
+        ImGui::SeparatorText(!isAxis ? "On release" : "Axis moves down (-)");
+        if (!isAxis) ImGui::TextDisabled("Useful for 2-position switches: set a value on press, another on release.");
+        drawActionList("release", draft_.onRelease, 1);
+    }
 
     ImGui::SeparatorText("Options");
-    ImGui::Checkbox("Repeat press actions while held", &draft_.repeat);
-    if (draft_.repeat) {
+    if (!isAxis) ImGui::Checkbox("Repeat press actions while held", &draft_.repeat);
+    if (!isAxis && draft_.repeat) {
         ImGui::SameLine();
         ImGui::SetNextItemWidth(100);
         ImGui::InputInt("delay ms", &draft_.repeatDelayMs);
@@ -622,9 +709,12 @@ void Ui::drawDevicesTab() {
     if (ImGui::Button("Rescan")) ctx_.input.rescan();
     ImGui::SameLine();
     if (auto last = ctx_.engine.lastInput()) {
-        ImGui::Text("Last input: %s on %s (%s)", ctx_.input.describe(last->id).c_str(), deviceDisplayName(last->id.device).c_str(), last->pressed ? "pressed" : "released");
+        if (last->id.kind == input::InputKind::Axis)
+            ImGui::Text("Last input: %s on %s (moved to %d%%)", ctx_.input.describe(last->id).c_str(), deviceDisplayName(last->id.device).c_str(), static_cast<int>(last->axis * 100 + 0.5f));
+        else
+            ImGui::Text("Last input: %s on %s (%s)", ctx_.input.describe(last->id).c_str(), deviceDisplayName(last->id.device).c_str(), last->pressed ? "pressed" : "released");
     } else {
-        ImGui::TextDisabled("Press a button to see it here.");
+        ImGui::TextDisabled("Press a button or move an axis to see it here.");
     }
     if (devices_.empty()) {
         ImGui::TextColored(kYellow, "No joystick found under /dev/input. Check the Log tab for permission errors.");
@@ -644,6 +734,18 @@ void Ui::drawDevicesTab() {
                 ImGui::Button(label, ImVec2(cell, cell));
                 if (ImGui::IsItemHovered()) ImGui::SetTooltip("Button %zu (evdev code %d)", i + 1, d.buttonCodes[i]);
                 ImGui::PopStyleColor();
+            }
+            for (size_t a = 0; a < d.axisCodes.size(); ++a) {
+                char label[64], overlay[16];
+                snprintf(label, sizeof label, "Axis %zu (%s)", a + 1, input::axisName(d.axisCodes[a]));
+                snprintf(overlay, sizeof overlay, "%d%%", static_cast<int>(d.axisValue[a] * 100 + 0.5f));
+                ImGui::PushID(static_cast<int>(a));
+                ImGui::SetNextItemWidth(70);
+                ImGui::AlignTextToFramePadding();
+                ImGui::TextUnformatted(label);
+                ImGui::SameLine(130);
+                ImGui::ProgressBar(d.axisValue[a], ImVec2(300, 0), overlay);
+                ImGui::PopID();
             }
             for (int h = 0; h < d.hatCount; ++h) {
                 auto [x, y] = d.hats[static_cast<size_t>(h)];

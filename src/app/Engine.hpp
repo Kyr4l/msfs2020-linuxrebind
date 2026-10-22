@@ -7,6 +7,7 @@
 #include <mutex>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "app/Profile.hpp"
@@ -33,6 +34,12 @@ public:
     void tick();
 
     // UI helpers
+    // Pure helpers (also used by the UI and the tests)
+    static double axisPosition(const AxisConfig& c, double raw01);            // 0..1 inside the used travel, inverted if asked
+    static double axisOutput(const AxisConfig& c, double position01);        // rescaled (and rounded if integer)
+    static std::vector<Action> withValue(const std::vector<Action>& actions, double v, bool integer);  // substitute the axis value
+    static std::string formatValue(double v, bool integer);
+
     void beginCapture();
     void cancelCapture();
     bool capturing() const;
@@ -49,6 +56,21 @@ private:
     };
     void dispatch(const Binding& b, bool press, const char* why);
     void record(const std::string& text);
+    void recordLatest(const std::string& key, const std::string& text);  // replaces the previous entry of the same key
+    void onAxis(const input::InputEvent& ev);
+    void sendAxisValue(const Binding& b, double out);
+
+    struct AxisState {
+        bool hasSent = false;
+        double lastSent = 0;
+        bool hasPending = false;
+        double pending = 0;
+        std::chrono::steady_clock::time_point lastTime{};
+        bool anchorValid = false;
+        double anchor = 0;
+    };
+    std::unordered_map<size_t, AxisState> axisState_;           // by binding index in the current profile
+    std::unordered_map<std::string, float> captureBase_;        // axis resting values seen since beginCapture()
 
     sim::SimBridge& bridge_;
     mutable std::mutex m_;

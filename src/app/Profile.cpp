@@ -91,11 +91,33 @@ static Action actionFromJson(const json& j) {
     return a;
 }
 
+static json toJson(const AxisConfig& c) {
+    return json{{"mode", c.mode == AxisMode::Steps ? "steps" : "value"}, {"invert", c.invert},
+                {"in_min", c.inMin}, {"in_max", c.inMax}, {"out_min", c.outMin}, {"out_max", c.outMax},
+                {"integer", c.integer}, {"min_interval_ms", c.minIntervalMs}, {"step_percent", c.stepPercent}};
+}
+
+static AxisConfig axisFromJson(const json& j) {
+    AxisConfig c;
+    c.mode = j.value("mode", "value") == "steps" ? AxisMode::Steps : AxisMode::Value;
+    c.invert = j.value("invert", false);
+    c.inMin = j.value("in_min", 0.0);
+    c.inMax = j.value("in_max", 1.0);
+    c.outMin = j.value("out_min", 0.0);
+    c.outMax = j.value("out_max", 100.0);
+    c.integer = j.value("integer", true);
+    c.minIntervalMs = j.value("min_interval_ms", 40);
+    c.stepPercent = j.value("step_percent", 5.0);
+    if (c.inMax <= c.inMin) { c.inMin = 0.0; c.inMax = 1.0; }
+    if (c.stepPercent < 0.5) c.stepPercent = 0.5;
+    return c;
+}
+
 static json toJson(const Binding& b) {
     json press = json::array(), release = json::array();
     for (const auto& a : b.onPress) press.push_back(toJson(a));
     for (const auto& a : b.onRelease) release.push_back(toJson(a));
-    return json{
+    json out = json{
         {"label", b.label},
         {"input", {{"device", b.input.device}, {"kind", input::kindName(b.input.kind)}, {"code", b.input.code}, {"dir", b.input.dir}}},
         {"on_press", press},
@@ -105,6 +127,8 @@ static json toJson(const Binding& b) {
         {"repeat_interval_ms", b.repeatIntervalMs},
         {"enabled", b.enabled},
     };
+    if (b.input.kind == input::InputKind::Axis) out["axis"] = toJson(b.axis);  // omitted for buttons/hats: files stay as before
+    return out;
 }
 
 static Binding bindingFromJson(const json& j) {
@@ -113,12 +137,13 @@ static Binding bindingFromJson(const json& j) {
     if (j.contains("input")) {
         const json& i = j["input"];
         b.input.device = i.value("device", "");
-        b.input.kind = i.value("kind", "button") == "hat" ? input::InputKind::Hat : input::InputKind::Button;
+        b.input.kind = input::kindFromName(i.value("kind", "button"));
         b.input.code = i.value("code", 0);
         b.input.dir = i.value("dir", 0);
     }
     for (const auto& a : j.value("on_press", json::array())) b.onPress.push_back(actionFromJson(a));
     for (const auto& a : j.value("on_release", json::array())) b.onRelease.push_back(actionFromJson(a));
+    if (j.contains("axis")) b.axis = axisFromJson(j["axis"]);
     b.repeat = j.value("repeat", false);
     b.repeatDelayMs = j.value("repeat_delay_ms", 400);
     b.repeatIntervalMs = j.value("repeat_interval_ms", 100);

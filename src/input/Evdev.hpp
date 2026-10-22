@@ -12,12 +12,12 @@
 
 namespace lr::input {
 
-enum class InputKind { Button, Hat };
+enum class InputKind { Button, Hat, Axis };
 
 struct InputId {
     std::string device;  // stable device key "vvvv:pppp:Name"
     InputKind kind = InputKind::Button;
-    int code = 0;        // evdev key code for buttons, hat index (0..3) for hats
+    int code = 0;        // evdev key code for buttons, hat index (0..3) for hats, ABS_* code (0..15) for axes
     int dir = 0;         // hats only: 0 up, 1 right, 2 down, 3 left
     bool operator==(const InputId& o) const { return device == o.device && kind == o.kind && code == o.code && dir == o.dir; }
 };
@@ -25,6 +25,8 @@ struct InputId {
 struct InputEvent {
     InputId id;
     bool pressed = false;
+    float axis = 0;      // axes only: position normalised to 0..1 (0 = device minimum)
+    float axisPrev = 0;  // axes only: the previously reported position (the resting value before a move)
     std::chrono::steady_clock::time_point time;
 };
 
@@ -38,10 +40,15 @@ struct DeviceSnapshot {
     int hatCount = 0;
     std::array<std::pair<int, int>, 4> hats{};  // (x, y) in -1..1
     int axisCount = 0;
+    std::vector<int> axisCodes;     // ABS_* codes of the axes, ascending; index = axis number - 1
+    std::vector<float> axisValue;   // parallel, normalised 0..1, updated live
 };
 
 std::string hatDirName(int dir);
 const char* kindName(InputKind k);
+InputKind kindFromName(const std::string& name);  // "button" / "hat" / "axis", anything else = button
+const char* axisName(int evdevCode);                // "X", "Y", "Z", "Rx", "Ry", "Rz", "Slider", "Dial"
+constexpr float kAxisReportStep = 1.0f / 512.0f;     // smallest change reported (filters sensor noise)
 
 class InputManager {
 public:

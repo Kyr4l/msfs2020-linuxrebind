@@ -9,6 +9,7 @@ flight data, which MSFS under Proton cannot do by itself.
 * Reads joysticks straight from **evdev** (`/dev/input/event*`), Winwing devices through **hidraw**.
 * **Dear ImGui** UI on **Wayland or X11** (GLFW 3.4+, runtime platform selection), or `--headless`.
 * Profiles with press / release actions, repeat-while-held (for FCU knobs), 2-position switches.
+* **Axes** as inputs: an axis can send its position as a value (brightness knobs, QNH set...) or act as a +/- knob, with dead zones, inversion and rate limiting.
 * Searchable catalogs of cockpit functions for the FlyByWire **A32NX** and **A380X**, generated from the FlyByWire docs, with a per-profile aircraft selector.
 
 ## AI-assisted code, real-hardware tested
@@ -23,6 +24,7 @@ hardware path in it was exercised on the real devices it targets, and no issues 
 | MobiFlight module path (`L:` set/toggle, readback) | APU MASTER toggled from the tool on a cold & dark FlyByWire A32NX and read back 0 → 1 → 0 |
 | WINCTRL URSA MINOR Combat Throttle Metal.EX (`4098:b970`) | controllers discovered over hidraw, both grip motors driven and felt, addresses confirmed by hand, config words dumped before and after |
 | WINCTRL URSA MINOR Combat Joystick (`4098:bc29`/`bc2a`) | discovered the same way; motor address from the community kernel driver and X-Plane plugin |
+| Axis bindings | verified end to end with a virtual (uinput) joystick through the real app and a mock simulator: value mode sent 10, 20 ... 100, step mode sent the right number of +/- events, and "Listen for input" captured the moved axis in the GUI. Your physical axes were read (ranges and rest positions) but not yet moved by hand with this tool |
 | FlyByWire A380X | catalog generated from the FlyByWire A380X docs; the APU, FCU and many overhead names were confirmed present in an installed A380X package. **Not yet exercised on the A380X in flight with this tool**: verify an A380X binding with its *Test* button before relying on it. The docs describe the development branch: the stable build's baro knob uses its own `A380X_EFIS_CP_BARO_PUSH/PULL_<n>` H events and lacks the `A32NX.FCU_EFIS_*_BARO_*` events the docs list, so the A380X catalog has no baro recipes and its EFIS baro entries may do nothing on older builds |
 | Device safety | the tool only sends identity queries, config *reads* and volatile motor levels; it never writes flash, restarts or re-flashes a device (`--dump-winwing-config` gives a baseline to diff) |
 
@@ -122,6 +124,22 @@ automatically whenever the sim is (re)started.
    *from catalog* → *Save binding*. *Test* fires the press actions immediately.
 4. Leave the same buttons **unassigned in the MSFS controls menu**, otherwise both fire.
 
+### Axes
+
+Move an axis while *Listen for input* is on (about a quarter of its travel; small drift is ignored) and
+the binding becomes an axis binding. The **Devices** tab shows every axis live, which is the easy way to
+find out which one is which. Two modes:
+
+* **Value**: the position is rescaled to the output range you set (default 0 to 100, whole numbers) and
+  used as the parameter: the value of a `K:` event, the value written by *L: var set*, or `{v}` inside
+  RPN code, for example `{v} (>L:A32NX_SOME_BRIGHTNESS)`. Updates are rate limited (40 ms by default) and
+  the last position is never lost.
+* **Steps**: moving up runs the *up* actions and moving down the *down* actions, once per step of travel
+  (default 10 %). Pair `A32NX.FCU_EFIS_L_BARO_INC` and `_DEC` for a QNH knob from a slider.
+
+*Use travel from/to* turns the ends of the physical travel into dead zones and *Invert* flips the
+direction. `tools/virtual_joystick.py demo` creates a fake joystick to try all of this without hardware.
+
 Tips:
 
 * Momentary cockpit push buttons: one `K:` event on press (e.g. `A32NX.FCU_AP_1_PUSH`).
@@ -209,7 +227,8 @@ then `sudo udevadm control --reload && sudo udevadm trigger` and re-plug the dev
 * `tools/mock_simconnect.py --port 5500` is a fake SimConnect server (answers Open, logs events,
   emulates the MobiFlight areas); run the app with `--port 5500` to test without MSFS.
 * `tools/build_catalog.py --all` regenerates `data/a32nx_catalog.json` and `data/a380x_catalog.json` from the FlyByWire docs.
-* `ctest --test-dir build` runs the config compatibility and command-line option tests.
+* `ctest --test-dir build` runs the config compatibility, command-line option and axis tests.
+* `tools/virtual_joystick.py` is a uinput joystick for exercising bindings without hardware.
 * `_cpr/` is git-ignored: put copies of files from the (read-only) MSFS install there if you need
   to edit them.
 

@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <cmath>
 #include <cstring>
 
 #include "util/Log.hpp"
@@ -36,7 +37,26 @@ std::string hatDirName(int dir) {
     return "?";
 }
 
-const char* kindName(InputKind k) { return k == InputKind::Button ? "button" : "hat"; }
+const char* kindName(InputKind k) {
+    switch (k) {
+        case InputKind::Button: return "button";
+        case InputKind::Hat: return "hat";
+        case InputKind::Axis: return "axis";
+    }
+    return "button";
+}
+
+InputKind kindFromName(const std::string& name) {
+    if (name == "hat") return InputKind::Hat;
+    if (name == "axis") return InputKind::Axis;
+    return InputKind::Button;
+}
+
+const char* axisName(int evdevCode) {
+    // Same order as HID usages 0x30..0x37 (X Y Z Rx Ry Rz Slider Dial), which is how Linux numbers them.
+    static const char* const names[] = {"X", "Y", "Z", "Rx", "Ry", "Rz", "Slider", "Dial"};
+    return (evdevCode >= 0 && evdevCode < 8) ? names[evdevCode] : "?";
+}
 
 struct InputManager::Device {
     int fd = -1;
@@ -45,6 +65,9 @@ struct InputManager::Device {
     std::array<bool, KEY_MAX + 1> keyState{};
     std::array<int, 4> hatX{};
     std::array<int, 4> hatY{};
+    std::array<bool, 16> hasAxis{};
+    std::array<int, 16> axisMin{}, axisMax{};
+    std::array<float, 16> axisReported{};  // last position reported to listeners (normalised)
 };
 
 InputManager::InputManager() = default;
@@ -83,6 +106,15 @@ int InputManager::buttonIndex(const std::string& deviceKey, int code) const {
 
 std::string InputManager::describe(const InputId& id) const {
     if (id.kind == InputKind::Hat) return "Hat " + std::to_string(id.code + 1) + " " + hatDirName(id.dir);
+    if (id.kind == InputKind::Axis) {
+        std::lock_guard<std::mutex> lock(m_);
+        for (const auto& sn : snapshots_) {
+            if (sn.key != id.device) continue;
+            auto it = std::find(sn.axisCodes.begin(), sn.axisCodes.end(), id.code);
+            if (it != sn.axisCodes.end()) return "Axis " + std::to_string(it - sn.axisCodes.begin() + 1) + " (" + axisName(id.code) + ")";
+        }
+        return std::string("Axis ") + axisName(id.code);
+    }
     int idx = buttonIndex(id.device, id.code);
     if (idx >= 0) return "Btn " + std::to_string(idx + 1);
     // Unknown device right now: fall back to joydev-style numbering for the common ranges.
@@ -119,8 +151,19 @@ bool InputManager::openDevice(const std::string& path) {
 
     for (int h = 0; h < 4; ++h)
         if (testBit(absbits, ABS_HAT0X + 2 * h) || testBit(absbits, ABS_HAT0Y + 2 * h)) d.snap.hatCount = h + 1;
-    for (int a = ABS_X; a < ABS_HAT0X; ++a)
-        if (testBit(absbits, a)) d.snap.axisCount++;
+    for (int a = ABS_X; a < ABS_HAT0X; ++a) {
+        if (!testBit(absbits, a)) continue;
+        input_absinfo ai{};
+        if (ioctl(fd, EVIOCGABS(a), &ai) != 0 || ai.maximum <= ai.minimum) continue;
+        d.snap.axisCount++;
+        d.hasAxis[static_cast<size_t>(a)] = true;
+        d.axisMin[static_cast<size_t>(a)] = ai.minimum;
+        d.axisMax[static_cast<size_t>(a)] = ai.maximum;
+        const float norm = static_cast<float>(ai.value - ai.minimum) / static_cast<float>(ai.maximum - ai.minimum);
+        d.axisReported[static_cast<size_t>(a)] = std::clamp(norm, 0.0f, 1.0f);
+        d.snap.axisCodes.push_back(a);
+        d.snap.axisValue.push_back(d.axisReported[static_cast<size_t>(a)]);
+    }
 
     char name[256] = "Unknown";
     ioctl(fd, EVIOCGNAME(sizeof name), name);
@@ -234,6 +277,24 @@ void InputManager::readDevice(size_t idx) {
                     ie.time = std::chrono::steady_clock::now();
                     onEvent_(ie);
                 }
+            } else if (ev.type == EV_ABS && ev.code < ABS_HAT0X && d.hasAxis[ev.code]) {
+                const size_t c = ev.code;
+                float norm = static_cast<float>(ev.value - d.axisMin[c]) / static_cast<float>(d.axisMax[c] - d.axisMin[c]);
+                norm = std::clamp(norm, 0.0f, 1.0f);
+                const float prev = d.axisReported[c];
+                // Report real movement only; always report arriving at either end so full travel is reachable.
+                const bool atEnd = (norm == 0.0f || norm == 1.0f) && norm != prev;
+                if (std::fabs(norm - prev) < kAxisReportStep && !atEnd) continue;
+                d.axisReported[c] = norm;
+                stateChanged = true;
+                if (onEvent_) {
+                    InputEvent ie;
+                    ie.id = {d.snap.key, InputKind::Axis, ev.code, 0};
+                    ie.axis = norm;
+                    ie.axisPrev = prev;
+                    ie.time = std::chrono::steady_clock::now();
+                    onEvent_(ie);
+                }
             } else if (ev.type == EV_ABS && ev.code >= ABS_HAT0X && ev.code <= ABS_HAT3Y) {
                 const int hat = (ev.code - ABS_HAT0X) / 2;
                 const bool isX = ((ev.code - ABS_HAT0X) % 2) == 0;
@@ -264,6 +325,7 @@ void InputManager::readDevice(size_t idx) {
                 if (s.key != d.snap.key) continue;
                 for (size_t b = 0; b < s.buttonCodes.size(); ++b) s.buttonState[b] = d.keyState[s.buttonCodes[b]];
                 for (int h = 0; h < 4; ++h) s.hats[h] = {d.hatX[h], d.hatY[h]};
+                for (size_t a = 0; a < s.axisCodes.size(); ++a) s.axisValue[a] = d.axisReported[static_cast<size_t>(s.axisCodes[a])];
             }
         }
     }

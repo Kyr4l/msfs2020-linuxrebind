@@ -22,9 +22,25 @@ struct Action {
     std::string describe() const;
 };
 
+// How an axis input acts. Value: the position is rescaled to [outMin, outMax] and substituted into the actions
+// (event parameter, L: var value, or {v} inside RPN code). Steps: moving up runs the "press" actions and moving
+// down the "release" actions, once per stepPercent of travel (a knob made from an axis).
+enum class AxisMode { Value, Steps };
+
+struct AxisConfig {
+    AxisMode mode = AxisMode::Value;
+    bool invert = false;
+    double inMin = 0.0, inMax = 1.0;      // part of the physical travel that is used (0..1); the rest is dead zone
+    double outMin = 0.0, outMax = 100.0;  // Value mode: output range
+    bool integer = true;                  // Value mode: round the output (event parameters are integers)
+    int minIntervalMs = 40;               // Value mode: at most one update per interval (the last value is never lost)
+    double stepPercent = 5.0;             // Steps mode: travel per step, in percent of the used travel
+};
+
 struct Binding {
     std::string label;
     input::InputId input;
+    AxisConfig axis;                      // only used when input.kind == Axis
     std::vector<Action> onPress;
     std::vector<Action> onRelease;
     bool repeat = false;        // re-fire onPress while held (knob turning)
