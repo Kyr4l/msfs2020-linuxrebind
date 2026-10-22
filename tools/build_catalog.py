@@ -20,9 +20,14 @@ DOCS = "https://raw.githubusercontent.com/flybywiresim/docs/primary/docs/aircraf
 FLIGHTDECK_URL = f"{DOCS}/a32nx/a32nx-api/a32nx-flightdeck-api.md"
 AIRCRAFT = {
     "A32NX": {"title": "FlyByWire A320neo (A32NX)", "flightdeck": FLIGHTDECK_URL, "output": "data/a32nx_catalog.json",
-              "extra_events": True},
+              "extra_events": True, "recipes": True},
     "A380X": {"title": "FlyByWire A380-842 (A380X)", "flightdeck": f"{DOCS}/a380x/a380x-api/a380x-flight-deck-api.md",
-              "output": "data/a380x_catalog.json", "extra_events": False},
+              "output": "data/a380x_catalog.json", "extra_events": False,
+              # The stable A380X build (fs2020-master) drives its baro knob through its own H events
+              # (A380X_EFIS_CP_BARO_PUSH/PULL_<n>) and has neither the A32NX.FCU_EFIS_*_BARO_* events nor the
+              # A32NX_FCU_EFIS_*_DISPLAY_BARO_MODE variable the development-branch docs list, so the A32NX recipes
+              # would silently misbehave there. No recipes until the A380X ones can be verified on the aircraft.
+              "recipes": False},
 }
 EVENTS_URL = ("https://raw.githubusercontent.com/flybywiresim/aircraft/master/"
               "fbw-a32nx/docs/a320-events.md")
@@ -222,7 +227,7 @@ def build(aircraft, flightdeck_path=None, events_path=None, output=None):
         ("Baro QNH + (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_INC)", "(>K:A32NX.FCU_EFIS_R_BARO_INC)"], "One click up on both baro knobs; bind with repeat-while-held"),
         ("Baro QNH - (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_DEC)", "(>K:A32NX.FCU_EFIS_R_BARO_DEC)"], "One click down on both baro knobs; bind with repeat-while-held"),
     ]
-    for function, codes, desc in recipes:
+    for function, codes, desc in (recipes if cfg["recipes"] else []):
         entries.append({"panel": "Recipes", "section": "EFIS baro", "function": function, "api": " + ".join(codes), "name": codes[0],
                         "codes": codes, "kind": "calc_code", "values": "", "rw": "", "type": "RPN (needs MobiFlight)", "remark": "",
                         "description": desc})
