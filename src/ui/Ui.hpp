@@ -76,6 +76,29 @@ private:
     int catalogTarget_ = 0;  // 0 = press list, 1 = release list
     bool catalogPopupOpen_[2] = {false, false};  // [0] press list, [1] release list
 
+    // catalog panel view: the catalog regrouped into panels (cards) of controls, rebuilt when the catalog changes
+    enum class CatalogView { List, Panels };
+    struct PanelGroup {
+        std::string function;
+        std::vector<int> entries;  // indices into Catalog::entries
+        int preferred = -1;        // entry used when the control is clicked
+        int style = 0;             // 0 button, 1 knob, 2 selector
+    };
+    struct PanelCard {
+        std::string region, section, reference;
+        std::vector<PanelGroup> groups;
+    };
+    struct PanelModel {
+        const Catalog* cat = nullptr;
+        size_t entryCount = 0;
+        std::vector<std::string> regions;  // in order of first appearance
+        std::vector<PanelCard> cards;
+    };
+    CatalogView catalogView_ = CatalogView::Panels;
+    PanelModel panelModel_;
+    void rebuildPanelModel(const Catalog& cat);
+    void drawPanelsView(const Catalog& cat, bool pickMode, const std::vector<std::string>& words, float reserveBelow);
+
     // catalog state
     std::string viewAircraft_;  // catalog tab: aircraft being browsed; empty = follow the active profile
     const Catalog& currentCatalog() const;

@@ -10,4 +10,6 @@ std::string findDataFile(const std::string& name);  // data/<name> next to the e
 // Every data file whose name ends with `suffix` (e.g. "_catalog.json"), de-duplicated by file name; the user
 // config dir wins over the install dir so a hand-edited catalog overrides the shipped one.
 std::vector<std::string> listDataFiles(const std::string& suffix);
+// Opens an https URL of the FlyByWire docs site in the default browser (xdg-open, no shell). Anything else is refused.
+bool openDocsUrl(const std::string& url);
 }  // namespace lr::app

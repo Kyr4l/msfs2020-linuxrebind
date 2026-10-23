@@ -1,10 +1,16 @@
 #include "app/Paths.hpp"
 
+#include <spawn.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 #include <algorithm>
+#include <cctype>
 #include <cstdlib>
+#include <thread>
 #include <filesystem>
+
+extern char** environ;  // POSIX; must be declared at global scope
 
 namespace lr::app {
 
@@ -68,6 +74,19 @@ std::vector<std::string> listDataFiles(const std::string& suffix) {
     }
     std::sort(out.begin(), out.end());
     return out;
+}
+
+bool openDocsUrl(const std::string& url) {
+    static const std::string prefix = "https://docs.flybywiresim.com/";
+    if (url.compare(0, prefix.size(), prefix) != 0 || url.size() > 300) return false;
+    for (char c : url.substr(prefix.size()))
+        if (!(std::isalnum(static_cast<unsigned char>(c)) || c == '/' || c == '-' || c == '_' || c == '.')) return false;
+    char* argv[] = {const_cast<char*>("xdg-open"), const_cast<char*>(url.c_str()), nullptr};
+    pid_t pid;
+    if (posix_spawnp(&pid, "xdg-open", nullptr, nullptr, argv, environ) != 0) return false;
+    // do not wait: xdg-open may stay around while the browser starts; reap it in the background
+    std::thread([pid] { int st; waitpid(pid, &st, 0); }).detach();
+    return true;
 }
 
 }  // namespace lr::app

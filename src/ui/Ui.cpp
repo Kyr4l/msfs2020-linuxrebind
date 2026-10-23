@@ -918,12 +918,273 @@ void Ui::newBindingFrom(const CatalogEntry& e) {
     if (e.isIncDec()) draft_.repeat = true;  // knobs on buttons: keep clicking while held
 }
 
+
+// ---------------------------------------------------------------- Catalog panels view
+
+namespace {
+bool endsWith(const std::string& s, const char* suffix) {
+    const size_t n = strlen(suffix);
+    return s.size() >= n && s.compare(s.size() - n, n, suffix) == 0;
+}
+
+// Which entry a click on a control should pick: switches toggle, push buttons push, knobs click up.
+int entryScore(const CatalogEntry& e, bool knob) {
+    if (e.kind == "calc_code") return 95;  // recipes are complete on their own
+    if (e.kind == "lvar" && e.values == "0|1") return 80;
+    if (e.kind == "sim_event") {
+        if (endsWith(e.api, "_PUSH")) return 90;
+        if (knob && endsWith(e.api, "_INC")) return 88;
+        if (endsWith(e.api, "_SET") || endsWith(e.api, "_SET_EX1") || endsWith(e.api, "_DEC") || endsWith(e.api, "_INC")) return 45;
+        return e.api.rfind("A32NX.", 0) == 0 ? 70 : 60;
+    }
+    if (e.kind == "h_event") return 50;
+    if (e.kind == "lvar") return 40;
+    return 30;
+}
+
+bool containsAny(const std::string& hay, std::initializer_list<const char*> needles) {
+    for (const char* n : needles)
+        if (hay.find(n) != std::string::npos) return true;
+    return false;
+}
+
+std::string upper(std::string s) {
+    for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    return s;
+}
+}  // namespace
+
+void Ui::rebuildPanelModel(const Catalog& cat) {
+    panelModel_ = PanelModel{};
+    panelModel_.cat = &cat;
+    panelModel_.entryCount = cat.entries.size();
+    for (int i = 0; i < static_cast<int>(cat.entries.size()); ++i) {
+        const CatalogEntry& e = cat.entries[static_cast<size_t>(i)];
+        if (std::find(panelModel_.regions.begin(), panelModel_.regions.end(), e.panel) == panelModel_.regions.end()) panelModel_.regions.push_back(e.panel);
+        PanelCard* card = nullptr;
+        for (auto& c : panelModel_.cards)
+            if (c.region == e.panel && c.section == e.section) { card = &c; break; }
+        if (!card) {
+            panelModel_.cards.push_back({e.panel, e.section, e.reference, {}});
+            card = &panelModel_.cards.back();
+        }
+        if (card->reference.empty()) card->reference = e.reference;
+        PanelGroup* g = nullptr;
+        const std::string fn = e.function.empty() ? std::string("(other)") : e.function;
+        for (auto& x : card->groups)
+            if (x.function == fn) { g = &x; break; }
+        if (!g) {
+            card->groups.push_back({fn, {}, -1, 0});
+            g = &card->groups.back();
+        }
+        g->entries.push_back(i);
+    }
+    for (auto& card : panelModel_.cards) {
+        for (auto& g : card.groups) {
+            const std::string fn = upper(g.function);
+            bool incdec = false, steps = false;
+            for (int idx : g.entries) {
+                const CatalogEntry& e = cat.entries[static_cast<size_t>(idx)];
+                if (endsWith(e.api, "_INC") || endsWith(e.api, "_DEC")) incdec = true;
+                if (e.kind == "lvar" && e.values.find("..") != std::string::npos && e.values != "0..1") steps = true;
+            }
+            if (incdec || containsAny(fn, {"KNOB", "ROTARY", "DIAL", "BRT", "BRIGHT"})) g.style = 1;
+            else if (steps || containsAny(fn, {"SELECTOR", "SWITCH", "MODE"})) g.style = 2;
+            int best = -1, bestScore = -1;
+            for (int idx : g.entries) {
+                const int sc = entryScore(cat.entries[static_cast<size_t>(idx)], g.style == 1);
+                if (sc > bestScore) { bestScore = sc; best = idx; }
+            }
+            g.preferred = best;
+        }
+    }
+}
+
+void Ui::drawPanelsView(const Catalog& cat, bool pickMode, const std::vector<std::string>& words, float reserveBelow) {
+    if (panelModel_.cat != &cat || panelModel_.entryCount != cat.entries.size()) rebuildPanelModel(cat);
+
+    auto entryVisible = [&](int idx) {
+        const CatalogEntry& e = cat.entries[static_cast<size_t>(idx)];
+        for (const auto& w : words)
+            if (e.searchKey.find(w) == std::string::npos) return false;
+        return true;
+    };
+
+    const float fs = ImGui::GetFontSize();
+    const float pad = fs * 0.45f;
+    const float cardW = fs * 19.0f;
+    const float cellW = (cardW - 3 * pad) / 2;
+    const float cellH = fs * 3.4f;
+    const float headH = fs * 1.9f;
+    const float gap = fs * 0.7f;
+
+    ImGui::BeginChild("panels_view", ImVec2(0, -reserveBelow), ImGuiChildFlags_Borders);
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    const float availW = ImGui::GetContentRegionAvail().x;
+    const int cols = std::max(1, static_cast<int>((availW + gap) / (cardW + gap)));
+    const ImU32 colCard = ImGui::GetColorU32(ImVec4(0.13f, 0.14f, 0.17f, 1.0f));
+    const ImU32 colCardEdge = ImGui::GetColorU32(ImVec4(0.30f, 0.32f, 0.38f, 1.0f));
+    const ImU32 colText = ImGui::GetColorU32(ImGuiCol_Text);
+    const ImU32 colDim = ImGui::GetColorU32(ImGuiCol_TextDisabled);
+    bool anything = false;
+
+    for (const std::string& region : panelModel_.regions) {
+        // visible cards of the region and their heights
+        struct Vis { const PanelCard* card; std::vector<const PanelGroup*> groups; float height; };
+        std::vector<Vis> vis;
+        for (const auto& card : panelModel_.cards) {
+            if (card.region != region) continue;
+            Vis v{&card, {}, 0};
+            for (const auto& g : card.groups) {
+                bool any = false;
+                for (int idx : g.entries) any |= entryVisible(idx);
+                if (any) v.groups.push_back(&g);
+            }
+            if (v.groups.empty()) continue;
+            const int rows = static_cast<int>((v.groups.size() + 1) / 2);
+            v.height = headH + pad + rows * (cellH + pad);
+            vis.push_back(std::move(v));
+        }
+        if (vis.empty()) continue;
+        anything = true;
+        ImGui::SeparatorText(region.c_str());
+        const ImVec2 origin = ImGui::GetCursorScreenPos();
+        std::vector<float> colH(static_cast<size_t>(cols), 0.0f);
+        for (const auto& v : vis) {
+            const size_t col = static_cast<size_t>(std::min_element(colH.begin(), colH.end()) - colH.begin());
+            const ImVec2 p0(origin.x + static_cast<float>(col) * (cardW + gap), origin.y + colH[col]);
+            const ImVec2 p1(p0.x + cardW, p0.y + v.height);
+            colH[col] += v.height + gap;
+            dl->AddRectFilled(p0, p1, colCard, fs * 0.5f);
+            dl->AddRect(p0, p1, colCardEdge, fs * 0.5f);
+            // header: panel name + link to the real photos
+            const std::string title = v.card->section.empty() ? v.card->region : v.card->section;
+            const bool hasRef = !v.card->reference.empty();
+            const float photoW = hasRef ? ImGui::CalcTextSize("photos >").x + pad : 0.0f;
+            dl->PushClipRect(ImVec2(p0.x, p0.y), ImVec2(p1.x - photoW, p0.y + headH), true);
+            dl->AddText(ImVec2(p0.x + pad, p0.y + (headH - fs) * 0.5f), colText, title.c_str());
+            dl->PopClipRect();
+            if (hasRef) {
+                ImGui::SetCursorScreenPos(ImVec2(p1.x - photoW - pad * 0.5f, p0.y + 2));
+                ImGui::PushID(&v);
+                const bool clicked = ImGui::InvisibleButton("photos", ImVec2(photoW + pad * 0.5f, headH - 4));
+                const bool hov = ImGui::IsItemHovered();
+                dl->AddText(ImVec2(p1.x - photoW, p0.y + (headH - fs) * 0.5f), hov ? ImGui::GetColorU32(ImVec4(0.45f, 0.75f, 1.0f, 1.0f)) : colDim, "photos >");
+                if (hov) ImGui::SetTooltip("Open the real photos of this panel (FlyByWire docs) in your browser:\n%s", v.card->reference.c_str());
+                if (clicked && !openDocsUrl(v.card->reference)) LOG_WARN("Could not open %s (is xdg-open installed?)", v.card->reference.c_str());
+                ImGui::PopID();
+            }
+            // controls
+            for (size_t gi = 0; gi < v.groups.size(); ++gi) {
+                const PanelGroup& g = *v.groups[gi];
+                const ImVec2 c0(p0.x + pad + static_cast<float>(gi % 2) * (cellW + pad), p0.y + headH + static_cast<float>(gi / 2) * (cellH + pad));
+                const ImVec2 c1(c0.x + cellW, c0.y + cellH);
+                ImGui::SetCursorScreenPos(c0);
+                ImGui::PushID(static_cast<int>(gi + 1) * 100003 + static_cast<int>(&v - vis.data()) + static_cast<int>(region.size()));
+                ImGui::PushID(v.card->section.c_str());
+                ImGui::PushID(g.function.c_str());
+                const bool clicked = ImGui::InvisibleButton("ctl", ImVec2(cellW, cellH));
+                const bool hovered = ImGui::IsItemHovered();
+                const bool doubled = hovered && ImGui::IsMouseDoubleClicked(0);
+                bool selected = false;
+                for (int idx : g.entries) selected |= idx == catalogSelected_;
+                const ImU32 fill = selected ? ImGui::GetColorU32(ImVec4(0.18f, 0.40f, 0.72f, 1.0f))
+                                            : hovered ? ImGui::GetColorU32(ImVec4(0.26f, 0.29f, 0.36f, 1.0f))
+                                                      : ImGui::GetColorU32(ImVec4(0.20f, 0.22f, 0.27f, 1.0f));
+                dl->AddRectFilled(c0, c1, fill, fs * 0.35f);
+                // icon
+                const ImVec2 ic(c0.x + cellH * 0.5f, c0.y + cellH * 0.5f);
+                const float ir = cellH * 0.28f;
+                if (g.style == 0) {  // push button: a lit cap
+                    dl->AddRectFilled(ImVec2(ic.x - ir, ic.y - ir * 0.8f), ImVec2(ic.x + ir, ic.y + ir * 0.8f), ImGui::GetColorU32(ImVec4(0.75f, 0.78f, 0.85f, 1)), ir * 0.25f);
+                    dl->AddRectFilled(ImVec2(ic.x - ir * 0.7f, ic.y - ir * 0.55f), ImVec2(ic.x + ir * 0.7f, ic.y - ir * 0.1f), ImGui::GetColorU32(ImVec4(0.30f, 0.62f, 0.95f, 1)), ir * 0.15f);
+                } else if (g.style == 1) {  // knob: a disc with a pointer
+                    dl->AddCircleFilled(ic, ir, ImGui::GetColorU32(ImVec4(0.92f, 0.62f, 0.20f, 1)), 24);
+                    dl->AddLine(ic, ImVec2(ic.x + ir * 0.55f, ic.y - ir * 0.75f), ImGui::GetColorU32(ImVec4(0.1f, 0.1f, 0.1f, 1)), 2.0f);
+                } else {  // selector: a disc with position ticks
+                    dl->AddCircleFilled(ic, ir, ImGui::GetColorU32(ImVec4(0.45f, 0.78f, 0.55f, 1)), 24);
+                    for (int t = -1; t <= 1; ++t)
+                        dl->AddCircleFilled(ImVec2(ic.x + t * ir * 0.9f, ic.y - ir * 1.1f), 1.8f, colDim);
+                    dl->AddLine(ic, ImVec2(ic.x, ic.y - ir * 0.85f), ImGui::GetColorU32(ImVec4(0.1f, 0.1f, 0.1f, 1)), 2.0f);
+                }
+                // label (wraps over at most two lines, clipped)
+                dl->PushClipRect(ImVec2(c0.x + cellH, c0.y), c1, true);
+                dl->AddText(ImGui::GetFont(), fs, ImVec2(c0.x + cellH, c0.y + fs * 0.35f), colText, g.function.c_str(), nullptr, cellW - cellH - pad * 0.5f);
+                dl->PopClipRect();
+                if (hovered) {
+                    ImGui::BeginTooltip();
+                    ImGui::TextUnformatted(g.function.c_str());
+                    ImGui::Separator();
+                    int shown = 0;
+                    for (int idx : g.entries) {
+                        const CatalogEntry& e = cat.entries[static_cast<size_t>(idx)];
+                        if (shown++ >= 8) { ImGui::TextDisabled("..."); break; }
+                        ImGui::TextDisabled("%s", e.type.c_str());
+                        ImGui::SameLine();
+                        ImGui::TextUnformatted(e.api.size() > 70 ? (e.api.substr(0, 67) + "...").c_str() : e.api.c_str());
+                    }
+                    ImGui::TextDisabled("Click to select, double-click to create a binding");
+                    ImGui::EndTooltip();
+                }
+                if (clicked) catalogSelected_ = g.preferred;
+                if (doubled && g.preferred >= 0) {
+                    catalogSelected_ = g.preferred;
+                    const CatalogEntry& e = cat.entries[static_cast<size_t>(g.preferred)];
+                    if (pickMode) {
+                        for (const auto& a : catalogActions(e)) (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(a);
+                        ImGui::CloseCurrentPopup();
+                    } else {
+                        newBindingFrom(e);
+                    }
+                }
+                ImGui::PopID();
+                ImGui::PopID();
+                ImGui::PopID();
+            }
+        }
+        float maxH = 0;
+        for (float h : colH) maxH = std::max(maxH, h);
+        ImGui::SetCursorScreenPos(origin);
+        ImGui::Dummy(ImVec2(availW, maxH));
+    }
+    if (!anything) ImGui::TextDisabled("Nothing matches the filter.");
+    ImGui::EndChild();
+
+    // the other ways to drive the selected control
+    if (catalogSelected_ >= 0 && catalogSelected_ < static_cast<int>(cat.entries.size())) {
+        const CatalogEntry& sel = cat.entries[static_cast<size_t>(catalogSelected_)];
+        const PanelGroup* group = nullptr;
+        for (const auto& card : panelModel_.cards)
+            for (const auto& g : card.groups)
+                if (std::find(g.entries.begin(), g.entries.end(), catalogSelected_) != g.entries.end()) group = &g;
+        if (group && group->entries.size() > 1) {
+            ImGui::AlignTextToFramePadding();
+            ImGui::TextDisabled("%s - ways to drive it:", sel.function.c_str());
+            for (int idx : group->entries) {
+                const CatalogEntry& e = cat.entries[static_cast<size_t>(idx)];
+                ImGui::SameLine();
+                if (ImGui::GetContentRegionAvail().x < ImGui::CalcTextSize(e.api.c_str()).x + 30) ImGui::NewLine();
+                ImGui::PushID(idx);
+                if (idx == catalogSelected_) ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.18f, 0.40f, 0.72f, 1.0f));
+                if (ImGui::SmallButton(e.api.size() > 46 ? (e.api.substr(0, 43) + "...").c_str() : e.api.c_str())) catalogSelected_ = idx;
+                if (idx == catalogSelected_) ImGui::PopStyleColor();
+                if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s  %s  %s", e.type.c_str(), e.values.c_str(), e.remark.c_str());
+                ImGui::PopID();
+            }
+        }
+    }
+}
+
 void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
     ImGui::PushID(id);
     ImGui::SetNextItemWidth(400);
     ImGui::InputTextWithHint("##filter", "filter: fcu ap, autobrake, chrono, efis ...", &catalogFilter_);
     ImGui::SameLine();
     ImGui::TextDisabled("%zu entries", currentCatalog().entries.size());
+    ImGui::SameLine();
+    if (ImGui::RadioButton("Panels", catalogView_ == CatalogView::Panels)) catalogView_ = CatalogView::Panels;
+    ImGui::SameLine();
+    if (ImGui::RadioButton("List", catalogView_ == CatalogView::List)) catalogView_ = CatalogView::List;
     if (pickMode) {
         ImGui::SameLine();
         ImGui::Text("-> adding to the %s list", catalogTarget_ == 0 ? "PRESS" : "RELEASE");
@@ -944,7 +1205,9 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
 
     const float footer = pickMode ? ImGui::GetFrameHeightWithSpacing() * 3.5f : ImGui::GetFrameHeightWithSpacing() * 2.5f;
     ImGuiTableFlags tflags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollY | ImGuiTableFlags_Resizable;
-    if (ImGui::BeginTable("catalog", 5, tflags, ImVec2(0, -footer))) {
+    if (catalogView_ == CatalogView::Panels) {
+        drawPanelsView(pickMode ? pickerCatalog() : currentCatalog(), pickMode, words, footer + ImGui::GetFrameHeightWithSpacing() * 1.4f);
+    } else if (ImGui::BeginTable("catalog", 5, tflags, ImVec2(0, -footer))) {
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableSetupColumn("Panel", ImGuiTableColumnFlags_WidthStretch, 1.2f);
         ImGui::TableSetupColumn("Function", ImGuiTableColumnFlags_WidthStretch, 1.0f);

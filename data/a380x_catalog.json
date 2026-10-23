@@ -16,7 +16,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=OFF, 1=NAV, 2=ATT"
+   "remark": "0=OFF, 1=NAV, 2=ATT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -28,7 +29,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=OFF, 1=NAV, 2=ATT"
+   "remark": "0=OFF, 1=NAV, 2=ATT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -40,7 +42,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=OFF, 1=NAV, 2=ATT"
+   "remark": "0=OFF, 1=NAV, 2=ATT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -52,7 +55,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -64,7 +68,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -76,7 +81,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -88,7 +94,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -100,7 +107,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -112,7 +120,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead",
@@ -124,7 +133,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -136,7 +146,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Button position"
+   "remark": "Button position",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -149,7 +160,8 @@
    "rw": "-",
    "type": "MSFS EVENT",
    "remark": "",
-   "value": 1
+   "value": 1,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -162,7 +174,8 @@
    "rw": "-",
    "type": "MSFS EVENT",
    "remark": "",
-   "value": 2
+   "value": 2,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -175,7 +188,8 @@
    "rw": "-",
    "type": "MSFS EVENT",
    "remark": "",
-   "value": 3
+   "value": 3,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -188,7 +202,8 @@
    "rw": "-",
    "type": "MSFS EVENT",
    "remark": "",
-   "value": 4
+   "value": 4,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -200,7 +215,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -212,7 +228,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -224,7 +241,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -236,7 +254,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -248,7 +267,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -260,7 +280,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -272,7 +293,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -284,7 +306,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -296,7 +319,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=Close, 1=AUTO, 2=Open"
+   "remark": "0=Close, 1=AUTO, 2=Open",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -308,7 +332,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -320,7 +345,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -332,7 +358,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -344,7 +371,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -356,7 +384,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -368,7 +397,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -380,7 +410,8 @@
    "values": "0..3",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=MAN, 1=LO, 2=NORM, 3=HI"
+   "remark": "0=MAN, 1=LO, 2=NORM, 3=HI",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -392,7 +423,8 @@
    "values": "0..300",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -404,7 +436,8 @@
    "values": "0..400",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0..350 Cabin Temp, 400=PURS SEL"
+   "remark": "0..350 Cabin Temp, 400=PURS SEL",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -416,7 +449,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -428,7 +462,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -440,7 +475,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -452,7 +488,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -464,7 +501,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -476,7 +514,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -488,7 +527,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -500,7 +540,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -512,7 +553,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -524,7 +566,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/air/"
   },
   {
    "panel": "Overhead",
@@ -536,7 +579,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -548,7 +592,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -560,7 +605,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -572,7 +618,8 @@
    "values": "0..1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -584,7 +631,8 @@
    "values": "0..1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -596,7 +644,8 @@
    "values": "0..1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -608,7 +657,8 @@
    "values": "0..1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -620,7 +670,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -632,7 +683,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -644,7 +696,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -656,7 +709,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -668,7 +722,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -680,7 +735,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -692,7 +748,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -704,7 +761,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -716,7 +774,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Panel is on the left side of the OVHD"
+   "remark": "Panel is on the left side of the OVHD",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -728,7 +787,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead",
@@ -740,7 +800,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/apu/"
   },
   {
    "panel": "Overhead",
@@ -752,7 +813,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/apu/"
   },
   {
    "panel": "Overhead",
@@ -764,7 +826,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead",
@@ -776,7 +839,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -788,7 +852,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -800,7 +865,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -812,7 +878,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -824,7 +891,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -836,7 +904,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -848,7 +917,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -860,7 +930,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -872,7 +943,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -884,7 +956,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -896,7 +969,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -908,7 +982,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -920,7 +995,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -932,7 +1008,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -944,7 +1021,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -956,7 +1034,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -968,7 +1047,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -980,7 +1060,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -992,7 +1073,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1004,7 +1086,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1016,7 +1099,8 @@
    "values": "1..2",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1028,7 +1112,8 @@
    "values": "0..1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1040,7 +1125,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1052,7 +1138,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1064,7 +1151,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1076,7 +1164,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1088,7 +1177,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1100,7 +1190,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1112,7 +1203,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1124,7 +1216,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Current connected with PAX SYS"
+   "remark": "Current connected with PAX SYS",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1136,7 +1229,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Currently 1+2 and ELMU are connected"
+   "remark": "Currently 1+2 and ELMU are connected",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead",
@@ -1148,7 +1242,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "All 4 switches need to be set"
+   "remark": "All 4 switches need to be set",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-start/"
   },
   {
    "panel": "Overhead",
@@ -1160,7 +1255,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "All 4 switches need to be set"
+   "remark": "All 4 switches need to be set",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-start/"
   },
   {
    "panel": "Overhead",
@@ -1172,7 +1268,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "All 4 switches need to be set"
+   "remark": "All 4 switches need to be set",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-start/"
   },
   {
    "panel": "Overhead",
@@ -1184,7 +1281,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "All 4 switches need to be set"
+   "remark": "All 4 switches need to be set",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-start/"
   },
   {
    "panel": "Overhead",
@@ -1196,7 +1294,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/maintenance/"
   },
   {
    "panel": "Overhead",
@@ -1208,7 +1307,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/maintenance/"
   },
   {
    "panel": "Overhead",
@@ -1220,7 +1320,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/maintenance/"
   },
   {
    "panel": "Overhead",
@@ -1232,7 +1333,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/maintenance/"
   },
   {
    "panel": "Overhead",
@@ -1244,7 +1346,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "AUTO only when STROBES are ON"
+   "remark": "AUTO only when STROBES are ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead",
@@ -1256,7 +1359,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1268,7 +1372,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1280,7 +1385,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "When pressed, SQUIB discharges. Can't be reset."
+   "remark": "When pressed, SQUIB discharges. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1292,7 +1398,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1304,7 +1411,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1316,7 +1424,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1328,7 +1437,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1340,7 +1450,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1352,7 +1463,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1364,7 +1476,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1376,7 +1489,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1388,7 +1502,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "When pressed, SQUIB discharges. Can't be reset."
+   "remark": "When pressed, SQUIB discharges. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1400,7 +1515,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "When pressed, SQUIB discharges. Can't be reset."
+   "remark": "When pressed, SQUIB discharges. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1412,7 +1528,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "When pressed, SQUIB discharges. Can't be reset."
+   "remark": "When pressed, SQUIB discharges. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1424,7 +1541,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "When pressed, SQUIB discharges. Can't be reset."
+   "remark": "When pressed, SQUIB discharges. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1436,7 +1554,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/eng-fire/"
   },
   {
    "panel": "Overhead",
@@ -1448,7 +1567,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1460,7 +1580,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1472,7 +1593,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1484,7 +1606,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1496,7 +1619,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1508,7 +1632,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1520,7 +1645,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1532,7 +1658,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/flt-ctl/"
   },
   {
    "panel": "Overhead",
@@ -1544,7 +1671,8 @@
    "values": "see above",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Fuel pumps connection toggle"
+   "remark": "Fuel pumps connection toggle",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1556,7 +1684,8 @@
    "values": "46, 47, 48, 49",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1568,7 +1697,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1580,7 +1710,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1592,7 +1723,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1604,7 +1736,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead",
@@ -1616,7 +1749,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1628,7 +1762,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1640,7 +1775,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1652,7 +1788,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1664,7 +1801,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1676,7 +1814,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1688,7 +1827,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1700,7 +1840,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1712,7 +1853,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/hyd/"
   },
   {
    "panel": "Overhead",
@@ -1724,7 +1866,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=OFF, 1=ICI IND ON, 2=STBY COMPASS ON"
+   "remark": "0=OFF, 1=ICI IND ON, 2=STBY COMPASS ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/int-lt/"
   },
   {
    "panel": "Overhead",
@@ -1736,7 +1879,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "2=DIM, 1=BRT, 0=TEST"
+   "remark": "2=DIM, 1=BRT, 0=TEST",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/int-lt/"
   },
   {
    "panel": "Overhead",
@@ -1748,7 +1892,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead",
@@ -1760,7 +1905,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead",
@@ -1772,7 +1918,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=AUTO, 1=OFF"
+   "remark": "0=AUTO, 1=OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead",
@@ -1784,7 +1931,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/rcdr-evac/"
   },
   {
    "panel": "Overhead",
@@ -1796,7 +1944,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead",
@@ -1808,7 +1957,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=ON, 1=AUTO, 2=OFF"
+   "remark": "0=ON, 1=AUTO, 2=OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead",
@@ -1820,7 +1970,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=ON, 1=AUTO, 2=OFF"
+   "remark": "0=ON, 1=AUTO, 2=OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead",
@@ -1832,7 +1983,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Turns the wiper on/off - slow/fast via power setting"
+   "remark": "Turns the wiper on/off - slow/fast via power setting",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/wiper/"
   },
   {
    "panel": "Overhead",
@@ -1845,7 +1997,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "",
-   "value": 141
+   "value": 141,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/wiper/"
   },
   {
    "panel": "Overhead",
@@ -1858,7 +2011,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "0=off, 75=slow, 100=fast",
-   "value": 141
+   "value": 141,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/wiper/"
   },
   {
    "panel": "Overhead",
@@ -1871,7 +2025,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "0=off, 75=slow, 100=fast",
-   "value": 143
+   "value": 143,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/ovhd/wiper/"
   },
   {
    "panel": "Glareshield",
@@ -1883,7 +2038,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -1895,7 +2051,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -1908,6 +2065,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is clockwise dialed on FCU (captain side)"
   },
   {
@@ -1921,6 +2079,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is clockwise dialed on FCU (first officer side)"
   },
   {
@@ -1934,6 +2093,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is anti-clockwise dialed on FCU (captain side)"
   },
   {
@@ -1947,6 +2107,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is anti-clockwise dialed on FCU (first officer side)"
   },
   {
@@ -1960,6 +2121,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "in hPa * 16",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered to set the baro value on FCU Value is expected as the first parameter, in hPa * 16 (i.e. with a factor 16 applied, same as KOHLSMAN_SET). (captain side)"
   },
   {
@@ -1973,6 +2135,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "in hPa * 16",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered to set the baro value on FCU Value is expected as the first parameter, in hPa * 16 (i.e. with a factor 16 applied, same as KOHLSMAN_SET). (first officer side)"
   },
   {
@@ -1986,6 +2149,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is pushed on FCU (captain side)"
   },
   {
@@ -1999,6 +2163,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is pushed on FCU (first officer side)"
   },
   {
@@ -2012,6 +2177,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is pulled on FCU (captain side)"
   },
   {
@@ -2025,6 +2191,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the baro knob is pulled on FCU (first officer side)"
   },
   {
@@ -2037,7 +2204,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=Hg, 1=hPa, REMOVED"
+   "remark": "0=Hg, 1=hPa, REMOVED",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2049,7 +2217,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2061,7 +2230,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2074,6 +2244,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when FD button is pushed on FCU (captain side)"
   },
   {
@@ -2087,6 +2258,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when FD button is pushed on FCU (first officer side)"
   },
   {
@@ -2099,7 +2271,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2111,7 +2284,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2123,7 +2297,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2135,7 +2310,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2148,6 +2324,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the CSTR knob is pushed on FCU (captain side)"
   },
   {
@@ -2161,6 +2338,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the CSTR knob is pushed on FCU (first officer side)"
   },
   {
@@ -2174,6 +2352,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the WPT knob is pushed on FCU (captain side)"
   },
   {
@@ -2187,6 +2366,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the WPT knob is pushed on FCU (first officer side)"
   },
   {
@@ -2200,6 +2380,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the VORD knob is pushed on FCU (captain side)"
   },
   {
@@ -2213,6 +2394,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the VORD knob is pushed on FCU (first officer side)"
   },
   {
@@ -2226,6 +2408,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the NDB knob is pushed on FCU (captain side)"
   },
   {
@@ -2239,6 +2422,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the NDB knob is pushed on FCU (first officer side)"
   },
   {
@@ -2252,6 +2436,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the ARPT knob is pushed on FCU (captain side)"
   },
   {
@@ -2265,6 +2450,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/",
    "description": "Triggered when the ARPT knob is pushed on FCU (first officer side)"
   },
   {
@@ -2277,7 +2463,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2289,7 +2476,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2301,7 +2489,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2313,7 +2502,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2325,7 +2515,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2337,7 +2528,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2349,7 +2541,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2361,7 +2554,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2373,7 +2567,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2385,7 +2580,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2397,7 +2593,8 @@
    "values": "0..4",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN"
+   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2409,7 +2606,8 @@
    "values": "0..4",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN"
+   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2421,7 +2619,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2433,7 +2632,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2445,7 +2645,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2457,7 +2658,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2469,7 +2671,8 @@
    "values": "0..11",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=ZOOM 0.2,..., 4=ZOOM 5, 5=10, ..., 11=640"
+   "remark": "0=ZOOM 0.2,..., 4=ZOOM 5, 5=10, ..., 11=640",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2481,7 +2684,8 @@
    "values": "0..11",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=ZOOM 0.2,..., 4=ZOOM 5, 5=10, ..., 11=640"
+   "remark": "0=ZOOM 0.2,..., 4=ZOOM 5, 5=10, ..., 11=640",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2493,7 +2697,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2505,7 +2710,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2517,7 +2723,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2529,7 +2736,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2541,7 +2749,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2553,7 +2762,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2565,7 +2775,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2577,7 +2788,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/efis/"
   },
   {
    "panel": "Glareshield",
@@ -2590,6 +2802,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when SPD knob is clockwise dialed on FCU"
   },
   {
@@ -2603,6 +2816,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when SPD knob is anti-clockwise dialed on FCU"
   },
   {
@@ -2616,6 +2830,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to set SPD/MACH value on FCU Speed in knots (i.e. 250) Mach * 100 (i.e. 78 for M 0.78)"
   },
   {
@@ -2629,6 +2844,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when SPD knob is pushed on FCU"
   },
   {
@@ -2642,6 +2858,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when SPD knob is pulled on FCU"
   },
   {
@@ -2654,7 +2871,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2666,7 +2884,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2678,7 +2897,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2690,7 +2910,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2702,7 +2923,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2714,7 +2936,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2727,6 +2950,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when HDG knob is clockwise dialed on FCU"
   },
   {
@@ -2740,6 +2964,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when HDG knob is anti-clockwise dialed on FCU"
   },
   {
@@ -2753,6 +2978,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to set HDG/TRK value on FCU"
   },
   {
@@ -2766,6 +2992,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when HDG knob is pushed on FCU"
   },
   {
@@ -2779,6 +3006,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when HDG knob is pulled on FCU"
   },
   {
@@ -2791,7 +3019,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2803,7 +3032,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2815,7 +3045,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2827,7 +3058,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2840,6 +3072,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when LOC button is pushed on FCU"
   },
   {
@@ -2852,7 +3085,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2865,6 +3099,7 @@
    "rw": "R",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when ALT knob is clockwise dialed on FCU Parameter value can be used to set the increment:"
   },
   {
@@ -2878,6 +3113,7 @@
    "rw": "R",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when ALT knob is anti-clockwise dialed on FCU Parameter value can be used to set the decrement:"
   },
   {
@@ -2895,6 +3131,7 @@
     100,
     49000
    ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to set ALT value on FCU Value is rounded to 100 ft"
   },
   {
@@ -2908,6 +3145,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when ALT knob is pushed on FCU"
   },
   {
@@ -2921,6 +3159,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when ALT knob is pulled on FCU"
   },
   {
@@ -2934,6 +3173,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when the metric alt knob is pushed on FCU"
   },
   {
@@ -2946,7 +3186,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2958,7 +3199,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2970,7 +3212,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2982,7 +3225,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -2995,6 +3239,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to toggle ALT increment value on FCU"
   },
   {
@@ -3008,6 +3253,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to set ALT increment value on FCU Value can be either 100 or 1000, others are ignored"
   },
   {
@@ -3020,7 +3266,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3032,7 +3279,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3045,6 +3293,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when ALT knob is pushed on FCU"
   },
   {
@@ -3058,6 +3307,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when VS knob is anti-clockwise dialed on FCU"
   },
   {
@@ -3075,6 +3325,7 @@
     -6000,
     6000
    ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered to set VS/FPA value on FCU VS in feet per minute (i.e. 500 for 500 ft/min) FPA * 10 (i.e. 15 for 1.5°)"
   },
   {
@@ -3088,6 +3339,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "FPA: -9.9..9.9",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when V/S knob is pushed on FCU"
   },
   {
@@ -3101,6 +3353,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when V/S knob is pulled on FCU"
   },
   {
@@ -3113,7 +3366,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3125,7 +3379,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3137,7 +3392,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3149,7 +3405,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3162,6 +3419,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when APPR button is pushed on FCU"
   },
   {
@@ -3174,7 +3432,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3186,7 +3445,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3198,7 +3458,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3211,6 +3472,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Trigger when button AP 1 is pushed on FCU"
   },
   {
@@ -3224,6 +3486,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Trigger when button AP 2 is pushed on FCU"
   },
   {
@@ -3237,6 +3500,7 @@
    "rw": "",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Trigger of red AP disconnection button (sidestick)"
   },
   {
@@ -3249,7 +3513,8 @@
    "values": "1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3261,7 +3526,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "1st call AP1, 2nd call AP2"
+   "remark": "1st call AP1, 2nd call AP2",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3273,7 +3539,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Turns off any AP"
+   "remark": "Turns off any AP",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3285,7 +3552,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "1 for OFF"
+   "remark": "1 for OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3297,7 +3565,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3310,6 +3579,7 @@
    "rw": "",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Trigger when button ATHR is pushed on FCU"
   },
   {
@@ -3323,6 +3593,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Trigger when red ATHR disconnection button is pushed (on throttles)"
   },
   {
@@ -3335,7 +3606,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3347,7 +3619,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3359,7 +3632,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3372,6 +3646,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when SPD/MACH knob is pushed on FCU"
   },
   {
@@ -3384,7 +3659,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3397,6 +3673,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/",
    "description": "Triggered when TRK/FPA knob is pushed on FCU"
   },
   {
@@ -3409,7 +3686,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3421,7 +3699,8 @@
    "values": "-",
    "rw": "-",
    "type": "Custom EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/afs/"
   },
   {
    "panel": "Glareshield",
@@ -3433,7 +3712,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=not pushed, 1=pushed"
+   "remark": "0=not pushed, 1=pushed",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/glare-side/"
   },
   {
    "panel": "Glareshield",
@@ -3445,7 +3725,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=not pushed, 1=pushed"
+   "remark": "0=not pushed, 1=pushed",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/glare-side/"
   },
   {
    "panel": "Glareshield",
@@ -3457,7 +3738,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=not pushed, 1=pushed"
+   "remark": "0=not pushed, 1=pushed",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/glare-side/"
   },
   {
    "panel": "Glareshield",
@@ -3469,7 +3751,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=not pushed, 1=pushed"
+   "remark": "0=not pushed, 1=pushed",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/glareshield/glare-side/"
   },
   {
    "panel": "Instrument Panel",
@@ -3481,7 +3764,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3493,7 +3777,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3505,7 +3790,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3517,7 +3803,8 @@
    "values": "0.0-1.0",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3529,7 +3816,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3541,7 +3829,8 @@
    "values": "0..5",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=DIS, 1=BTV, 2=LO, 3=L2, 4=L3, 5=HI"
+   "remark": "0=DIS, 1=BTV, 2=LO, 3=L2, 4=L3, 5=HI",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3553,7 +3842,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3565,7 +3855,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3577,7 +3868,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0 = RUN, 1 = STOP, 2 = RESET"
+   "remark": "0 = RUN, 1 = STOP, 2 = RESET",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/center-right/"
   },
   {
    "panel": "Instrument Panel",
@@ -3589,7 +3881,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/gravity-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3601,7 +3894,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/gravity-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3613,7 +3907,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=RESET, 1=OFF, 2=DOWN"
+   "remark": "0=RESET, 1=OFF, 2=DOWN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/gravity-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3625,7 +3920,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/switching/"
   },
   {
    "panel": "Instrument Panel",
@@ -3637,7 +3933,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/switching/"
   },
   {
    "panel": "Instrument Panel",
@@ -3649,7 +3946,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/main-panel/switching/"
   },
   {
    "panel": "Pedestal",
@@ -3661,7 +3959,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/cockpit-door/"
   },
   {
    "panel": "Pedestal",
@@ -3673,7 +3972,8 @@
    "values": "-1..12",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "See below."
+   "remark": "See below.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3685,7 +3985,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3697,7 +3998,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3709,7 +4011,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3721,7 +4024,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3733,7 +4037,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3745,7 +4050,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3757,7 +4063,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3769,7 +4076,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3781,7 +4089,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3793,7 +4102,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3805,7 +4115,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3817,7 +4128,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/ecam-cp/"
   },
   {
    "panel": "Pedestal",
@@ -3829,7 +4141,8 @@
    "values": "-",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Activates the switch"
+   "remark": "Activates the switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/engine-master/"
   },
   {
    "panel": "Pedestal",
@@ -3841,7 +4154,8 @@
    "values": "-",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Deactivates the switch"
+   "remark": "Deactivates the switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/engine-master/"
   },
   {
    "panel": "Pedestal",
@@ -3853,7 +4167,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/engine-master/"
   },
   {
    "panel": "Pedestal",
@@ -3869,7 +4184,8 @@
    "axis_range": [
     0,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3881,7 +4197,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3893,7 +4210,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3905,7 +4223,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3917,7 +4236,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3929,7 +4249,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3941,7 +4262,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3953,7 +4275,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/flap-lever/"
   },
   {
    "panel": "Pedestal",
@@ -3965,7 +4288,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Momentary button - reset to 0"
+   "remark": "Momentary button - reset to 0",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/fdrs/"
   },
   {
    "panel": "Pedestal",
@@ -3977,7 +4301,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": "Momentary button - reset to 0"
+   "remark": "Momentary button - reset to 0",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/fdrs/"
   },
   {
    "panel": "Pedestal",
@@ -3989,7 +4314,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/kccu/"
   },
   {
    "panel": "Pedestal",
@@ -4001,7 +4327,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/kccu/"
   },
   {
    "panel": "Pedestal",
@@ -4013,7 +4340,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/kccu/"
   },
   {
    "panel": "Pedestal",
@@ -4025,7 +4353,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/kccu/"
   },
   {
    "panel": "Pedestal",
@@ -4037,7 +4366,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/parking-brake/"
   },
   {
    "panel": "Pedestal",
@@ -4049,7 +4379,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT Event",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/trim-panel/"
   },
   {
    "panel": "Pedestal",
@@ -4061,7 +4392,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT Event",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/trim-panel/"
   },
   {
    "panel": "Pedestal",
@@ -4073,7 +4405,8 @@
    "values": "-",
    "rw": ".",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/trim-panel/"
   },
   {
    "panel": "Pedestal",
@@ -4085,7 +4418,8 @@
    "values": "0 .. 2",
    "rw": "R/W",
    "type": "CUSTOM LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/trim-panel/"
   },
   {
    "panel": "Pedestal",
@@ -4101,7 +4435,8 @@
    "axis_range": [
     0,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/speed-brake/"
   },
   {
    "panel": "Pedestal",
@@ -4113,7 +4448,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/speed-brake/"
   },
   {
    "panel": "Pedestal",
@@ -4125,7 +4461,8 @@
    "values": "0..1",
    "rw": "W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/speed-brake/"
   },
   {
    "panel": "Pedestal",
@@ -4141,7 +4478,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/throttle/"
   },
   {
    "panel": "Pedestal",
@@ -4157,7 +4495,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/throttle/"
   },
   {
    "panel": "Pedestal",
@@ -4173,7 +4512,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/throttle/"
   },
   {
    "panel": "Pedestal",
@@ -4189,7 +4529,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/throttle/"
   },
   {
    "panel": "Pedestal",
@@ -4201,7 +4542,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a380x/a380x-briefing/flight-deck/pedestal/throttle/"
   },
   {
    "panel": "Side Stick",

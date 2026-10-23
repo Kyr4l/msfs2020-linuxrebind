@@ -16,7 +16,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -28,7 +29,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -40,7 +42,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -52,7 +55,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -64,7 +68,8 @@
    "values": "0..1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -77,7 +82,8 @@
    "rw": "-",
    "type": "SIMCONNECT EVENT",
    "remark": "",
-   "value": 1
+   "value": 1,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -89,7 +95,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -102,7 +109,8 @@
    "rw": "-",
    "type": "SIMCONNECT EVENT",
    "remark": "",
-   "value": 2
+   "value": 2,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -114,7 +122,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -126,7 +135,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -138,7 +148,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -150,7 +161,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -162,7 +174,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -174,7 +187,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -186,7 +200,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -198,7 +213,8 @@
    "values": "0 -> 1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Cannot be undone - flight restart required"
+   "remark": "Cannot be undone - flight restart required",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -210,7 +226,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -222,7 +239,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/elec/"
   },
   {
    "panel": "Overhead Forward",
@@ -234,7 +252,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "OFF and ON (no AUTO)"
+   "remark": "OFF and ON (no AUTO)",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -246,7 +265,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "OFF and ON (no AUTO)"
+   "remark": "OFF and ON (no AUTO)",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -258,7 +278,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "OFF and ON (no AUTO)"
+   "remark": "OFF and ON (no AUTO)",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -270,7 +291,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "OFF and ON (no AUTO)"
+   "remark": "OFF and ON (no AUTO)",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -282,7 +304,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "OFF and ON (no AUTO)"
+   "remark": "OFF and ON (no AUTO)",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -294,7 +317,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "AUTO only when STROBES are ON"
+   "remark": "AUTO only when STROBES are ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -306,7 +330,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -318,7 +343,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -330,7 +356,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -342,7 +369,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -354,7 +382,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -366,7 +395,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -378,7 +408,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -390,7 +421,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -402,7 +434,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -414,7 +447,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -426,7 +460,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "LOGO needs to be set separately"
+   "remark": "LOGO needs to be set separately",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -438,7 +473,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "LOGO needs to be set separately"
+   "remark": "LOGO needs to be set separately",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -450,7 +486,8 @@
    "values": "0|1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "LOGO does not move switch"
+   "remark": "LOGO does not move switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -462,7 +499,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "LOGO does not move switch"
+   "remark": "LOGO does not move switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -474,7 +512,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Left Rwy Turn Off Light + Switch"
+   "remark": "Left Rwy Turn Off Light + Switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -486,7 +525,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Right Rwy Turn Off Light"
+   "remark": "Right Rwy Turn Off Light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -498,7 +538,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Rwy Turn Off Light + Switch"
+   "remark": "Rwy Turn Off Light + Switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -510,7 +551,8 @@
    "values": "0..3",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "0=all, 1=NOSE, 2=L, 3=R"
+   "remark": "0=all, 1=NOSE, 2=L, 3=R",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -522,7 +564,8 @@
    "values": "0..3",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "0=all, 1=NOSE, 2=L, 3=R"
+   "remark": "0=all, 1=NOSE, 2=L, 3=R",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -534,7 +577,8 @@
    "values": "0..3",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "0=all, 1=NOSE, 2=L, 3=R"
+   "remark": "0=all, 1=NOSE, 2=L, 3=R",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -546,7 +590,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Left landing light"
+   "remark": "Left landing light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -558,7 +603,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Right landing light"
+   "remark": "Right landing light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -570,7 +616,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Switch position of the NOSE switch: 2=OFF, 1=TAXI, 0=T.O."
+   "remark": "Switch position of the NOSE switch: 2=OFF, 1=TAXI, 0=T.O.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -582,7 +629,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Switch position of the left landing light: 2=RETRACT, 1=OFF, 0=ON"
+   "remark": "Switch position of the left landing light: 2=RETRACT, 1=OFF, 0=ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -594,7 +642,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Switch position of the right landing light: 2=RETRACT, 1=OFF, 0=ON"
+   "remark": "Switch position of the right landing light: 2=RETRACT, 1=OFF, 0=ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -606,7 +655,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "No function - NOSE light can't be retracted"
+   "remark": "No function - NOSE light can't be retracted",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -618,7 +668,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Retraction of left landing light: 0=extended, 1=retracted"
+   "remark": "Retraction of left landing light: 0=extended, 1=retracted",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -630,7 +681,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Retraction of right landing light 0=extended, 1=retracted"
+   "remark": "Retraction of right landing light 0=extended, 1=retracted",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -642,7 +694,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Also toggles RWY TURN OFF LIGHT"
+   "remark": "Also toggles RWY TURN OFF LIGHT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -654,7 +707,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Only switches TAXI light"
+   "remark": "Only switches TAXI light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -666,7 +720,8 @@
    "values": "1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles switch between T.O. and OFF"
+   "remark": "Toggles switch between T.O. and OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -678,7 +733,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "NOSE TAXI"
+   "remark": "NOSE TAXI",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -690,7 +746,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "NOSE T.O."
+   "remark": "NOSE T.O.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ext-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -702,7 +759,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggle OFF-DIM-BRT"
+   "remark": "Toggle OFF-DIM-BRT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/int-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -714,7 +772,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "2=DIM, 1=BRT, 0=TEST"
+   "remark": "2=DIM, 1=BRT, 0=TEST",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/int-lt/"
   },
   {
    "panel": "Overhead Forward",
@@ -726,7 +785,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead Forward",
@@ -738,7 +798,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=ON, 1=AUTO, 2=OFF"
+   "remark": "0=ON, 1=AUTO, 2=OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead Forward",
@@ -750,7 +811,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=ON, 1=AUTO, 2=OFF"
+   "remark": "0=ON, 1=AUTO, 2=OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/signs/"
   },
   {
    "panel": "Overhead Forward",
@@ -762,7 +824,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=NAV, 2=ATT"
+   "remark": "0=OFF, 1=NAV, 2=ATT",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead Forward",
@@ -774,7 +837,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead Forward",
@@ -786,7 +850,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/adirs/"
   },
   {
    "panel": "Overhead Forward",
@@ -798,7 +863,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/apu/"
   },
   {
    "panel": "Overhead Forward",
@@ -810,7 +876,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/apu/"
   },
   {
    "panel": "Overhead Forward",
@@ -822,7 +889,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/voice-recorder/"
   },
   {
    "panel": "Overhead Forward",
@@ -834,7 +902,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/voice-recorder/"
   },
   {
    "panel": "Overhead Forward",
@@ -846,7 +915,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead Forward",
@@ -858,7 +928,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead Forward",
@@ -870,7 +941,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/oxygen/"
   },
   {
    "panel": "Overhead Forward",
@@ -882,7 +954,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -894,7 +967,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -906,7 +980,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Open Guard first. Can't be reset."
+   "remark": "Open Guard first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -918,7 +993,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Press Fire button first. Can't be reset."
+   "remark": "Press Fire button first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -930,7 +1006,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -942,7 +1019,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -954,7 +1032,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -966,7 +1045,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -978,7 +1058,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Open Guard first. Can't be reset."
+   "remark": "Open Guard first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -990,7 +1071,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Open Guard first. Can't be reset."
+   "remark": "Open Guard first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -1002,7 +1084,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Press Fire button first. Can't be reset."
+   "remark": "Press Fire button first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -1014,7 +1097,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Press Fire button first. Can't be reset."
+   "remark": "Press Fire button first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -1026,7 +1110,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Press Fire button first. Can't be reset."
+   "remark": "Press Fire button first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -1038,7 +1123,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Press Fire button first. Can't be reset."
+   "remark": "Press Fire button first. Can't be reset.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fire/"
   },
   {
    "panel": "Overhead Forward",
@@ -1050,7 +1136,8 @@
    "values": "2,3,5,6",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Fuel pumps for wing tanks"
+   "remark": "Fuel pumps for wing tanks",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead Forward",
@@ -1062,7 +1149,8 @@
    "values": "9,10",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Fuel jet pump valves for center tanks"
+   "remark": "Fuel jet pump valves for center tanks",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead Forward",
@@ -1074,7 +1162,8 @@
    "values": "3",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "X-Feed pump"
+   "remark": "X-Feed pump",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/fuel/"
   },
   {
    "panel": "Overhead Forward",
@@ -1086,7 +1175,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1098,7 +1188,8 @@
    "values": "1",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1110,7 +1201,8 @@
    "values": "2",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1122,7 +1214,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1134,7 +1227,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1146,7 +1240,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1158,7 +1253,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1170,7 +1266,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1182,7 +1279,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1194,7 +1292,8 @@
    "values": "0..300",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1206,7 +1305,8 @@
    "values": "0..300",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1218,7 +1318,8 @@
    "values": "0..300",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1230,7 +1331,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1242,7 +1344,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1254,7 +1357,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/ac/"
   },
   {
    "panel": "Overhead Forward",
@@ -1266,7 +1370,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1278,7 +1383,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1290,7 +1396,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1302,7 +1409,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1314,7 +1422,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1326,7 +1435,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1338,7 +1448,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1350,7 +1461,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1362,7 +1474,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1374,7 +1487,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Function & Button light"
+   "remark": "Function & Button light",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1386,7 +1500,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Button state"
+   "remark": "Button state",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/anti-ice/"
   },
   {
    "panel": "Overhead Forward",
@@ -1398,7 +1513,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead Forward",
@@ -1410,7 +1526,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead Forward",
@@ -1422,7 +1539,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead Forward",
@@ -1434,7 +1552,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead Forward",
@@ -1446,7 +1565,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/calls/"
   },
   {
    "panel": "Overhead Forward",
@@ -1458,7 +1578,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "Turns the wiper on/off - slow/fast via power setting"
+   "remark": "Turns the wiper on/off - slow/fast via power setting",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/wipers/"
   },
   {
    "panel": "Overhead Forward",
@@ -1471,7 +1592,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "",
-   "value": 77
+   "value": 77,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/wipers/"
   },
   {
    "panel": "Overhead Forward",
@@ -1484,7 +1606,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "0=off, 75=slow, 100=fast",
-   "value": 77
+   "value": 77,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/wipers/"
   },
   {
    "panel": "Overhead Forward",
@@ -1497,7 +1620,8 @@
    "rw": "",
    "type": "MSFS Event",
    "remark": "0=off, 75=slow, 100=fast",
-   "value": 80
+   "value": 80,
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/wipers/"
   },
   {
    "panel": "Overhead Forward",
@@ -1509,7 +1633,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1521,7 +1646,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1533,7 +1659,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1545,7 +1672,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1557,7 +1685,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1569,7 +1698,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Overhead Forward",
@@ -1581,7 +1711,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/ovhd/flight-control-computer/"
   },
   {
    "panel": "Glareshield",
@@ -1593,7 +1724,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1605,7 +1737,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1618,6 +1751,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is clockwise dialed on FCU (captain side)"
   },
   {
@@ -1631,6 +1765,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is clockwise dialed on FCU (first officer side)"
   },
   {
@@ -1644,6 +1779,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is anti-clockwise dialed on FCU (captain side)"
   },
   {
@@ -1657,6 +1793,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is anti-clockwise dialed on FCU (first officer side)"
   },
   {
@@ -1670,6 +1807,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "in hPa * 16",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered to set the baro value on FCU Value is expected as the first parameter, in hPa * 16 (i.e. with a factor 16 applied, same as KOHLSMAN_SET). (captain side)"
   },
   {
@@ -1683,6 +1821,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "in hPa * 16",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered to set the baro value on FCU Value is expected as the first parameter, in hPa * 16 (i.e. with a factor 16 applied, same as KOHLSMAN_SET). (first officer side)"
   },
   {
@@ -1696,6 +1835,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is pushed on FCU (captain side)"
   },
   {
@@ -1709,6 +1849,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is pushed on FCU (first officer side)"
   },
   {
@@ -1722,6 +1863,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is pulled on FCU (captain side)"
   },
   {
@@ -1735,6 +1877,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the baro knob is pulled on FCU (first officer side)"
   },
   {
@@ -1747,7 +1890,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=Hg, 1=hPa, REMOVED"
+   "remark": "0=Hg, 1=hPa, REMOVED",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1759,7 +1903,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1771,7 +1916,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1783,7 +1929,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1796,6 +1943,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when FD button is pushed on FCU (captain side)"
   },
   {
@@ -1809,6 +1957,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when FD button is pushed on FCU (first officer side)"
   },
   {
@@ -1822,6 +1971,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when FD button is pushed on FCU (captain side)"
   },
   {
@@ -1835,6 +1985,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when FD button is pushed on FCU (first officer side)"
   },
   {
@@ -1848,6 +1999,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the CSTR knob is pushed on FCU (captain side)"
   },
   {
@@ -1861,6 +2013,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the CSTR knob is pushed on FCU (first officer side)"
   },
   {
@@ -1874,6 +2027,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the WPT knob is pushed on FCU (captain side)"
   },
   {
@@ -1887,6 +2041,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the WPT knob is pushed on FCU (first officer side)"
   },
   {
@@ -1900,6 +2055,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the VORD knob is pushed on FCU (captain side)"
   },
   {
@@ -1913,6 +2069,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the VORD knob is pushed on FCU (first officer side)"
   },
   {
@@ -1926,6 +2083,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the NDB knob is pushed on FCU (captain side)"
   },
   {
@@ -1939,6 +2097,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the NDB knob is pushed on FCU (first officer side)"
   },
   {
@@ -1952,6 +2111,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the ARPT knob is pushed on FCU (captain side)"
   },
   {
@@ -1965,6 +2125,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/",
    "description": "Triggered when the ARPT knob is pushed on FCU (first officer side)"
   },
   {
@@ -1977,7 +2138,8 @@
    "values": "0..4",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN"
+   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -1989,7 +2151,8 @@
    "values": "0..4",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN"
+   "remark": "0=ROSE ILS, 1=ROSE VOR, 2=ROSE NAV. 3=ARC, 4=PLAN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2001,7 +2164,8 @@
    "values": "0..5",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=10, ..., 5=320"
+   "remark": "0=10, ..., 5=320",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2013,7 +2177,8 @@
    "values": "0..5",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=10, ..., 5=320"
+   "remark": "0=10, ..., 5=320",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2025,7 +2190,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2037,7 +2203,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2049,7 +2216,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2061,7 +2229,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=ADF, 2=VOR"
+   "remark": "0=OFF, 1=ADF, 2=VOR",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/efis_control/"
   },
   {
    "panel": "Glareshield",
@@ -2074,6 +2243,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when SPD knob is clockwise dialed on FCU"
   },
   {
@@ -2087,6 +2257,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when SPD knob is anti-clockwise dialed on FCU"
   },
   {
@@ -2100,6 +2271,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to set SPD/MACH value on FCU Speed in knots (i.e. 250) Mach * 100 (i.e. 78 for M 0.78)"
   },
   {
@@ -2113,6 +2285,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when SPD knob is pushed on FCU"
   },
   {
@@ -2126,6 +2299,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when SPD knob is pulled on FCU"
   },
   {
@@ -2138,7 +2312,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2150,7 +2325,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2162,7 +2338,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2174,7 +2351,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2186,7 +2364,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2198,7 +2377,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2211,6 +2391,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when HDG knob is clockwise dialed on FCU"
   },
   {
@@ -2224,6 +2405,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when HDG knob is anti-clockwise dialed on FCU"
   },
   {
@@ -2237,6 +2419,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to set HDG/TRK value on FCU"
   },
   {
@@ -2250,6 +2433,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when HDG knob is pushed on FCU"
   },
   {
@@ -2263,6 +2447,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when HDG knob is pulled on FCU"
   },
   {
@@ -2275,7 +2460,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2287,7 +2473,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2299,7 +2486,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2311,7 +2499,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2324,6 +2513,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when LOC button is pushed on FCU"
   },
   {
@@ -2336,7 +2526,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2349,6 +2540,7 @@
    "rw": "R",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when ALT knob is clockwise dialed on FCU Parameter value can be used to set the increment:"
   },
   {
@@ -2362,6 +2554,7 @@
    "rw": "R",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when ALT knob is anti-clockwise dialed on FCU Parameter value can be used to set the decrement:"
   },
   {
@@ -2379,6 +2572,7 @@
     100,
     49000
    ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to set ALT value on FCU Value is rounded to 100 ft"
   },
   {
@@ -2392,6 +2586,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when ALT knob is pushed on FCU"
   },
   {
@@ -2405,6 +2600,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when ALT knob is pulled on FCU"
   },
   {
@@ -2418,6 +2614,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when the metric alt knob is pushed on FCU"
   },
   {
@@ -2430,7 +2627,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2442,7 +2640,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2454,7 +2653,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2466,7 +2666,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2479,6 +2680,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to toggle ALT increment value on FCU"
   },
   {
@@ -2492,6 +2694,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to set ALT increment value on FCU Value can be either 100 or 1000, others are ignored"
   },
   {
@@ -2504,7 +2707,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2516,7 +2720,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2529,6 +2734,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when EXPEDITE button is pushed on FCU"
   },
   {
@@ -2541,7 +2747,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2554,6 +2761,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when VS knob is anti-clockwise dialed on FCU"
   },
   {
@@ -2571,6 +2779,7 @@
     -6000,
     6000
    ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered to set VS/FPA value on FCU VS in feet per minute (i.e. 500 for 500 ft/min) FPA * 10 (i.e. 15 for 1.5°)"
   },
   {
@@ -2584,6 +2793,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "FPA: -9.9..9.9",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when V/S knob is pushed on FCU"
   },
   {
@@ -2597,6 +2807,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when V/S knob is pulled on FCU"
   },
   {
@@ -2609,7 +2820,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Push"
+   "remark": "Push",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2621,7 +2833,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Pull"
+   "remark": "Pull",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2633,7 +2846,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2645,7 +2859,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2658,6 +2873,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when APPR button is pushed on FCU"
   },
   {
@@ -2670,7 +2886,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2683,6 +2900,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Trigger when button AP 1 is pushed on FCU"
   },
   {
@@ -2696,6 +2914,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Trigger when button AP 2 is pushed on FCU"
   },
   {
@@ -2709,6 +2928,7 @@
    "rw": "",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Trigger of red AP disconnection button (sidestick)"
   },
   {
@@ -2721,7 +2941,8 @@
    "values": "1",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2733,7 +2954,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "1st call AP1, 2nd call AP2"
+   "remark": "1st call AP1, 2nd call AP2",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2745,7 +2967,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Turns off any AP"
+   "remark": "Turns off any AP",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2757,7 +2980,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "1 for OFF"
+   "remark": "1 for OFF",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2769,7 +2993,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2782,6 +3007,7 @@
    "rw": "",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Trigger when button ATHR is pushed on FCU"
   },
   {
@@ -2795,6 +3021,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Trigger when red ATHR disconnection button is pushed (on throttles)"
   },
   {
@@ -2807,7 +3034,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2819,7 +3047,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2831,7 +3060,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2844,6 +3074,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when SPD/MACH knob is pushed on FCU"
   },
   {
@@ -2856,7 +3087,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2869,6 +3101,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/",
    "description": "Triggered when TRK/FPA knob is pushed on FCU"
   },
   {
@@ -2881,7 +3114,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Repurposed event as Simconnect has no standard event for this otherwise."
+   "remark": "Repurposed event as Simconnect has no standard event for this otherwise.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/fcu/"
   },
   {
    "panel": "Glareshield",
@@ -2893,7 +3127,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/warning/"
   },
   {
    "panel": "Glareshield",
@@ -2905,7 +3140,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/warning/"
   },
   {
    "panel": "Glareshield",
@@ -2917,7 +3153,8 @@
    "values": "-",
    "rw": "-",
    "type": "HTML Event (aka H Event)",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/warning/"
   },
   {
    "panel": "Glareshield",
@@ -2929,7 +3166,8 @@
    "values": "-",
    "rw": "-",
    "type": "HTML Event (aka H Event)",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/warning/"
   },
   {
    "panel": "Glareshield",
@@ -2941,7 +3179,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/glareshield/warning/"
   },
   {
    "panel": "Instrument Panel",
@@ -2953,7 +3192,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -2965,7 +3205,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -2977,7 +3218,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -2989,7 +3231,8 @@
    "values": "0..3",
    "rw": "W",
    "type": "Custom LVAR",
-   "remark": "0=DIS, 1=LO,2=MED, 3=MAX"
+   "remark": "0=DIS, 1=LO,2=MED, 3=MAX",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3002,6 +3245,7 @@
    "rw": "",
    "type": "Custom EVENT",
    "remark": "0=DIS, 1=LO, 2=MED, 3=MAX",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake is set to the desired state Parameter value can be used to set the decrement:"
   },
   {
@@ -3015,6 +3259,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake is set to disarmed state"
   },
   {
@@ -3028,6 +3273,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake is set to LO state (if allowed)"
   },
   {
@@ -3041,6 +3287,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake is set to MED state (if allowed)"
   },
   {
@@ -3054,6 +3301,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake is set to MAX state (if allowed)"
   },
   {
@@ -3067,6 +3315,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake button LO is pressed (as if triggered in the cockpit)"
   },
   {
@@ -3080,6 +3329,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake button MED is pressed (as if triggered in the cockpit)"
   },
   {
@@ -3093,6 +3343,7 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/",
    "description": "When triggered the autobrake button MAX is pressed (as if triggered in the cockpit)"
   },
   {
@@ -3105,7 +3356,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3117,7 +3369,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3129,7 +3382,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/autobrake-gear/"
   },
   {
    "panel": "Instrument Panel",
@@ -3141,7 +3395,8 @@
    "values": "0..100",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "Auto-brightness - will automatically change"
+   "remark": "Auto-brightness - will automatically change",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/isis/"
   },
   {
    "panel": "Instrument Panel",
@@ -3153,7 +3408,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0 = RUN, 1 = STOP, 2 = RESET"
+   "remark": "0 = RUN, 1 = STOP, 2 = RESET",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/clock/"
   },
   {
    "panel": "Instrument Panel",
@@ -3165,7 +3421,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/nd/"
   },
   {
    "panel": "Instrument Panel",
@@ -3177,7 +3434,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/nd/"
   },
   {
    "panel": "Instrument Panel",
@@ -3189,7 +3447,8 @@
    "values": "0..100",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/front/dcdu/"
   },
   {
    "panel": "Pedestal",
@@ -3201,7 +3460,8 @@
    "values": "0..100",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/mcdu/"
   },
   {
    "panel": "Pedestal",
@@ -3213,7 +3473,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/switching/"
   },
   {
    "panel": "Pedestal",
@@ -3225,7 +3486,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/switching/"
   },
   {
    "panel": "Pedestal",
@@ -3237,7 +3499,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/switching/"
   },
   {
    "panel": "Pedestal",
@@ -3249,7 +3512,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=CAPT, 1=NORM, 2=F/O"
+   "remark": "0=CAPT, 1=NORM, 2=F/O",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/switching/"
   },
   {
    "panel": "Pedestal",
@@ -3261,7 +3525,8 @@
    "values": "-1..12",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "See below."
+   "remark": "See below.",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3273,7 +3538,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "This is a momentary button - it needs to be reset to 0 by the API user"
+   "remark": "This is a momentary button - it needs to be reset to 0 by the API user",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3285,7 +3551,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "This is a momentary button - it needs to be reset to 0 by the API user"
+   "remark": "This is a momentary button - it needs to be reset to 0 by the API user",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3297,7 +3564,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "This is a momentary button - it needs to be reset to 0 by the API user"
+   "remark": "This is a momentary button - it needs to be reset to 0 by the API user",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3309,7 +3577,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "This is a momentary button - it needs to be reset to 0 by the API user"
+   "remark": "This is a momentary button - it needs to be reset to 0 by the API user",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3321,7 +3590,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "This is a momentary button - it needs to be reset to 0 by the API user"
+   "remark": "This is a momentary button - it needs to be reset to 0 by the API user",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/ecam-control/"
   },
   {
    "panel": "Pedestal",
@@ -3337,7 +3607,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/thrust-pitch-trim/"
   },
   {
    "panel": "Pedestal",
@@ -3353,7 +3624,8 @@
    "axis_range": [
     -16383,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/thrust-pitch-trim/"
   },
   {
    "panel": "Pedestal",
@@ -3365,7 +3637,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "Toggles"
+   "remark": "Toggles",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/thrust-pitch-trim/"
   },
   {
    "panel": "Pedestal",
@@ -3377,7 +3650,8 @@
    "values": "118.000..136.975",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rmp/"
   },
   {
    "panel": "Pedestal",
@@ -3389,7 +3663,8 @@
    "values": "118.000..136.975",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rmp/"
   },
   {
    "panel": "Pedestal",
@@ -3401,7 +3676,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rmp/"
   },
   {
    "panel": "Pedestal",
@@ -3413,7 +3689,8 @@
    "values": "0..3",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=SEL, 1=VHF1, 2=VHF2, 3=VHF3"
+   "remark": "0=SEL, 1=VHF1, 2=VHF2, 3=VHF3",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rmp/"
   },
   {
    "panel": "Pedestal",
@@ -3425,7 +3702,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rmp/"
   },
   {
    "panel": "Pedestal",
@@ -3437,7 +3715,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=1, 1=OFF, 2=2"
+   "remark": "0=1, 1=OFF, 2=2",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/radar/"
   },
   {
    "panel": "Pedestal",
@@ -3449,7 +3728,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=AUTO"
+   "remark": "0=OFF, 1=AUTO",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/radar/"
   },
   {
    "panel": "Pedestal",
@@ -3461,7 +3741,8 @@
    "values": "0..3",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=WX, 1=WX+T, 2=TURB, 3=MAP"
+   "remark": "0=WX, 1=WX+T, 2=TURB, 3=MAP",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/radar/"
   },
   {
    "panel": "Pedestal",
@@ -3473,7 +3754,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=STBY, 1=AUTO, 2=ON"
+   "remark": "0=STBY, 1=AUTO, 2=ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3485,7 +3767,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0 = System 1, 1 = System 2"
+   "remark": "0 = System 1, 1 = System 2",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3497,7 +3780,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=OFF, 1=ON"
+   "remark": "0=OFF, 1=ON",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3509,7 +3793,8 @@
    "values": "0000...7777",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3521,7 +3806,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3533,7 +3819,8 @@
    "values": "0..3",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=THRT, 1=ALL, 2=ABV, 3=BLW"
+   "remark": "0=THRT, 1=ALL, 2=ABV, 3=BLW",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3545,7 +3832,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "0=STBY, 1=TA, 2=TA/RA"
+   "remark": "0=STBY, 1=TA, 2=TA/RA",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/atc-tcas/"
   },
   {
    "panel": "Pedestal",
@@ -3557,7 +3845,8 @@
    "values": "1 | 2",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Activates the switch"
+   "remark": "Activates the switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3569,7 +3858,8 @@
    "values": "1 | 2",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "Deactivates the switch"
+   "remark": "Deactivates the switch",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3581,7 +3871,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "0=CRANK, 1=NORM, 2=IGN"
+   "remark": "0=CRANK, 1=NORM, 2=IGN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3593,7 +3884,8 @@
    "values": "0..2",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": "0=CRANK, 1=NORM, 2=IGN"
+   "remark": "0=CRANK, 1=NORM, 2=IGN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3605,7 +3897,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "0=CRANK, 1=NORM, 2=IGN"
+   "remark": "0=CRANK, 1=NORM, 2=IGN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3617,7 +3910,8 @@
    "values": "0..2",
    "rw": "R/W",
    "type": "MSFS VAR",
-   "remark": "0=CRANK, 1=NORM, 2=IGN"
+   "remark": "0=CRANK, 1=NORM, 2=IGN",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/engine/"
   },
   {
    "panel": "Pedestal",
@@ -3633,7 +3927,8 @@
    "axis_range": [
     0,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/speedbrake/"
   },
   {
    "panel": "Pedestal",
@@ -3645,7 +3940,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/speedbrake/"
   },
   {
    "panel": "Pedestal",
@@ -3657,7 +3953,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "SIMCONNECT VAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/speedbrake/"
   },
   {
    "panel": "Pedestal",
@@ -3673,7 +3970,8 @@
    "axis_range": [
     0,
     16384
-   ]
+   ],
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3685,7 +3983,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3697,7 +3996,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3709,7 +4009,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3721,7 +4022,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3733,7 +4035,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3745,7 +4048,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3757,7 +4061,8 @@
    "values": "-",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/flaps/"
   },
   {
    "panel": "Pedestal",
@@ -3769,7 +4074,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/parking-brake/"
   },
   {
    "panel": "Pedestal",
@@ -3781,7 +4087,8 @@
    "values": "-",
    "rw": ".",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rudder-trim/"
   },
   {
    "panel": "Pedestal",
@@ -3793,7 +4100,8 @@
    "values": "0 | 2",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": "~~Knob jumps back. Needs to be set repeatably until the target value is reached~~"
+   "remark": "~~Knob jumps back. Needs to be set repeatably until the target value is reached~~",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/rudder-trim/"
   },
   {
    "panel": "Pedestal",
@@ -3805,7 +4113,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/cockpit-door/"
   },
   {
    "panel": "Pedestal",
@@ -3817,7 +4126,8 @@
    "values": "0|1",
    "rw": "R/W",
    "type": "Custom LVAR",
-   "remark": ""
+   "remark": "",
+   "reference": "https://docs.flybywiresim.com/pilots-corner/a32nx/a32nx-briefing/flight-deck/pedestal/cockpit-door/"
   },
   {
    "panel": "Side Stick",
@@ -4102,7 +4412,7 @@
   {
    "panel": "Recipes",
    "section": "EFIS baro",
-   "function": "Baro STD / QNH toggle (captain)",
+   "function": "Baro STD/QNH (capt)",
    "api": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
    "name": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
    "codes": [
@@ -4118,7 +4428,7 @@
   {
    "panel": "Recipes",
    "section": "EFIS baro",
-   "function": "Baro STD / QNH toggle (first officer)",
+   "function": "Baro STD/QNH (F/O)",
    "api": "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
    "name": "(L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
    "codes": [
@@ -4134,7 +4444,7 @@
   {
    "panel": "Recipes",
    "section": "EFIS baro",
-   "function": "Baro STD / QNH toggle (both sides)",
+   "function": "Baro STD/QNH (both)",
    "api": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) } + (L:A32NX_FCU_EFIS_R_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_R_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_R_BARO_PULL) }",
    "name": "(L:A32NX_FCU_EFIS_L_DISPLAY_BARO_MODE) 0 == if{ (>K:A32NX.FCU_EFIS_L_BARO_PUSH) } els{ (>K:A32NX.FCU_EFIS_L_BARO_PULL) }",
    "codes": [
@@ -4151,7 +4461,7 @@
   {
    "panel": "Recipes",
    "section": "EFIS baro",
-   "function": "Baro QNH + (both sides)",
+   "function": "Baro + (both)",
    "api": "(>K:A32NX.FCU_EFIS_L_BARO_INC) + (>K:A32NX.FCU_EFIS_R_BARO_INC)",
    "name": "(>K:A32NX.FCU_EFIS_L_BARO_INC)",
    "codes": [
@@ -4168,7 +4478,7 @@
   {
    "panel": "Recipes",
    "section": "EFIS baro",
-   "function": "Baro QNH - (both sides)",
+   "function": "Baro - (both)",
    "api": "(>K:A32NX.FCU_EFIS_L_BARO_DEC) + (>K:A32NX.FCU_EFIS_R_BARO_DEC)",
    "name": "(>K:A32NX.FCU_EFIS_L_BARO_DEC)",
    "codes": [

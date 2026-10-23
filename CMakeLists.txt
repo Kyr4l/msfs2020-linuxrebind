@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(msfs-linuxrebind VERSION 0.3.1 LANGUAGES CXX)
+project(msfs-linuxrebind VERSION 0.4.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -78,7 +78,7 @@ if(LINUXREBIND_BUILD_TESTS)
   target_link_libraries(config_roundtrip PRIVATE Threads::Threads)
   target_compile_definitions(config_roundtrip PRIVATE LINUXREBIND_TEST_FIXTURES="${CMAKE_SOURCE_DIR}/tests/fixtures")
   add_test(NAME config_roundtrip COMMAND config_roundtrip)
-  add_executable(axis_engine tests/axis_engine.cpp src/app/Engine.cpp src/app/Profile.cpp src/input/Evdev.cpp
+  add_executable(axis_engine tests/axis_engine.cpp src/app/Engine.cpp src/app/Profile.cpp src/app/Paths.cpp src/input/Evdev.cpp
                  src/sim/SimBridge.cpp src/sim/SimConnectClient.cpp)
   target_include_directories(axis_engine PRIVATE src third_party)
   target_link_libraries(axis_engine PRIVATE Threads::Threads)

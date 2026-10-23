@@ -12,6 +12,7 @@ struct CatalogEntry {
     bool hasValue = false;
     double value = 0;
     std::vector<std::string> codes;  // recipes with several RPN snippets (one action each)
+    std::string reference;           // page with real photos of the panel (FlyByWire docs), may be empty
     bool hasAxisRange = false;       // an axis-style event: the docs give the parameter range it expects
     double axisMin = 0, axisMax = 0;
     std::string searchKey;  // lower-cased concatenation for filtering

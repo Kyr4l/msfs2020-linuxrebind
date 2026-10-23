@@ -99,17 +99,27 @@ def expand_placeholders(name, api, function, values, remark, section):
     return out
 
 
+DOCS_SITE = "https://docs.flybywiresim.com/"
+REF_LINK = re.compile(r"\]\(((?:\.\./)+)(pilots-corner/[^)]+?)\.md\)")
+
+
 def parse_flightdeck(md):
     entries = []
     panel = section = ""
     function = ""
+    reference = ""
     for raw in md.splitlines():
         line = raw.rstrip()
         if line.startswith("## "):
-            panel, section, function = line[3:].strip(), "", ""
+            panel, section, function, reference = line[3:].strip(), "", "", ""
             continue
         if line.startswith("### "):
-            section, function = line[4:].strip(), ""
+            section, function, reference = line[4:].strip(), "", ""
+            continue
+        if line.startswith("Flight Deck:"):
+            m = REF_LINK.search(line)
+            if m:
+                reference = DOCS_SITE + m.group(2) + "/"   # the docs site mirrors the repository paths
             continue
         if not line.startswith("|"):
             continue
@@ -165,6 +175,7 @@ def parse_flightdeck(md):
                 "rw": rw, "type": typ, "remark": sub["remark"],
                 **({"value": v} if v is not None else {}),
                 **({"axis_range": axis_range} if axis_range else {}),
+                **({"reference": reference} if reference else {}),
             })
         if skipped_here:
             SKIPPED.append(api)
@@ -237,11 +248,11 @@ def build(aircraft, flightdeck_path=None, events_path=None, output=None):
     # Each recipe is a list of RPN snippets; several snippets become several actions in the binding so
     # the sim sees one event per frame per side (one combined string occasionally dropped a side).
     recipes = [
-        ("Baro STD / QNH toggle (captain)", [baro_toggle("L")], "Switches the captain's baro reference between STD and QNH depending on its current state"),
-        ("Baro STD / QNH toggle (first officer)", [baro_toggle("R")], "Switches the first officer's baro reference between STD and QNH"),
-        ("Baro STD / QNH toggle (both sides)", [baro_toggle("L"), baro_toggle("R")], "Toggles both baro references, each according to its own state"),
-        ("Baro QNH + (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_INC)", "(>K:A32NX.FCU_EFIS_R_BARO_INC)"], "One click up on both baro knobs; bind with repeat-while-held"),
-        ("Baro QNH - (both sides)", ["(>K:A32NX.FCU_EFIS_L_BARO_DEC)", "(>K:A32NX.FCU_EFIS_R_BARO_DEC)"], "One click down on both baro knobs; bind with repeat-while-held"),
+        ("Baro STD/QNH (capt)", [baro_toggle("L")], "Switches the captain's baro reference between STD and QNH depending on its current state"),
+        ("Baro STD/QNH (F/O)", [baro_toggle("R")], "Switches the first officer's baro reference between STD and QNH"),
+        ("Baro STD/QNH (both)", [baro_toggle("L"), baro_toggle("R")], "Toggles both baro references, each according to its own state"),
+        ("Baro + (both)", ["(>K:A32NX.FCU_EFIS_L_BARO_INC)", "(>K:A32NX.FCU_EFIS_R_BARO_INC)"], "One click up on both baro knobs; bind with repeat-while-held"),
+        ("Baro - (both)", ["(>K:A32NX.FCU_EFIS_L_BARO_DEC)", "(>K:A32NX.FCU_EFIS_R_BARO_DEC)"], "One click down on both baro knobs; bind with repeat-while-held"),
     ]
     for function, codes, desc in (recipes if cfg["recipes"] else []):
         entries.append({"panel": "Recipes", "section": "EFIS baro", "function": function, "api": " + ".join(codes), "name": codes[0],

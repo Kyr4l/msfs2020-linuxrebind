@@ -10,7 +10,7 @@ flight data, which MSFS under Proton cannot do by itself.
 * **Dear ImGui** UI on **Wayland or X11** (GLFW 3.4+, runtime platform selection), or `--headless`.
 * Profiles with press / release actions, repeat-while-held (for FCU knobs), 2-position switches.
 * **Axes** as inputs: an axis can send its position as a value (brightness knobs, QNH set...) or act as a +/- knob, with dead zones, inversion and rate limiting.
-* Searchable catalogs of cockpit functions for the FlyByWire **A32NX** and **A380X**, generated from the FlyByWire docs, with a per-profile aircraft selector.
+* A visual **panels view** of the cockpit to find the control you want, plus a plain list; searchable catalogs of cockpit functions for the FlyByWire **A32NX** and **A380X**, generated from the FlyByWire docs, with a per-profile aircraft selector.
 
 ## AI-assisted code, real-hardware tested
 

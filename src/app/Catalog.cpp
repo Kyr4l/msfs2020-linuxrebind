@@ -94,6 +94,7 @@ bool Catalog::load(const std::string& path, std::string& err) {
             c.type = e.value("type", "");
             c.remark = e.value("remark", "");
             c.description = e.value("description", "");
+            c.reference = e.value("reference", "");
             if (e.contains("value") && e["value"].is_number()) { c.hasValue = true; c.value = e["value"].get<double>(); }
             for (const auto& code : e.value("codes", nlohmann::json::array())) c.codes.push_back(code.get<std::string>());
             if (e.contains("axis_range") && e["axis_range"].is_array() && e["axis_range"].size() == 2) {

@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "app/Engine.hpp"
+#include "app/Paths.hpp"
 #include "app/Profile.hpp"
 #include "sim/SimBridge.hpp"
 
@@ -96,6 +97,18 @@ int main() {
         c.outMin = 0;
         c.outMax = 100;
         CHECK(!axisRangeLooksWrong(c, -16384, 16383));  // steps mode has no output range
+    }
+
+    // ---- the panel "photos >" link only ever opens the FlyByWire docs site and never goes through a shell
+    {
+        CHECK(!openDocsUrl("https://example.com/"));
+        CHECK(!openDocsUrl("http://docs.flybywiresim.com/pilots-corner/"));
+        CHECK(!openDocsUrl("https://docs.flybywiresim.com.evil.example/x"));
+        CHECK(!openDocsUrl("https://docs.flybywiresim.com/a;touch /tmp/pwned"));
+        CHECK(!openDocsUrl("https://docs.flybywiresim.com/a$(id)"));
+        CHECK(!openDocsUrl("https://docs.flybywiresim.com/a b"));
+        CHECK(!openDocsUrl("https://docs.flybywiresim.com/a?x=1"));
+        CHECK(!openDocsUrl(""));
     }
 
     // ---- engine behaviour
