@@ -2375,6 +2375,10 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "axis_range": [
+    100,
+    49000
+   ],
    "description": "Triggered to set ALT value on FCU Value is rounded to 100 ft"
   },
   {
@@ -2563,6 +2567,10 @@
    "rw": "-",
    "type": "Custom EVENT",
    "remark": "",
+   "axis_range": [
+    -6000,
+    6000
+   ],
    "description": "Triggered to set VS/FPA value on FCU VS in feet per minute (i.e. 500 for 500 ft/min) FPA * 10 (i.e. 15 for 1.5°)"
   },
   {
@@ -3325,7 +3333,11 @@
    "values": "-16383..16384",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Pedestal",
@@ -3337,7 +3349,11 @@
    "values": "-16383..16384",
    "rw": "-",
    "type": "MSFS EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Pedestal",
@@ -3613,7 +3629,11 @@
    "values": "0..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    0,
+    16384
+   ]
   },
   {
    "panel": "Pedestal",
@@ -3649,7 +3669,11 @@
    "values": "0..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": "0=FLAPS UP, 16384=FLAPS FULL"
+   "remark": "0=FLAPS UP, 16384=FLAPS FULL",
+   "axis_range": [
+    0,
+    16384
+   ]
   },
   {
    "panel": "Pedestal",
@@ -3805,7 +3829,11 @@
    "values": "-16383..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Side Stick",
@@ -3817,7 +3845,11 @@
    "values": "-16383..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Rudder Pedals",
@@ -3829,31 +3861,43 @@
    "values": "-16383..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Rudder Pedals",
    "section": "",
    "function": "Brakes",
-   "api": "SIMCONNECT:AXIS_LEFT_BRAKE_SET",
-   "name": "SIMCONNECT:AXIS_LEFT_BRAKE_SET",
+   "api": "AXIS_LEFT_BRAKE_SET",
+   "name": "AXIS_LEFT_BRAKE_SET",
    "kind": "sim_event",
    "values": "-16383..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "Rudder Pedals",
    "section": "",
    "function": "Brakes",
-   "api": "SIMCONNECT:AXIS_LEFT_BRAKE_SET",
-   "name": "SIMCONNECT:AXIS_LEFT_BRAKE_SET",
+   "api": "AXIS_RIGHT_BRAKE_SET",
+   "name": "AXIS_RIGHT_BRAKE_SET",
    "kind": "sim_event",
    "values": "-16383..16384",
    "rw": "-",
    "type": "SIMCONNECT EVENT",
-   "remark": ""
+   "remark": "(the docs list the left brake twice; right brake assumed)",
+   "axis_range": [
+    -16383,
+    16384
+   ]
   },
   {
    "panel": "flyPad EFB",

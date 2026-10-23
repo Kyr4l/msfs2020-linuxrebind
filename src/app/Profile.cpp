@@ -1,6 +1,7 @@
 #include "app/Profile.hpp"
 
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 
@@ -149,6 +150,20 @@ static Binding bindingFromJson(const json& j) {
     b.repeatIntervalMs = j.value("repeat_interval_ms", 100);
     b.enabled = j.value("enabled", true);
     return b;
+}
+
+bool axisEventRange(const std::string& eventName, double& lo, double& hi) {
+    std::string n = eventName;
+    if (n.rfind("K:", 0) == 0) n.erase(0, 2);
+    auto ends = [&](const char* suffix) { return n.size() >= strlen(suffix) && n.compare(n.size() - strlen(suffix), strlen(suffix), suffix) == 0; };
+    if (ends("_AXIS_SET_EX1")) { lo = -16384; hi = 16383; return true; }
+    if (n.rfind("AXIS_", 0) == 0 && ends("_SET")) { lo = -16383; hi = 16383; return true; }
+    return false;
+}
+
+bool axisRangeLooksWrong(const AxisConfig& axis, double lo, double hi) {
+    if (axis.mode != AxisMode::Value) return false;
+    return (hi - lo) >= 1000 && std::fabs(axis.outMax - axis.outMin) < 1000;
 }
 
 bool loadSettings(const std::string& path, Settings& out, std::string& err) {

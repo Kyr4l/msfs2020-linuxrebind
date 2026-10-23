@@ -78,6 +78,26 @@ int main() {
         CHECK(acts[2].name == "{v} (>L:Z) {v} (>L:W)");  // the original is untouched
     }
 
+    // ---- axis event ranges (the 0..100 default on a -16384..16383 event is what left the throttle levers motionless)
+    {
+        double lo = 0, hi = 0;
+        CHECK(axisEventRange("THROTTLE1_AXIS_SET_EX1", lo, hi) && lo == -16384 && hi == 16383);
+        CHECK(axisEventRange("K:THROTTLE4_AXIS_SET_EX1", lo, hi));
+        CHECK(axisEventRange("AXIS_LEFT_BRAKE_SET", lo, hi) && lo == -16383 && hi == 16383);
+        CHECK(!axisEventRange("GEAR_UP", lo, hi));
+        CHECK(!axisEventRange("A32NX.FCU_HDG_SET", lo, hi));
+        AxisConfig c;  // default 0..100
+        CHECK(axisRangeLooksWrong(c, -16384, 16383));
+        CHECK(!axisRangeLooksWrong(c, 100, 49000 - 48000));  // span below 1000: not an axis event
+        c.outMin = -16384;
+        c.outMax = 16383;
+        CHECK(!axisRangeLooksWrong(c, -16384, 16383));
+        c.mode = AxisMode::Steps;
+        c.outMin = 0;
+        c.outMax = 100;
+        CHECK(!axisRangeLooksWrong(c, -16384, 16383));  // steps mode has no output range
+    }
+
     // ---- engine behaviour
     sim::SimBridge bridge;  // never started: commands are queued/dropped, only the engine's decisions are checked
     Engine eng(bridge);

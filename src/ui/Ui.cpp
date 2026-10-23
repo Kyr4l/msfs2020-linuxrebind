@@ -83,6 +83,42 @@ void AppContext::pushProfileToEngine() {
     bridge.watchLVars(vars);
 }
 
+bool AppContext::suggestedAxisRange(const Binding& b, double& lo, double& hi) const {
+    for (const auto& a : b.onPress) {
+        if (a.kind != ActionKind::SimEvent) continue;
+        for (const auto& cat : catalogs)
+            for (const auto& e : cat.entries)
+                if (e.hasAxisRange && e.name == a.name) { lo = e.axisMin; hi = e.axisMax; return true; }
+        if (axisEventRange(a.name, lo, hi)) return true;
+    }
+    return false;
+}
+
+int AppContext::fixAxisRanges(Profile& p) {
+    int n = 0;
+    for (auto& b : p.bindings) {
+        double lo, hi;
+        if (b.input.kind != input::InputKind::Axis || !suggestedAxisRange(b, lo, hi) || !axisRangeLooksWrong(b.axis, lo, hi)) continue;
+        b.axis.outMin = lo;
+        b.axis.outMax = hi;
+        b.axis.integer = true;
+        ++n;
+    }
+    if (n) markDirty();
+    return n;
+}
+
+void AppContext::warnAxisRanges() const {
+    for (const auto& p : settings.profiles)
+        for (const auto& b : p.bindings) {
+            double lo, hi;
+            if (b.input.kind == input::InputKind::Axis && suggestedAxisRange(b, lo, hi) && axisRangeLooksWrong(b.axis, lo, hi))
+                LOG_WARN("Profile \"%s\", binding \"%s\": the axis event expects %g..%g but the output range is %g..%g, so the control barely moves "
+                         "(open the binding and press 'Set range', or use the banner in the Bindings tab)",
+                         p.name.c_str(), b.label.c_str(), lo, hi, b.axis.outMin, b.axis.outMax);
+        }
+}
+
 const Catalog* AppContext::catalogFor(const std::string& aircraft) const {
     for (const auto& c : catalogs)
         if (c.aircraft == aircraft) return &c;
@@ -355,6 +391,32 @@ void Ui::drawAxisOptions() {
     if (ImGui::IsItemHovered()) ImGui::SetTooltip("Everything outside this part of the physical travel is dead zone: it reads as the minimum or the maximum.");
 
     if (c.mode == AxisMode::Value) {
+        struct Preset { const char* label; double lo, hi; bool integer; };
+        static const Preset presets[] = {
+            {"0 to 100 (percent)", 0, 100, true},
+            {"-16384 to 16383 (sim axis event, with reverse)", -16384, 16383, true},
+            {"0 to 16383 (sim axis event, no reverse)", 0, 16383, true},
+            {"0 to 1", 0, 1, false},
+        };
+        const char* current = "Custom";
+        for (const auto& pr : presets)
+            if (c.outMin == pr.lo && c.outMax == pr.hi) current = pr.label;
+        ImGui::SetNextItemWidth(380);
+        if (ImGui::BeginCombo("Output range", current)) {
+            for (const auto& pr : presets)
+                if (ImGui::Selectable(pr.label, c.outMin == pr.lo && c.outMax == pr.hi)) { c.outMin = pr.lo; c.outMax = pr.hi; c.integer = pr.integer; }
+            ImGui::EndCombo();
+        }
+        double lo, hi;
+        if (ctx_.suggestedAxisRange(draft_, lo, hi)) {
+            if (axisRangeLooksWrong(c, lo, hi)) {
+                ImGui::TextColored(kYellow, "This axis event expects %g to %g, but the output range is %g to %g: the control would barely move.", lo, hi, c.outMin, c.outMax);
+                ImGui::SameLine();
+                if (ImGui::SmallButton("Set range")) { c.outMin = lo; c.outMax = hi; c.integer = true; }
+            } else {
+                ImGui::TextDisabled("This axis event expects %g to %g.", lo, hi);
+            }
+        }
         ImGui::SetNextItemWidth(110);
         ImGui::InputDouble("Output at start", &c.outMin, 0, 0, "%g");
         ImGui::SameLine();
@@ -505,6 +567,20 @@ void Ui::drawBindingsTab() {
             }
         }
     }
+    {
+        int wrong = 0;
+        for (const auto& b : p.bindings) {
+            double lo, hi;
+            if (b.input.kind == input::InputKind::Axis && ctx_.suggestedAxisRange(b, lo, hi) && axisRangeLooksWrong(b.axis, lo, hi)) ++wrong;
+        }
+        if (wrong) {
+            ImGui::TextColored(kYellow, "%d axis binding%s in this profile send%s an axis event with a percent-style output range, so the control barely moves.",
+                               wrong, wrong == 1 ? "" : "s", wrong == 1 ? "s" : "");
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Fix the ranges")) ctx_.fixAxisRanges(p);
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip("Sets the output range of those bindings to what the event expects (for example -16383 to 16384 for a throttle axis).");
+        }
+    }
     ImGui::Separator();
     if (ImGui::Button("+ Add binding")) openEditor(-1);
     ImGui::SameLine();
@@ -542,6 +618,14 @@ void Ui::drawBindingsTab() {
             }
             ImGui::TableSetColumnIndex(2);
             ImGui::TextUnformatted(b.label.c_str());
+            {
+                double lo, hi;
+                if (b.input.kind == input::InputKind::Axis && ctx_.suggestedAxisRange(b, lo, hi) && axisRangeLooksWrong(b.axis, lo, hi)) {
+                    ImGui::SameLine();
+                    ImGui::TextColored(kYellow, "(!)");
+                    if (ImGui::IsItemHovered()) ImGui::SetTooltip("Output range %g..%g, but the event expects %g..%g.", b.axis.outMin, b.axis.outMax, lo, hi);
+                }
+            }
             auto actionLine = [&](const Action& a) {
                 ImGui::TextUnformatted(a.describe().c_str());
                 if (a.kind == ActionKind::LVarSet || a.kind == ActionKind::LVarToggle) {
@@ -642,7 +726,17 @@ void Ui::drawBindingEditor() {
 
     // Input capture
     const bool capturing = ctx_.engine.capturing();
-    if (auto captured = ctx_.engine.takeCaptured()) draft_.input = *captured;
+    if (auto captured = ctx_.engine.takeCaptured()) {
+        draft_.input = *captured;
+        // New axis binding for an axis event still on the 0..100 default: use the range the event expects.
+        double lo, hi;
+        if (captured->kind == input::InputKind::Axis && draft_.axis.outMin == 0 && draft_.axis.outMax == 100 &&
+            ctx_.suggestedAxisRange(draft_, lo, hi) && axisRangeLooksWrong(draft_.axis, lo, hi)) {
+            draft_.axis.outMin = lo;
+            draft_.axis.outMax = hi;
+            draft_.axis.integer = true;
+        }
+    }
     ImGui::TextUnformatted("Input:");
     ImGui::SameLine();
     if (draft_.input.device.empty()) ImGui::TextColored(kYellow, "none yet");
@@ -808,6 +902,15 @@ std::vector<Action> Ui::catalogActions(const CatalogEntry& e) const {
     return out;
 }
 
+static void applyEntryRangeToAxisDraft(Binding& draft, const CatalogEntry& e) {
+    if (draft.input.kind == input::InputKind::Axis && draft.axis.mode == AxisMode::Value && e.hasAxisRange &&
+        draft.axis.outMin == 0 && draft.axis.outMax == 100) {
+        draft.axis.outMin = e.axisMin;
+        draft.axis.outMax = e.axisMax;
+        draft.axis.integer = true;
+    }
+}
+
 void Ui::newBindingFrom(const CatalogEntry& e) {
     openEditor(-1);
     for (const auto& a : catalogActions(e)) draft_.onPress.push_back(a);
@@ -865,6 +968,7 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
                 if (ImGui::IsMouseDoubleClicked(0)) {
                     if (pickMode) {
                         for (const auto& a : catalogActions(e)) (catalogTarget_ == 0 ? draft_.onPress : draft_.onRelease).push_back(a);
+                        applyEntryRangeToAxisDraft(draft_, e);
                         ImGui::CloseCurrentPopup();
                     } else {
                         newBindingFrom(e);
@@ -897,7 +1001,7 @@ void Ui::drawCatalogBrowser(const char* id, bool pickMode) {
         }
         if (sel->isIncDec()) ImGui::TextDisabled("+/- entry: a new binding from it gets 'repeat while held' so a button acts like turning the knob.");
         if (pickMode) {
-            if (ImGui::Button("Add to press")) { for (const auto& a : acts) draft_.onPress.push_back(a); ImGui::CloseCurrentPopup(); }
+            if (ImGui::Button("Add to press")) { for (const auto& a : acts) draft_.onPress.push_back(a); applyEntryRangeToAxisDraft(draft_, *sel); ImGui::CloseCurrentPopup(); }
             ImGui::SameLine();
             if (ImGui::Button("Add to release")) { for (const auto& a : acts) draft_.onRelease.push_back(a); ImGui::CloseCurrentPopup(); }
             ImGui::SameLine();

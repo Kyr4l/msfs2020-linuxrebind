@@ -12,6 +12,8 @@ struct CatalogEntry {
     bool hasValue = false;
     double value = 0;
     std::vector<std::string> codes;  // recipes with several RPN snippets (one action each)
+    bool hasAxisRange = false;       // an axis-style event: the docs give the parameter range it expects
+    double axisMin = 0, axisMax = 0;
     std::string searchKey;  // lower-cased concatenation for filtering
     Action toAction() const;
     std::vector<Action> toActions() const;  // all actions of the entry (recipes may have several)

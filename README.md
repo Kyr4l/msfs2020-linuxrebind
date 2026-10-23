@@ -137,6 +137,14 @@ find out which one is which. Two modes:
 * **Steps**: moving up runs the *up* actions and moving down the *down* actions, once per step of travel
   (default 10 %). Pair `A32NX.FCU_EFIS_L_BARO_INC` and `_DEC` for a QNH knob from a slider.
 
+**Sim axis events need their own range.** Events such as `THROTTLE1_AXIS_SET_EX1`, `AILERON_SET` or
+`AXIS_LEFT_BRAKE_SET` take values around -16384 to 16384 (throttles: full reverse to full thrust), not
+0 to 100. The catalog stores the range the FlyByWire docs give for each of them: a new axis binding for
+such an event gets it automatically, the editor warns (with a *Set range* button) when the output range is
+wrong, and the Bindings tab shows a *Fix the ranges* banner for existing bindings (the tool logs them at
+start-up too). *Output range* also has presets (percent, sim axis with or without reverse, 0 to 1). Leave
+the same physical axis unassigned in the MSFS controls menu, otherwise both inputs fight.
+
 *Use travel from/to* turns the ends of the physical travel into dead zones and *Invert* flips the
 direction. `tools/virtual_joystick.py demo` creates a fake joystick to try all of this without hardware.
 

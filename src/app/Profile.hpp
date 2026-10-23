@@ -76,6 +76,14 @@ struct Settings {
     Profile& ensureActive();
 };
 
+// Parameter range that a sim axis event expects, judged from its name alone (used when the catalog does not know
+// the event): THROTTLEn_AXIS_SET_EX1 and friends take -16384..16383, AXIS_*_SET take -16383..16383.
+bool axisEventRange(const std::string& eventName, double& lo, double& hi);
+
+// True when a value-mode axis binding drives an event that expects `lo..hi` (span >= 1000) but its output range
+// is far smaller (the 0..100 default is the classic mistake: the lever then moves under 1 % of its travel).
+bool axisRangeLooksWrong(const AxisConfig& axis, double lo, double hi);
+
 bool loadSettings(const std::string& path, Settings& out, std::string& err);
 bool saveSettings(const std::string& path, const Settings& s, std::string& err);
 

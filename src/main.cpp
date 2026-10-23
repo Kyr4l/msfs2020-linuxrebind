@@ -198,6 +198,7 @@ int main(int argc, char** argv) {
         if (ctx.catalogs.empty()) LOG_WARN("No action catalog found (expected data/*_catalog.json)");
     }
 
+    ctx.warnAxisRanges();
     bridge.setEndpoint(ctx.settings.host, static_cast<uint16_t>(ctx.settings.port));
     bridge.setAutoConnect(ctx.settings.autoConnect);
     bridge.start();

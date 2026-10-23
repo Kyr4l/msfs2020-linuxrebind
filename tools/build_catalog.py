@@ -52,6 +52,7 @@ def clean(cell):
     return cell.strip()
 
 
+SEEN_BRAKE = set()
 SKIPPED = []  # api strings with placeholders we could not expand (reported by main)
 
 # Placeholder conventions of the FlyByWire tables: {SIDE} L/R, {NUM} 1..4 ("first ... fourth"), {index} 1/2.
@@ -131,6 +132,14 @@ def parse_flightdeck(md):
             kind = vk
         name = api
         value_hint = None
+        if name.startswith("SIMCONNECT:"):               # the docs prefix a few events with their type label
+            name = api = name[len("SIMCONNECT:"):]
+        # The docs list the left brake pedal event twice in the pedals table; the second row is the right pedal.
+        if name == "AXIS_LEFT_BRAKE_SET":
+            if (section, name) in SEEN_BRAKE:
+                name = api = "AXIS_RIGHT_BRAKE_SET"
+                remark = (remark + " (the docs list the left brake twice; right brake assumed)").strip()
+            SEEN_BRAKE.add((section, "AXIS_LEFT_BRAKE_SET"))
         if kind == "h_event":
             name = name[2:] if name.startswith("H:") else name
         elif kind == "sim_event":
@@ -143,6 +152,11 @@ def parse_flightdeck(md):
                 skipped_here = True  # token we cannot expand (e.g. {KEY}, {DECK}): not a usable entry
                 continue
             v = value_hint if value_hint is not None else sub.get("value")
+            axis_range = None
+            if kind == "sim_event":
+                m = re.fullmatch(r"(-?\d+)\.\.(-?\d+)", values.strip())
+                if m and int(m.group(2)) - int(m.group(1)) >= 1000:  # e.g. -16383..16384: an axis event, not a plain button
+                    axis_range = [int(m.group(1)), int(m.group(2))]
             entries.append({
                 "panel": panel, "section": section,
                 # a Function cell may keep a {TOKEN} the API cell does not use (doc inconsistency): drop it
@@ -150,6 +164,7 @@ def parse_flightdeck(md):
                 "api": sub["api"], "name": sub["name"], "kind": kind, "values": sub["values"],
                 "rw": rw, "type": typ, "remark": sub["remark"],
                 **({"value": v} if v is not None else {}),
+                **({"axis_range": axis_range} if axis_range else {}),
             })
         if skipped_here:
             SKIPPED.append(api)
@@ -192,6 +207,7 @@ def build(aircraft, flightdeck_path=None, events_path=None, output=None):
     ev_md = open(events_path, encoding="utf-8").read() if events_path else fetch(EVENTS_URL)
 
     del SKIPPED[:]
+    SEEN_BRAKE.clear()
     entries = parse_flightdeck(fd_md)
     if SKIPPED:
         print(f"{aircraft}: skipped {len(SKIPPED)} row(s) with placeholders that cannot be expanded: {', '.join(sorted(set(SKIPPED))[:6])}", file=sys.stderr)

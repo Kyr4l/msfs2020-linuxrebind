@@ -96,6 +96,11 @@ bool Catalog::load(const std::string& path, std::string& err) {
             c.description = e.value("description", "");
             if (e.contains("value") && e["value"].is_number()) { c.hasValue = true; c.value = e["value"].get<double>(); }
             for (const auto& code : e.value("codes", nlohmann::json::array())) c.codes.push_back(code.get<std::string>());
+            if (e.contains("axis_range") && e["axis_range"].is_array() && e["axis_range"].size() == 2) {
+                c.hasAxisRange = true;
+                c.axisMin = e["axis_range"][0].get<double>();
+                c.axisMax = e["axis_range"][1].get<double>();
+            }
             c.searchKey = lower(c.panel + " " + c.section + " " + c.function + " " + c.api + " " + c.type + " " + c.remark + " " + c.description);
             entries.push_back(std::move(c));
         }

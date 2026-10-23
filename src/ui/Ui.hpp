@@ -30,6 +30,10 @@ struct AppContext {
 
     AppContext(sim::SimBridge& b, Engine& e, input::InputManager& i, haptics::HapticsEngine& h, haptics::WinwingHidManager& w)
         : bridge(b), engine(e), input(i), haptics(h), winwing(w) {}
+    // Range the first sim event of an axis binding expects (catalog first, then the name), if it is an axis event.
+    bool suggestedAxisRange(const Binding& b, double& lo, double& hi) const;
+    int fixAxisRanges(Profile& p);              // applies the suggestion to every wrong binding, returns how many
+    void warnAxisRanges() const;                // log one line per wrong binding (startup)
     const Catalog* catalogFor(const std::string& aircraft) const;  // exact match, else the default aircraft, else the first
     void pushProfileToEngine();
     void pushHapticsConfig();
